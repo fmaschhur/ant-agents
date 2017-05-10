@@ -1,9 +1,15 @@
 import sys
 import graph
-import ant
+import ants
 
 
-def params(file, param):
+graph = None
+nest = None
+ants = None
+file = ''
+
+
+def params(param):
     file_obj = open(file)
     for line in file_obj:
         name = line.partition(': ')[0]
@@ -13,42 +19,40 @@ def params(file, param):
     file_obj.close()
 
 
-def generate_world(file):
-    return Graph(params(file, 'graph'))
+def generate_world():
+    graph = Graph.init(params('graph'))
 
 
-def populate(file):
+def populate():
     ants = []
-    greediness = range(params(file, 'greediness'))
-    greediness_food = range(params(file, 'greediness_food'))
-    for i in range(params(file, 'count')):
-        ant = Ant(greediness, greediness_food)
+    greediness = range(params('greediness'))
+    greediness_food = range(params('greediness_food'))
+    for i in range(params('count')):
+        ant = ants.init(nest, nest, 0, 0, greediness, greediness_food)
         ant.attr = i
         ants.append(ant)
-    return ants
 
-def create_ants_in_run(birth_time, ants):
-
+def create_ants_in_run():
 
 
-def simulate_cycle(file, ants, graph):
-    create_ants_in_run(params(file, 'birth_time'), ants)
+
+def simulate_cycle():
+    create_ants_in_run()
     for ant in ants:
         ant.action()
     for ant in ants:
         ant.set_pheromon()
-    graph.evaporate(params(file, 'evaporation'))
+    graph.evaporate(params('evaporation'))
 
 
 
-def run(file, ants, graph):
-    for i in range(params(file, 'loops')):
-        simulate_cycle(file, ants, graph)
+def run():
+    for i in range(params('loops')):
+        simulate_cycle()
 
 
 def main():
     file = str(sys.argv[1])
-
-    graph = generate_world(file)
-    ants = populate(file)
-    run(file, ants, graph)
+    generate_world()
+    populate()
+    run()
