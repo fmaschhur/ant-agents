@@ -1,0 +1,7 @@
+count: 1
+birth_time: 1
+greediness: 1
+greediness_food: 1
+evaporation: 1
+loops: 10
+grath: graph_speicherort.de
