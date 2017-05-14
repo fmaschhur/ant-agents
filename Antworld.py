@@ -10,7 +10,7 @@ Ants = None
 File = str(sys.argv[1])
 
 
-def params(self, param, float_return):
+def params(self, param):
     file_obj = open(self.File)
     for line in file_obj:
         name = line.partition(': ')[0]
