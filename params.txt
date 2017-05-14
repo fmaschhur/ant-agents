@@ -1,4 +1,6 @@
-count: 1
+count: 5
+count_total: 10
+probability_new_ant: 10
 birth_time: 1
 greediness: 1
 greediness_food: 1
