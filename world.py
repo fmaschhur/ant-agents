@@ -4,14 +4,13 @@ import ants
 import random
 
 
-Graph = None
-Nest = None
-Ants = None
-File = str(sys.argv[1])
+graph = None
+ants = None
+file = str(sys.argv[1])
 
 
 def params(self, param):
-    file_obj = open(self.File)
+    file_obj = open(self.file)
     for line in file_obj:
         name = line.partition(': ')[0]
         if name == param:
@@ -21,33 +20,33 @@ def params(self, param):
 
 
 def populate(self):
-    self.Ants = []
+    self.ants = []
     greediness = range(params('greediness'))
     greediness_food = range(params('greediness_food'))
     for i in range(params('count')):
-        ant = ants.init(self.Nest, self.Nest, 0, 0, greediness, greediness_food)
+        ant = ants.init(self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
         ant.attr = i
-        self.Ants.append(ant)
+        self.ants.append(ant)
 
 
 def create_ant(self):
-    if self.Ants.size >= params('count_total'):
+    if self.ants.size >= params('count_total'):
         return
     probability_new_ant = range(params('probability_new_ant'))
     if random.randint(0, 100) < probability_new_ant:
         greediness_food = range(params('greediness_food'))
         greediness = range(params('greediness'))
-        ant = ants.init(self.Nest, self.Nest, 0, 0, greediness, greediness_food)
-        self.Ants.append(ant)
+        ant = ants.init(self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
+        self.ants.append(ant)
 
 
 def simulate_cycle(self):
     create_ant()
-    for ant in self.Ants:
+    for ant in self.ants:
         ant.action()
-    for ant in self.Ants:
+    for ant in self.ants:
         ant.set_pheromon()
-    graph.evaporate(params('evaporation'))
+    self.graph.evaporate(params('evaporation'), params('evaporation_type'))
 
 
 def run():
@@ -56,6 +55,6 @@ def run():
 
 
 def main(self):
-    self.Graph = graph.init(params('graph'))
+    self.graph = graph.init(self.file)
     populate()
     run()

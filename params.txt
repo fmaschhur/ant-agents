@@ -6,4 +6,11 @@ greediness: 1
 greediness_food: 1
 evaporation: 1
 loops: 10
-grath: graph_speicherort.de
+evaporation_type: 1
+graph: graph_speicherort.de
+
+thickness: 50
+propability: 10
+amount: 10
+size_x: 10
+size_y: 10
