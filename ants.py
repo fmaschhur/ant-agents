@@ -1,6 +1,6 @@
 class Ant(object):
 
-    def init(self, currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
+    def __init__(self, currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
@@ -8,7 +8,7 @@ class Ant(object):
         self.greedfood = greedfood
         self.greedpherom = greedpherom
 
-    def action():
+    def action(self):
 
         if currpos.food > 0 and self.carrfood == 0:         # first possibility to take food if there is some and ant is not carrying smth
             self.Currpos.food -= 1                          # that is happening in 1 cycle, and in each cycle theres one action() function call done right?

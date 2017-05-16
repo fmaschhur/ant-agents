@@ -5,18 +5,17 @@ import random
 
 class Graph(object):
 
-    def init(self, x, y):
+    def __init__(self, x, y):
         self.nodes = self.create_nodes(x, y)
         self.edges = self.create_edges()
         self.nest = self.choose_nest(x, y, self.nodes)
         self.antcount = 0
-        return self
 
     def create_nodes(self, x, y):
         nodes = {}
         for x in range(0, x+1):
             for y in range(0, y+1):
-                add_me = node.init(0, None)
+                add_me = node.__init__(0, None)
                 nodes[(x, y)] = add_me
         return nodes
 
