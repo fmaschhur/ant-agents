@@ -2,6 +2,7 @@ import node
 import edge
 import random
 
+
 class Graph(object):
 
     def init(self, x, y):
