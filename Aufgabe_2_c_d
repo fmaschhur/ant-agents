@@ -17,8 +17,13 @@ Ein interessanter Aspekt ist der Anfang. Zu diesem Zeitpunkt habe wir keine Info
 Andererseits wäre es auch nicht vorteilhaft wenn zu wenige Ameisen suchen während der Rest im Nest auf Informationen über Nahrungsquellen wartet. 
 Ein Ansatz wäre hier, dass die Ameisen unterschiedlich lange „Runden“ drehen, nach denen sie zurück zum Nest laufen, um neue Instruktionen von der Ameisenkönigin zu erhalten. Dadurch warten keine Ameisen sinnlos im Nest und es wird gleichzeitig verhindert, dass gefundene Nahrungsquellen nicht ausgebeutet werden.
 
+Fragen: Welchen Algorithmus haltet ihr für sinnvoll für das durchsuchen der Umgebung?
+
 
 d)
 In unserem Szenario gibt es verschiedene Ameisen – Nester. Außerdem gibt es zu den beiden Ameisentypen aus Aufgabe 2 noch langsame „Kämpfer - Ameisen“. Diese töten die anderen beiden Ameisenarten, wenn sie auf dem gleichen Feld stehen. Außerdem brauchen sie zwei Zeiteinheiten für die Strecke von einem Knoten. 
 Wir haben diskutiert, welche Taktik wir nutzen würden, damit unser Nest überlebt und sind zu keinem eindeutigen Ergebnis gekommen. Auf der einen Seite gab es die Ansicht, dass es besonders am Anfang nicht sinnvoll ist, auf die langsamen Kämpfer – Ameisen zu warten,  da diese das finden der Nahrungsquellen zu stark verlangsamen würden und es das überleben des Nestes dadurch gefärdet wäre. 
 Die Argumente der anderen Seite sahen die Gefahr eher darin, dass zu schnell zu viele Ameisen von den Kämpfer –Ameisen des anderen Nestes getötet werden würden und dass die zusätzlichen Ressourcen zu beginn der Simulation nicht im Verhältnis  zu dem Wirtschaftlichen und vor allem auch dem Emotionalen schaden durch das sterben von Ameisen, kleinen schutzlosen Ameisen. Ihr Monster!
+
+Fragen: Findet ihr mord an Ameisen auch so verwerflich?
+    Welche Taktik haltet ihr für sinnvoll?
