@@ -3,10 +3,11 @@ from graph import Graph
 from ants import Ants
 from random import Random
 from random import randint
+from logger import Logger
 
 
 class World(object):
-    graph_obj = None
+    graph = None
     ants = None
     file = "params.txt" # str(sys.argv[1])
 
@@ -24,7 +25,7 @@ class World(object):
         greediness = range(self.params("greediness"))
         greediness_food = range(self.params("greediness_food"))
         for i in range(self.params("count")):
-            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
             ant.attr = i
             self.ants.append(ant)
 
@@ -35,7 +36,7 @@ class World(object):
         if randint(0, 100) < probability_new_ant:
             greediness_food = range(self.params("greediness_food"))
             greediness = range(self.params("greediness"))
-            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
             self.ants.append(ant)
 
     def simulate_cycle(self):
@@ -44,31 +45,31 @@ class World(object):
         for ant in self.ants:
             ant.set_pheromone()
         self.create_ant()
-        self.graph_obj.evaporate(self.params("evaporation"), self.params("evaporation_type"))
+        self.graph.evaporate(self.params("evaporation"), self.params("evaporation_type"))
 
-    def run(self):
-        for (x, y) in self.graph_obj.nodes:
-            print(str(x) + "," + str(y) + "|" + str(self.graph_obj.get_node(x, y).nest) + ': ' + str(self.graph_obj.get_node(x, y).food))
-        print("--------------------------")
+   # def run(self):
+        # for (x, y) in self.graph_obj.nodes:
+        #     print(str(x) + "," + str(y) + "|" + str(self.graph_obj.get_node(x, y).nest) + ': ' + str(self.graph_obj.get_node(x, y).food))
+        # print("--------------------------")
 
-        for i in range(self.params("loops")):
-            self.simulate_cycle()
-            for (x, y) in self.graph_obj.nodes:
-                count = 0
-                for ant in self.ants:
-                    if ant.currpos.get_x_y() == (x, y):
-                        count += 1
-                print(x, ",", y, "|", self.graph_obj.get_node(x, y).nest, "X:", count, ':', self.graph_obj.get_node(x, y).food)
-            print("--------------------------")
+       # for i in range(self.params("loops")):
+       #     self.simulate_cycle()
+            # for (x, y) in self.graph_obj.nodes:
+            #     count = 0
+            #     for ant in self.ants:
+            #         if ant.currpos.get_x_y() == (x, y):
+            #             count += 1
+            #     print(x, ",", y, "|", self.graph_obj.get_node(x, y).nest, "X:", count, ':', self.graph_obj.get_node(x, y).food)
+            # print("--------------------------")
 
 
-def main():
-    # self.file = params_file
-    ant_world = World()
-    ant_world.graph_obj = Graph(ant_world.file)
-    ant_world.populate()
-    ant_world.run()
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     # self.file = params_file
+#     ant_world = World()
+#     ant_world.graph_obj = Graph(ant_world.file)
+#     ant_world.populate()
+#     ant_world.run()
+#
+# if __name__ == "__main__":
+#     main()
 
