@@ -1,3 +1,6 @@
+from random import randint
+
+
 class Ants(object):
 
     def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
@@ -18,27 +21,32 @@ class Ants(object):
             self.currpos.set_pheromone(self.lastpos, 0, pheromone)
 
     def best_edge_food(self):
-        edgetogo = None
+        edgetogo = self.currpos.edges[0]
+        if edgetogo.other_node(self.lastpos) == self.currpos:
+            edgetogo = self.currpos.edges[1]
         for edge in self.currpos.edges:
-            if edgetogo == None:
+            if edgetogo.other_node(self.lastpos) == self.currpos:
+                tmp = 0
+            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > 80:
                 edgetogo = edge
-            if edge.food_pheromone > edgetogo.food_pheromone:
-                edgetogo = edge
+        return edgetogo.other_node(self.currpos)
 
     def best_edge_nest(self):
-        edgetogo = None
+        edgetogo = self.currpos.edges[0]
+        if edgetogo.other_node(self.lastpos) == self.currpos:
+            edgetogo = self.currpos.edges[1]
         for edge in self.currpos.edges:
-            if edgetogo == None:
+            if edgetogo.other_node(self.lastpos) == self.currpos:
+                tmp = 0
+            if edge.nest_pheromone > edgetogo.nest_pheromone:
                 edgetogo = edge
-            if edge.food_pheromone > edgetogo.food_pheromone:
-                edgetogo = edge
+        return edgetogo.other_node(self.currpos)
+
 
     def change_pos(self, new_pos):
             self.lastpos = self.currpos
-            if new_pos.x > self.lastpos.x or new_pos.y > self.lastpos.y
-                self.nestdist += 1  # Die nestdist muss doch nicht unbedingt größer werden!?
-            elif new_pos.x
             self.currpos = new_pos
+            self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
@@ -50,8 +58,6 @@ class Ants(object):
             self.carrfood -= 1
             self.nestdist = 0
 
-
-
     def action(self):
         pos = self.currpos
         if pos.food and not self.carrfood and not pos.nest:  # food != 0 ist == food
@@ -59,10 +65,9 @@ class Ants(object):
         elif pos.nest and self.carrfood:
             self.drop_food_in_nest()
         elif self.carrfood:
-            self.change_pos(self.best_edge_nest)
-
+            self.change_pos(self.best_edge_nest())
         else:
-            self.change_pos(self.best_edge_nest)
+            self.change_pos(self.best_edge_food())
 
 
 

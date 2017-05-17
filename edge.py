@@ -26,8 +26,17 @@ class Edge(object):
     def get_nest_pheromone(self):
         return self.nest_pheromone
 
-    def connects_nodes(self, node1, node2):       # falls node1, node2 die Nodes der Kante sind return true
+    def has_nodes(self, node1, node2):       # falls node1, node2 die Nodes der Kante sind return true
         return ((self.node1 == node1 and self.node2 == node2) or (self.node1 == node2 and self.node2 == node1))
 
-    def connects_node(self, node):                # falls node einer der beiden Nodes der Kante ist return true
+    def has_node(self, node):                # falls node einer der beiden Nodes der Kante ist return true
         return (self.node1 == node or self.node2 == node)
+
+    def connected_nodes(self):
+        return (self.node1, self.node2)
+
+    def other_node(self, node):
+        if node == self.node1:
+            return self.node2
+        else:
+            return self.node1

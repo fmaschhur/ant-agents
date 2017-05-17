@@ -24,7 +24,7 @@ class World(object):
         greediness = range(self.params("greediness"))
         greediness_food = range(self.params("greediness_food"))
         for i in range(self.params("count")):
-            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
+            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
             ant.attr = i
             self.ants.append(ant)
 
@@ -35,15 +35,15 @@ class World(object):
         if randint(0, 100) < probability_new_ant:
             greediness_food = range(self.params("greediness_food"))
             greediness = range(self.params("greediness"))
-            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
+            ant = Ants(self.graph_obj.nest, self.graph_obj.nest, self.graph_obj.nest, 0, 0, greediness, greediness_food)
             self.ants.append(ant)
 
     def simulate_cycle(self):
-        self.create_ant()
         for ant in self.ants:
             ant.action()
         for ant in self.ants:
             ant.set_pheromone()
+        self.create_ant()
         self.graph_obj.evaporate(self.params("evaporation"), self.params("evaporation_type"))
 
     def run(self):
@@ -54,11 +54,12 @@ class World(object):
         for i in range(self.params("loops")):
             self.simulate_cycle()
             for (x, y) in self.graph_obj.nodes:
-                print(str(x) + "," + str(y) + "|" + str(self.graph_obj.get_node(x, y).nest) + ': ' + str(
-                    self.graph_obj.get_node(x, y).food))
+                count = 0
+                for ant in self.ants:
+                    if ant.currpos.get_x_y() == (x, y):
+                        count += 1
+                print(x, ",", y, "|", self.graph_obj.get_node(x, y).nest, "X:", count, ':', self.graph_obj.get_node(x, y).food)
             print("--------------------------")
-        for (x, y) in self.graph_obj.nodes:
-            print(str(x) + "," + str(y) + "|" + str(self.graph_obj.get_node(x, y).nest) + ': ' + str(self.graph_obj.get_node(x, y).food))
 
 
 def main():
