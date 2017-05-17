@@ -1,0 +1,24 @@
+Warum sind Ameisen nicht in Kirchen? Weil sie In-Sekten sind. TAHAAA
+
+c)
+Grundlegend gibt es zwei Teilaspekte, zum einen die Suche der Nahrungsquellen. Zum anderen das „Abbauen“ der Nahrung. 
+Wenn die ersten Nahrungsquellen gefunden wurden ist es einfach aus der Dichte der Nahrungsquellen und deren Entfernung abzuschätzen, wie viele Ameisen Nahrung abbauen sollen und wie viele neue Nahrungsquellen suchen sollten.
+Dabei sollten die Anzahl der abbauenden Ameisen soviel Nahrung in einer Zeiteinheit abbauen, so dass die suchenden Ameisen in der gleichen Zeit (bei gleichbleibender Dichte von Nahrungsquellen) ebenso viel Nahrung finden.  
+Auch die Frage ob es bei der Suche neuer Quellen eher um die Langfristige Nahrungssicherung handelt oder ob der vorhandene Nahrungsstrom kurz vor dem erliegen ist und möglichst schnell neue Quellen gefunden werden müssen, lässt sich mit zunehmender Information über die Umgebung leicht beantworten.
+Bei überdurchschnittlich viel entdeckter Nahrung (zum Beispiel wenn direkt neben dem Nest ein sehr großes Nahrungsvorkommen ist, es ansonsten aber viele kleine Quellen gibt) kann es sinnvoll sein, dass die suchenden Ameisen nach der ersten neu gefundenen Quelle nicht direkt zum Nest zurückkehren.
+Andererseits wäre es bei Nahrungsmangel gefährlich, wenn die suchenden Ameisen die Information nicht direkt zurück zum Nest bringen.
+
+Wir sehen keinen Grund, dass die Ameisen, die Nahrung abbauen, einen anderen Weg als den direkten vom Nest zur Nahrung und zurück nehmen sollten, da die suchenden Ameisen die Umgebung um das Nest komplett besucht haben sollten bevor sie weiter weg liegende Nahrungsquellen finden. Daher sollte die Umgebung auf der sich die Nahrung – Abbauenden Ameisen bewegen bekannt sein.
+
+Bei den suchenden Ameisen haben wir Algorithmen in der Vorlesung kennen gelernt, nach denen sie sich bewegen könnten. Uns erscheint hierbei der „Brick & Mortar – Algorithmus“ sinnvoll. Hierfür müssten auf den Knoten des Graphen zwei Arten von Pheromonen abgelegt werden. „Erkundet – Pheromone“ und „Besucht – Pheromone“ wobei anders als beim gewählten Algorithmus, die als Besucht markierten Knoten überschritten werden müssen, um zurück zum Nest zu gelangen. 
+Nachdem Informationen zum Nest gebracht wurden kann die Ameise zu ihrem Ausgangspunkt zurückkehren und mit dem Algorithmus fortführen. Damit dieser Ansatz funktioniert, muss das Nest als „Besucht“ markiert werden.
+
+Ein interessanter Aspekt ist der Anfang. Zu diesem Zeitpunkt habe wir keine Informationen über unsere Umgebung. Wenn das Ziel ein kontinuierlicher Nahrungsstrom ist, wäre es schlecht wenn alle Ameisen auf der Suche nach Nahrungsquellen sind, wenn eine Ameise mit der Information über die erste Nahrungsquelle zurück ins Nest kommt. 
+Andererseits wäre es auch nicht vorteilhaft wenn zu wenige Ameisen suchen während der Rest im Nest auf Informationen über Nahrungsquellen wartet. 
+Ein Ansatz wäre hier, dass die Ameisen unterschiedlich lange „Runden“ drehen, nach denen sie zurück zum Nest laufen, um neue Instruktionen von der Ameisenkönigin zu erhalten. Dadurch warten keine Ameisen sinnlos im Nest und es wird gleichzeitig verhindert, dass gefundene Nahrungsquellen nicht ausgebeutet werden.
+
+
+d)
+In unserem Szenario gibt es verschiedene Ameisen – Nester. Außerdem gibt es zu den beiden Ameisentypen aus Aufgabe 2 noch langsame „Kämpfer - Ameisen“. Diese töten die anderen beiden Ameisenarten, wenn sie auf dem gleichen Feld stehen. Außerdem brauchen sie zwei Zeiteinheiten für die Strecke von einem Knoten. 
+Wir haben diskutiert, welche Taktik wir nutzen würden, damit unser Nest überlebt und sind zu keinem eindeutigen Ergebnis gekommen. Auf der einen Seite gab es die Ansicht, dass es besonders am Anfang nicht sinnvoll ist, auf die langsamen Kämpfer – Ameisen zu warten,  da diese das finden der Nahrungsquellen zu stark verlangsamen würden und es das überleben des Nestes dadurch gefärdet wäre. 
+Die Argumente der anderen Seite sahen die Gefahr eher darin, dass zu schnell zu viele Ameisen von den Kämpfer –Ameisen des anderen Nestes getötet werden würden und dass die zusätzlichen Ressourcen zu beginn der Simulation nicht im Verhältnis  zu dem Wirtschaftlichen und vor allem auch dem Emotionalen schaden durch das sterben von Ameisen, kleinen schutzlosen Ameisen. Ihr Monster!
