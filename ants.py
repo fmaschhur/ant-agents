@@ -35,7 +35,7 @@ class Ants(object):
     def change_pos(self, new_pos):
             self.lastpos = self.currpos
             self.currpos = new_pos
-            self.nestdist += 1
+            self.nestdist += 1  #Die nestdist muss doch nicht unbedingt größer werden!?
 
     def collect_food(self):
         self.currpos.food -= 1

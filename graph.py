@@ -19,12 +19,12 @@ class Graph(object):
 
     def __init__(self, params_file):
         self.file = params_file
-        x = self.params('size_x')
-        y = self.params('size_y')
-        self.nodes = self.create_nodes(x, y)
-        self.edges = self.create_edges(x, y) # , self.params('thickness'))
+        self.x = self.params('size_x')
+        self.y = self.params('size_y')
+        self.nodes = self.create_nodes(self.x, self.y)
+        self.edges = self.create_edges(self.x, self.y) # , self.params('thickness'))
         self.add_food(self.params('amount'), self.params('propability'))
-        self.nest = self.choose_nest(x, y, self.nodes)
+        self.nest = self.choose_nest(self.x, self.y, self.nodes)
         self.antcount = 0 #würde das glaube ich nicht hier mit rein packen
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
