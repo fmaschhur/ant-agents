@@ -17,3 +17,12 @@ class Edge(object):
     def set_pheromone(self, food, nest):
         self.food_pheromone += food
         self.nest_pheromone += nest
+
+    def get_food_pheromone(self):
+        return self.food_pheromone
+
+    def get_nest_pheromone(self):
+        return self.nest_pheromone
+
+    def connects(self, node1, node2):       # falls die parameter node1 und node2 die Nodes der Kante sind, return true
+        return ((self.node1 == node1 and self.node2 == node2) or (self.node1 == node2 and self.node2 == node1))
