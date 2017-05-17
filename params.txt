@@ -8,9 +8,8 @@ evaporation: 1
 loops: 10
 evaporation_type: 1
 graph: graph_speicherort.de
-
 thickness: 50
 propability: 10
 amount: 10
-size_x: 10
-size_y: 10
+size_x: 3
+size_y: 3

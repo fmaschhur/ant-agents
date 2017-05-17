@@ -9,16 +9,16 @@ class Node(object):
         self.nest = 0               # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
 
     def add_food(self, amount, probability):
-        if random() < (probability * 0.01):
+        if random.randint(0, 100) < probability:
             self.food = amount
 
     def set_pheromone(self, coming_from, food, nest):
             for edge in self.edges:
                 if edge.node2 == coming_from:
-                    edge.set_pheromon(food, nest)
+                    edge.set_pheromone(food, nest)
                     for edge2 in edge.node2.edges:
                         if edge2.node2 == self:
-                            edge2.set_pheromon(food, nest)
+                            edge2.set_pheromone(food, nest)
 
     def has_food(self):
         return self.food > 0
