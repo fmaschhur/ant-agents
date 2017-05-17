@@ -1,6 +1,7 @@
 class Ants(object):
 
-    def __init__(self, currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
+    def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
+        self.nest = nest    #jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
@@ -34,8 +35,10 @@ class Ants(object):
 
     def change_pos(self, new_pos):
             self.lastpos = self.currpos
+            if new_pos.x > self.lastpos.x or new_pos.y > self.lastpos.y
+                self.nestdist += 1  # Die nestdist muss doch nicht unbedingt größer werden!?
+            elif new_pos.x
             self.currpos = new_pos
-            self.nestdist += 1  #Die nestdist muss doch nicht unbedingt größer werden!?
 
     def collect_food(self):
         self.currpos.food -= 1
