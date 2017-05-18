@@ -9,34 +9,28 @@ from logger import Logger
 class World(object):
     graph = None
     ants = None
-    file = "params.txt" # str(sys.argv[1])
 
-    def params(self, param):
-        file_obj = open(self.file)
-        for line in file_obj:
-            name = line.partition(": ")[0]
-            if name == param:
-                file_obj.close()
-                return int(line.split(": ")[1])
-        file_obj.close()
+    def __init__(self, params):
+        self.ant_greediness = params['greediness']
+        self.ant_greediness_food = params['greediness_food']
+        self.ants_init = params['ants_init']
+        self.ants_max = params['ants_max']
+        self.probability_new_ant = params['probability_new_ant']
+        self.evaporation = params['evaporation']
+        self.evaporation_type = params['evaporation_type']
 
     def populate(self):
         self.ants = []
-        greediness = range(self.params("greediness"))
-        greediness_food = range(self.params("greediness_food"))
-        for i in range(self.params("count")):
-            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
+        for i in range(self.ants_init):
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness, self.ant_greediness_food)
             ant.attr = i
             self.ants.append(ant)
 
     def create_ant(self):
-        if len(self.ants) >= self.params("count_total"):
+        if len(self.ants) >= self.ants_max:
             return
-        probability_new_ant = self.params("probability_new_ant")
-        if randint(0, 100) < probability_new_ant:
-            greediness_food = range(self.params("greediness_food"))
-            greediness = range(self.params("greediness"))
-            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, greediness, greediness_food)
+        if randint(0, 100) < self.probability_new_ant:
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness, self.ant_greediness_food)
             self.ants.append(ant)
 
     def simulate_cycle(self):
@@ -45,7 +39,7 @@ class World(object):
         for ant in self.ants:
             ant.set_pheromone()
         self.create_ant()
-        self.graph.evaporate(self.params("evaporation"), self.params("evaporation_type"))
+        self.graph.evaporate(self.evaporation, self.evaporation_type)
 
    # def run(self):
         # for (x, y) in self.graph_obj.nodes:

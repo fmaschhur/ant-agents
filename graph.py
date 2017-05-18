@@ -18,20 +18,19 @@ class Graph(object):
         self.file = params_file
         self.x_size = self.params('size_x')
         self.y_size = self.params('size_y')
-        self.nodes = self.create_nodes(self)
+        self.nodes = self.create_nodes()
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
-        self.add_food(self.params('amount'), self.params('propability'))
+        self.add_food(self.params('amount'), self.params('probability'))
         self.nest = self.choose_nest()
-        # self.antcount = 0 #wuerde das glaube ich nicht hier mit rein packen
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
     def evaporate(self, evaporation, evap_type=1):
         for edge in self.edges:
             edge.evaporate(evaporation, evap_type)
 
-    def add_food(self, amount, propability):
+    def add_food(self, amount, probability):
         for (x, y) in self.nodes:
-            self.nodes.get((x, y)).add_food(amount, propability)
+            self.nodes.get((x, y)).add_food(amount, probability)
 
     # thickness ist ein wert zwischen 1 und 100, gibt wie wahrscheinlich eine verbindung ist
     def create_edges(self, max_x, max_y, thickness): # Habe das umkopiert... müsste von der Funktion her das gleiche sein
@@ -55,7 +54,6 @@ class Graph(object):
     # def get_node(self, x, y):
     #     return self.nodes.get((x, y))
 
-    @staticmethod
     def create_nodes(self):
         nodes = {}
         for x in range(1, self.x_size+1):

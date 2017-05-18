@@ -46,10 +46,7 @@ class Ants(object):
     def change_pos(self, new_pos):
             self.lastpos = self.currpos
             self.currpos = new_pos
-            if self.currpos.get_x() > self.lastpos.get_x() or self.currpos.get_y() > self.lastpos.get_y():
-                self.nestdist += 1
-            elif self.currpos.get_x() < self.lastpos.get_x() or self.currpos.get_y() < self.lastpos.get_y():
-                self.nestdist -= 1
+            self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
