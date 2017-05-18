@@ -23,7 +23,7 @@ class Ants(object):
     def best_edge_food(self):
         edgetogo = self.currpos.edges[0]
         if edgetogo.other_node(self.lastpos) == self.currpos:
-            edgetogo = self.currpos.edges[1]
+            edgetogo = self.currpos.edges[1] # Knoten kann auch nur eine (keine) Kante haben! TODO
         for edge in self.currpos.edges:
             if edgetogo.other_node(self.lastpos) == self.currpos:
                 tmp = 0
@@ -34,7 +34,7 @@ class Ants(object):
     def best_edge_nest(self):
         edgetogo = self.currpos.edges[0]
         if edgetogo.other_node(self.lastpos) == self.currpos:
-            edgetogo = self.currpos.edges[1]
+            edgetogo = self.currpos.edges[1]    # Kann auch sein, dass es nur eine (keine) Kante gibt! TODO
         for edge in self.currpos.edges:
             if edgetogo.other_node(self.lastpos) == self.currpos:
                 tmp = 0

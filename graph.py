@@ -18,7 +18,7 @@ class Graph(object):
         self.file = params_file
         self.x_size = self.params('size_x')
         self.y_size = self.params('size_y')
-        self.nodes = self.create_nodes(self.x_size, self.y_size)
+        self.nodes = self.create_nodes(self)
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
         self.add_food(self.params('amount'), self.params('propability'))
         self.nest = self.choose_nest()
@@ -56,10 +56,10 @@ class Graph(object):
     #     return self.nodes.get((x, y))
 
     @staticmethod
-    def create_nodes(x, y):
+    def create_nodes(self):
         nodes = {}
-        for x in range(1, x+1):
-            for y in range(1, y+1):
+        for x in range(1, self.x_size+1):
+            for y in range(1, self.y_size+1):
                 add_me = Node(0, [], x, y)
                 nodes[(x, y)] = add_me
         return nodes

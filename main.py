@@ -1,6 +1,6 @@
-import world
+from world import World
 import graph
-import logger
+from logger import Logger
 
 
 class Main:
@@ -10,9 +10,9 @@ class Main:
     @staticmethod
     def run():
         # self.file = params_file
-        ant_world = world.World()
+        ant_world = World()
         ant_world.graph = graph.Graph(ant_world.file)
-        ant_world_logger = logger.Logger(ant_world)
+        ant_world_logger = Logger(ant_world)
         ant_world.populate()
 
         for i in range(ant_world.params("loops")):
