@@ -22,7 +22,7 @@ class Graph(object):
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
         self.add_food(self.params('amount'), self.params('propability'))
         self.nest = self.choose_nest()
-        # self.antcount = 0 #würde das glaube ich nicht hier mit rein packen
+        # self.antcount = 0 #wuerde das glaube ich nicht hier mit rein packen
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
     def evaporate(self, evaporation, evap_type=1):

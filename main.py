@@ -15,6 +15,8 @@ class Main:
         ant_world_logger = Logger(ant_world)
         ant_world.populate()
 
+        ant_world_logger.get_state()
+        ant_world_logger.print_state()
         for i in range(ant_world.params("loops")):
             ant_world.simulate_cycle()
             ant_world_logger.get_state()

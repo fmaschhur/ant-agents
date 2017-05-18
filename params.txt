@@ -5,11 +5,11 @@ birth_time: 1
 greediness: 1
 greediness_food: 1
 evaporation: 50
-loops: 100
+loops: 10
 evaporation_type: 2
 graph: graph_speicherort.de
 thickness: 100
 propability: 10
 amount: 10
-size_x: 2
+size_x: 3
 size_y: 3
