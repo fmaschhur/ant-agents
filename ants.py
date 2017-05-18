@@ -4,7 +4,7 @@ from random import randint
 class Ants(object):
 
     def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
-        self.nest = nest    #jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste
+        self.nest = nest    #jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
@@ -14,7 +14,7 @@ class Ants(object):
 
     def set_pheromone(self):
         pheromone = (1 / (self.nestdist + 1))  # super krasse funktion
-        # wird die nestdist auf 0 gesetzt wenn futter gefunden wurde? würde es einfacher machen ;)
+        # wird die nestdist auf 0 gesetzt wenn futter gefunden wurde? würde es einfacher machen ;) aber macht doch keine Sinn?
         if self.carrfood:
             self.currpos.set_pheromone(self.lastpos, pheromone, 0)
         else:

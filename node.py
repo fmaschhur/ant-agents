@@ -22,11 +22,11 @@ class Node(object):
     def has_food(self):
         return self.food > 0
 
-    # def get_x(self):        # funktion zum abfragen der x position
-    #     return self.xpos
+    def get_x(self):        # funktion zum abfragen der x position
+        return self.xpos
     #
-    # def get_y(self):        # funktion zum abfragen der y position
-    #     return self.ypos
+    def get_y(self):        # funktion zum abfragen der y position
+        return self.ypos
     #
     # def get_x_y(self):      # funktion zum abfragen der x und y positionen
     #     return (self.xpos, self.ypos)
