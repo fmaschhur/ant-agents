@@ -1,6 +1,3 @@
-import random
-
-
 class Node(object):
 
     def __init__(self, food, edges, x_pos, y_pos):    # initializes a single node and associates a list of edges to it
@@ -10,14 +7,13 @@ class Node(object):
         self.y_pos = y_pos               # y position
         self.nest = 0               # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
 
-    def add_food(self, amount, probability):
-        if random.randint(0, 100) < probability:
-            self.food = amount
+    def add_food(self, amount):
+        self.food = amount
 
     def set_pheromone(self, coming_from, food, nest):
-            for edge in self.edges:
-                if edge.has_node(coming_from):
-                    edge.set_pheromone(food, nest)
+        for edge in self.edges:
+            if edge.has_node(coming_from):
+                edge.set_pheromone(food, nest)
 
     def has_food(self):
         return self.food > 0

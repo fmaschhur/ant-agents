@@ -9,6 +9,7 @@ loops: 10
 evaporation_type: 2
 thickness: 100
 probability: 10
-amount: 10
+food_src_count: 1
+food_amount: 10
 size_x: 3
 size_y: 3
