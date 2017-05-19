@@ -5,11 +5,11 @@ birth_time: 1
 greediness: 1
 greediness_food: 1
 evaporation: 50
-loops: 10
+loops: 100
 evaporation_type: 2
 thickness: 100
 probability: 10
-food_src_count: 1
+food_src_count: 3
 food_amount: 10
 size_x: 3
 size_y: 3

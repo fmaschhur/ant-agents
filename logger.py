@@ -1,4 +1,5 @@
 import tkinter as tk
+import math
 
 class Logger:
 
@@ -79,18 +80,37 @@ class Logger:
         node_states = self.curr_state[1]
         edge_states = self.curr_state[2]
 
+        for edge in edge_states:
+            x_1 = edge[0][0]
+            y_1 = edge[0][1]
+            x_2 = edge[1][0]
+            y_2 = edge[1][1]
+            canvas.create_line((x_1 - 1) * s + s * 1/2, (y_1 - 1) * s + s * 1/2,
+                               (x_2 - 1) * s + s * 1/2, (y_2 - 1) * s + s * 1/2)
+            # if y_1 == y_2:
+            #     canvas.create_text((x_1 - 1) * s + s, (y_1  -1))
+
+
         for (x, y) in node_states:
             canvas.create_oval((x - 1) * s + s * 2/6, (y - 1) * s + s * 2/6,
-                                (x - 1) * s + s * 4/6, (y - 1) * s + s * 4/6)
-            canvas.create_text((x - 1) * s + s * 3/6, (y - 1) * s + s * 5/12,
-                               text=node_states[(x, y)][0])
+                                (x - 1) * s + s * 4/6, (y - 1) * s + s * 4/6, fill='white')
+            food_amount = node_states[(x, y)][0]
+            if food_amount > 0:
+                canvas.create_text((x - 1) * s + s * 1/2, (y - 1) * s + s * 1/2, text=food_amount)
 
-
-        #root.after(2000, self.draw_curr_state(root, scale))
-
-
-
-
-
-
-
+            node_ants = node_states[(x, y)][1]
+            for i in range(len(node_ants)):
+                r = s * 1/6 * 7/10
+                n = self.world.ants_max
+                ant_centers = [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi / n * x) * r)
+                               for x in range(0, n + 1)]
+                ant_fill_color = 'black'
+                ant_line_color = 'black'
+                if node_ants[i] == 1:
+                    ant_fill_color = 'red'
+                    ant_line_color = 'red'
+                canvas.create_oval((x - 1) * s + s * 3/6 + ant_centers[i][0] - s * 1/3 * 1/10,
+                                   (y - 1) * s + s * 3/6 + ant_centers[i][1] - s * 1/3 * 1/10,
+                                   (x - 1) * s + s * 3/6 + ant_centers[i][0] + s * 1/3 * 1/10,
+                                   (y - 1) * s + s * 3/6 + ant_centers[i][1] + s * 1/3 * 1/10,
+                                   outline=ant_line_color, fill=ant_fill_color)

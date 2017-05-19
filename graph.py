@@ -37,7 +37,6 @@ class Graph(object):
                     xylist.append((x,y))
         random.shuffle(xylist)
         sources = xylist[:number]
-        print(sources)
         for (x, y) in sources:
             self.nodes.get((x, y)).add_food(random.randint(1, maxamount))
 
