@@ -5,7 +5,7 @@ class Node(object):
         self.edges = edges          # list of edges, can be empty, argument has to be 'None' for this to happen
         self.x_pos = x_pos            # x position
         self.y_pos = y_pos               # y position
-        self.nest = 0               # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
+        self.nest = False               # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
 
     def add_food(self, amount):
         self.food = amount

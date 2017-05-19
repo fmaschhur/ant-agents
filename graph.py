@@ -57,7 +57,7 @@ class Graph(object):
     def choose_nest(self):
         a = random.randint(1, self.x_size)
         b = random.randint(1, self.y_size)
-        self.nodes[(a, b)].nest = 1
+        self.nodes[(a, b)].nest = True
         return self.nodes[(a, b)]
 
     # def get_node(self, x, y):
