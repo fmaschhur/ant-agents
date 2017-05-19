@@ -3,14 +3,14 @@ from random import randint
 
 class Ants(object):
 
-    def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
+    def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greediness, greedfood):
         self.nest = nest    #jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
         self.nestdist = nestdist
         self.greedfood = greedfood
-        self.greedpherograph = greedpherom
+        self.greediness = greediness
 
     def set_pheromone(self):
         pheromone = (1 / (self.nestdist + 1))  # super krasse funktion
@@ -20,26 +20,28 @@ class Ants(object):
         else:
             self.currpos.set_pheromone(self.lastpos, 0, pheromone)
 
-    def best_edge_food(self):
-        edgetogo = self.currpos.edges[0]
-        if edgetogo.other_node(self.lastpos) == self.currpos:
-            edgetogo = self.currpos.edges[1] # Knoten kann auch nur eine (keine) Kante haben! TODO
+    def best_food_node(self):
+        edgetogo = None
         for edge in self.currpos.edges:
-            if edgetogo.other_node(self.lastpos) == self.currpos:
-                tmp = 0
-            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > 80:
+            if edgetogo is None:
+                if edge.other_node(self.currpos) != self.lastpos:
+                    edgetogo = edge
+            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > self.greediness:
                 edgetogo = edge
+        if edgetogo is None:
+            edgetogo = self.currpos.edges[0]
         return edgetogo.other_node(self.currpos)
 
-    def best_edge_nest(self):
-        edgetogo = self.currpos.edges[0]
-        if edgetogo.other_node(self.lastpos) == self.currpos:
-            edgetogo = self.currpos.edges[1]    # Kann auch sein, dass es nur eine (keine) Kante gibt! TODO
+    def best_nest_node(self):
+        edgetogo = None
         for edge in self.currpos.edges:
-            if edgetogo.other_node(self.lastpos) == self.currpos:
-                tmp = 0
-            if edge.nest_pheromone > edgetogo.nest_pheromone:
+            if edgetogo is None:
+                if edge.other_node(self.currpos) != self.lastpos:
+                    edgetogo = edge
+            elif edge.nest_pheromone > edgetogo.nest_pheromone or randint(0, 100) > self.greediness:
                 edgetogo = edge
+        if edgetogo is None:
+            edgetogo = self.currpos.edges[0]
         return edgetogo.other_node(self.currpos)
 
 
@@ -65,9 +67,9 @@ class Ants(object):
         elif pos.nest and self.carrfood:
             self.drop_food_in_nest()
         elif self.carrfood:
-            self.change_pos(self.best_edge_nest())
+            self.change_pos(self.best_nest_node())
         else:
-            self.change_pos(self.best_edge_food())
+            self.change_pos(self.best_food_node())
 
 
 

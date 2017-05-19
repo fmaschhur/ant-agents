@@ -9,10 +9,10 @@ class Edge(object):
         node2.edges.append(self)        #
 
     def evaporate(self, evaporation, evap_type):
-        if evap_type == 1:
-            self.food_pheromone -= evaporation
-            self.nest_pheromone -= evaporation
-        elif evap_type == 2:
+        # if evap_type == 1:
+        #     self.food_pheromone -= evaporation
+        #     self.nest_pheromone -= evaporation
+        # elif evap_type == 2:
             self.food_pheromone *= evaporation * 0.01
             self.nest_pheromone *= evaporation * 0.01
 
@@ -38,5 +38,7 @@ class Edge(object):
     def other_node(self, node):
         if node == self.node1:
             return self.node2
-        else:
+        elif node == self.node2:
             return self.node1
+        else:
+            return None

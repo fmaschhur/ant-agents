@@ -40,8 +40,7 @@ class Graph(object):
         for (x, y) in sources:
             self.nodes.get((x, y)).add_food(random.randint(1, maxamount))
 
-    # thickness ist ein wert zwischen 1 und 100, gibt wie wahrscheinlich eine verbindung ist
-    def create_edges(self, max_x, max_y, thickness): # Habe das umkopiert... müsste von der Funktion her das gleiche sein
+    def create_edges(self, max_x, max_y, thickness):
         edges = []
         for (x, y) in self.nodes:
             me = self.nodes.get((x, y))
@@ -52,6 +51,24 @@ class Graph(object):
                 down = self.nodes.get((x, (y + 1)))
                 edges.append(Edge(me, down))
         return edges
+
+    def create_labyrinth_edges(self):
+        edges = []
+        currnode = self.nodes[0]
+        lastnode = self.nodes[-1]
+        while currnode != lastnode:
+            nextnode = self.get_labyrinth_neighbour(currnode.get_x(), currnode.get_y())
+            edges.append(Edge(currnode, nextnode))
+            currnode = nextnode
+        return edges
+
+    def get_labyrinth_neighbour(self, x, y):
+        nodes = []
+        if (x+1, y) in self.nodes:
+            nodes.append(self.nodes[(x+1, y)])
+        if (x, y+1) in self.nodes:
+            nodes.append(self.nodes[(x, y+1)])
+        return random.choice(nodes)
 
     def choose_nest(self):
         a = random.randint(1, self.x_size)

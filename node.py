@@ -20,9 +20,9 @@ class Node(object):
 
     def get_x(self):        # funktion zum abfragen der x position
         return self.x_pos
-    #
+
     def get_y(self):        # funktion zum abfragen der y position
         return self.y_pos
-    #
-    # def get_x_y(self):      # funktion zum abfragen der x und y positionen
-    #     return (self.xpos, self.ypos)
+
+    def get_x_y(self):      # funktion zum abfragen der x und y positionen
+        return (self.xpos, self.ypos)
