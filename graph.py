@@ -28,11 +28,10 @@ class Graph(object):
             edge.evaporate(evaporation, evap_type)
 
     def add_food(self, number, maxamount):
-        sources = []
         xylist = []
         for x in range(1, (self.x_size + 1)):
             for y in range(1, (self.y_size + 1)):
-                if x != self.nest.get_x and y != self.nest.get_y:
+                if x != self.nest.get_x() and y != self.nest.get_y():
                     xylist.append((x, y))
         random.shuffle(xylist)
         sources = xylist[:number]

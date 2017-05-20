@@ -3,6 +3,7 @@ from graph import Graph
 from ants import Ants
 from random import Random
 from random import randint
+from time import sleep
 from logger import Logger
 
 
@@ -36,6 +37,7 @@ class World(object):
             self.ants.append(ant)
 
     def simulate_cycle(self):
+        sleep(1.5)
         for ant in self.ants:
             ant.action()
         for ant in self.ants:

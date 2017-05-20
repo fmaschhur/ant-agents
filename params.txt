@@ -2,7 +2,7 @@ ants_init: 2
 ants_max: 10
 probability_new_ant: 0
 birth_time: 1
-greediness: 1
+greediness: 0
 greediness_food: 1
 evaporation: 50
 loops: 100

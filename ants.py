@@ -1,4 +1,4 @@
-from random import randint
+import random
 
 
 class Ants(object):
@@ -13,35 +13,58 @@ class Ants(object):
 
     def set_pheromone(self):
         pheromone = (1 / (self.nestdist + 1))  # super krasse funktion
-        if self.carrfood:
-            self.currpos.set_pheromone(self.lastpos, pheromone, 0)
-        else:
-            self.currpos.set_pheromone(self.lastpos, 0, pheromone)
+        if self.currpos != self.lastpos:
+            if self.carrfood:
+                self.currpos.set_pheromone(self.lastpos, pheromone, 0)
+            else:
+                self.currpos.set_pheromone(self.lastpos, 0, pheromone)
 
     def best_food_node(self):
-        edgetogo = None
-        for edge in self.currpos.edges:
-            if edgetogo is None:
-                if edge.other_node(self.currpos) != self.lastpos:
-                    edgetogo = edge
-            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > self.greediness and edge.other_node(self.currpos) != self.lastpos:
-                edgetogo = edge
-        # print(edgetogo.node1.get_x_y(), edgetogo.node2.get_x_y())
-        if edgetogo is None:
-            edgetogo = self.currpos.edges[0]
-        return edgetogo.other_node(self.currpos)
+        # edgetogo = None
+        # for edge in self.currpos.edges:
+        #     if edgetogo is None:
+        #         if edge.other_node(self.currpos) != self.lastpos:
+        #             edgetogo = edge
+        #     elif (edge.food_pheromone > edgetogo.food_pheromone or random.randint(1, 100) > self.greediness) and edge.other_node(self.currpos) != self.lastpos:
+        #         edgetogo = edge
+        # # print(edgetogo.node1.get_x_y(), edgetogo.node2.get_x_y())
+        # if edgetogo is None:
+        #     edgetogo = self.currpos.edges[0]
+        # return edgetogo.other_node(self.currpos)
+        edges = sorted(self.currpos.edges, key=lambda x:x.food_pheromone, reverse=True)
+        for edge in edges:
+            if edge.other_node(self.currpos) == self.lastpos:
+                edges.remove(edge)
+        if not edges:
+            return self.currpos.edges[0].other_node(self.currpos)
+        elif edges[0].food_pheromone == 0:
+            return random.choice(edges).other_node(self.currpos)
+        else:
+            return edges[0].other_node(self.currpos)
 
     def best_nest_node(self):
-        edgetogo = None
-        for edge in self.currpos.edges:
-            if edgetogo is None:
-                if edge.other_node(self.currpos) != self.lastpos:
-                    edgetogo = edge
-            elif edge.nest_pheromone > edgetogo.nest_pheromone or randint(0, 100) > self.greediness and edge.other_node(self.currpos) != self.lastpos:
-                edgetogo = edge
-        if edgetogo is None:
-            edgetogo = self.currpos.edges[0]
-        return edgetogo.other_node(self.currpos)
+        # edgetogo = None
+        # print("Current Position Edges go to:")
+        # for edge in self.currpos.edges:
+        #     print(edge.other_node(self.currpos).get_x_y())
+        #     if edgetogo is None:
+        #         if edge.other_node(self.currpos) != self.lastpos:
+        #             edgetogo = edge
+        #     elif (edge.nest_pheromone > edgetogo.nest_pheromone or random.randint(1, 100) > self.greediness) and edge.other_node(self.currpos) != self.lastpos:
+        #         edgetogo = edge
+        # if edgetogo is None:
+        #     edgetogo = self.currpos.edges[0]
+        # return edgetogo.other_node(self.currpos)
+        edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
+        for edge in edges:
+            if edge.other_node(self.currpos) == self.lastpos:
+                edges.remove(edge)
+        if not edges:
+            return self.currpos.edges[0].other_node(self.currpos)
+        elif edges[0].nest_pheromone == 0:
+            return random.choice(edges).other_node(self.currpos)
+        else:
+            return edges[0].other_node(self.currpos)
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
