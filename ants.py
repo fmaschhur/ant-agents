@@ -2,9 +2,8 @@ from random import randint
 
 
 class Ants(object):
-
-    def __init__(self, nest,  currpos, lastpos, carrfood, nestdist, greediness, greedfood):
-        self.nest = nest    #jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
+    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness, greedfood):
+        self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
@@ -14,7 +13,6 @@ class Ants(object):
 
     def set_pheromone(self):
         pheromone = (1 / (self.nestdist + 1))  # super krasse funktion
-        # wird die nestdist auf 0 gesetzt wenn futter gefunden wurde? würde es einfacher machen ;) aber macht doch keine Sinn?
         if self.carrfood:
             self.currpos.set_pheromone(self.lastpos, pheromone, 0)
         else:
@@ -26,8 +24,9 @@ class Ants(object):
             if edgetogo is None:
                 if edge.other_node(self.currpos) != self.lastpos:
                     edgetogo = edge
-            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > self.greediness:
+            elif edge.food_pheromone > edgetogo.food_pheromone or randint(0, 100) > self.greediness and edge.other_node(self.currpos) != self.lastpos:
                 edgetogo = edge
+        # print(edgetogo.node1.get_x_y(), edgetogo.node2.get_x_y())
         if edgetogo is None:
             edgetogo = self.currpos.edges[0]
         return edgetogo.other_node(self.currpos)
@@ -38,27 +37,28 @@ class Ants(object):
             if edgetogo is None:
                 if edge.other_node(self.currpos) != self.lastpos:
                     edgetogo = edge
-            elif edge.nest_pheromone > edgetogo.nest_pheromone or randint(0, 100) > self.greediness:
+            elif edge.nest_pheromone > edgetogo.nest_pheromone or randint(0, 100) > self.greediness and edge.other_node(self.currpos) != self.lastpos:
                 edgetogo = edge
         if edgetogo is None:
             edgetogo = self.currpos.edges[0]
         return edgetogo.other_node(self.currpos)
 
-
     def change_pos(self, new_pos):
-            self.lastpos = self.currpos
-            self.currpos = new_pos
-            self.nestdist += 1
+        self.lastpos = self.currpos
+        self.currpos = new_pos
+        self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
         self.carrfood += 1
         self.nestdist = 0
+        self.lastpos = self.currpos
 
     def drop_food_in_nest(self):
-            self.currpos.food += 1
-            self.carrfood -= 1
-            self.nestdist = 0
+        self.currpos.food += 1
+        self.carrfood -= 1
+        self.nestdist = 0
+        self.lastpos = self.currpos
 
     def action(self):
         pos = self.currpos
@@ -70,8 +70,6 @@ class Ants(object):
             self.change_pos(self.best_nest_node())
         else:
             self.change_pos(self.best_food_node())
-
-
 
 #
 #
@@ -137,5 +135,3 @@ class Ants(object):
 
 #   def init(self, currpos, lastpos, carrfood, nestdist, greedfood, greedpherom):
 #      Ant.init(self,currpos, lastpos, carrfood, nestdist, greedfood, greedpherom)
-
-

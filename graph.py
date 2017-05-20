@@ -4,7 +4,6 @@ import random
 
 
 class Graph(object):
-
     def params(self, param):
         file_obj = open(self.file)
         for line in file_obj:
@@ -34,7 +33,7 @@ class Graph(object):
         for x in range(1, (self.x_size + 1)):
             for y in range(1, (self.y_size + 1)):
                 if x != self.nest.get_x and y != self.nest.get_y:
-                    xylist.append((x,y))
+                    xylist.append((x, y))
         random.shuffle(xylist)
         sources = xylist[:number]
         for (x, y) in sources:
@@ -44,10 +43,10 @@ class Graph(object):
         edges = []
         for (x, y) in self.nodes:
             me = self.nodes.get((x, y))
-            if x < max_x and random.randint(0, 100) < thickness:
+            if x < max_x and random.randint(0, 100) <= thickness:
                 right = self.nodes.get(((x + 1), y))
                 edges.append(Edge(me, right))
-            if y < max_y and random.randint(0, 100) < thickness:
+            if y < max_y and random.randint(0, 100) <= thickness:
                 down = self.nodes.get((x, (y + 1)))
                 edges.append(Edge(me, down))
         return edges
@@ -64,10 +63,10 @@ class Graph(object):
 
     def get_labyrinth_neighbour(self, x, y):
         nodes = []
-        if (x+1, y) in self.nodes:
-            nodes.append(self.nodes[(x+1, y)])
-        if (x, y+1) in self.nodes:
-            nodes.append(self.nodes[(x, y+1)])
+        if (x + 1, y) in self.nodes:
+            nodes.append(self.nodes[(x + 1, y)])
+        if (x, y + 1) in self.nodes:
+            nodes.append(self.nodes[(x, y + 1)])
         return random.choice(nodes)
 
     def choose_nest(self):
@@ -81,8 +80,8 @@ class Graph(object):
 
     def create_nodes(self):
         nodes = {}
-        for x in range(1, self.x_size+1):
-            for y in range(1, self.y_size+1):
+        for x in range(1, self.x_size + 1):
+            for y in range(1, self.y_size + 1):
                 add_me = Node(0, [], x, y)
                 nodes[(x, y)] = add_me
         return nodes
