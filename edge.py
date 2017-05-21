@@ -9,11 +9,11 @@ class Edge(object):
 
     def evaporate(self, evaporation, evap_type):
         if evap_type == 1:
-            if self.food_pheromone - evaporation < 0:
+            if self.food_pheromone - evaporation < 0.0:
                 self.food_pheromone = 0.0
             else:
                 self.food_pheromone -= evaporation
-            if self.nest_pheromone - evaporation < 0:
+            if self.nest_pheromone - evaporation < 0.0:
                 self.nest_pheromone = 0.0
             else:
                 self.nest_pheromone -= evaporation

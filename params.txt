@@ -4,7 +4,7 @@ probability_new_ant: 0:         probability for a new ant to spawn after every c
 birth_time: 1:                  dunno
 greediness: 100:                 1-100% - percentage with which an ant will follow the strongest pheromone
 greediness_food: 100:            1-100% - percentage with which an ant will pickup food from foodsources
-evaporation: 70:                1-100% - how much percentage of the pheromone remains after evaporation
+evaporation: 1:                if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
 loops: 150:                     maximum #Cycles in our simulation
 evaporation_type: 1:            1 == constant evaporation, 2 == factorial evaporation
 thickness: 100:                 1-100% - probability with which an edge will be created between 2 nodes

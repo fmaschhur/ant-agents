@@ -23,7 +23,7 @@ class Graph(object):
         self.add_food(self.params('food_src_count'), self.params('food_amount'))
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
-    def evaporate(self, evaporation, evap_type=1):
+    def evaporate(self, evaporation, evap_type):
         for edge in self.edges:
             edge.evaporate(evaporation, evap_type)
 
