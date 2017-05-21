@@ -1,3 +1,5 @@
+from math import inf
+
 class Node(object):
     def __init__(self, food, edges, x_pos, y_pos):  # initializes a single node and associates a list of edges to it
         self.food = food  # int, x if nest, 0 else
@@ -5,7 +7,7 @@ class Node(object):
         self.x_pos = x_pos  # x position
         self.y_pos = y_pos  # y position
         self.nest = False  # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
-        self.value = 0
+        self.value = inf
 
     def add_food(self, amount):
         self.food = amount

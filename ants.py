@@ -82,7 +82,6 @@ class Explorer(object):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
-        self.carrfood = carrfood
         self.nestdist = nestdist
         self.greediness = greediness
         self.foundfood = 0
@@ -93,6 +92,17 @@ class Explorer(object):
             self.currpos.set_pheromone(self.lastpos, pheromone, 0)
 
     def best_food_node(self):
+        reachable_nodes = []
+        nodetogo = None
+        gotfoodnode = 0
+        for edge in self.currpos.edges:
+            if edge.other_node(self.currpos).food and gotfoodnode == 0:
+                nodetogo = edge.other_node(self.currpos)
+                gotfoodnode = 1
+        reachable_nodes
+
+        if nodetogo is None:
+            nodetogo = random.choice(self.currpos.edges).other_node(self.currpos)
 
 
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
