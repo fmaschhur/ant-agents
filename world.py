@@ -37,35 +37,10 @@ class World(object):
             self.ants.append(ant)
 
     def simulate_cycle(self):
-        sleep(1.5)
+        sleep(0.5)
         for ant in self.ants:
             ant.action()
         for ant in self.ants:
             ant.set_pheromone()
         self.create_ant()
         self.graph.evaporate(self.evaporation, self.evaporation_type)
-
-        # def run(self):
-        # for (x, y) in self.graph_obj.nodes:
-        #     print(str(x) + "," + str(y) + "|" + str(self.graph_obj.get_node(x, y).nest) + ': ' + str(self.graph_obj.get_node(x, y).food))
-        # print("--------------------------")
-
-        # for i in range(self.params("loops")):
-        #     self.simulate_cycle()
-        # for (x, y) in self.graph_obj.nodes:
-        #     count = 0
-        #     for ant in self.ants:
-        #         if ant.currpos.get_x_y() == (x, y):
-        #             count += 1
-        #     print(x, ",", y, "|", self.graph_obj.get_node(x, y).nest, "X:", count, ':', self.graph_obj.get_node(x, y).food)
-        # print("--------------------------")
-
-# def main():
-#     # self.file = params_file
-#     ant_world = World()
-#     ant_world.graph_obj = Graph(ant_world.file)
-#     ant_world.populate()
-#     ant_world.run()
-#
-# if __name__ == "__main__":
-#     main()

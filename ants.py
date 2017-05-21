@@ -64,7 +64,7 @@ class Ants(object):
 
     def action(self):
         pos = self.currpos
-        if pos.food and not self.carrfood and not pos.nest:  # food != 0 ist == food
+        if pos.food and not self.carrfood and not pos.nest and random.randint(1, 100) <= self.greedfood:
             self.collect_food()
         elif pos.nest and self.carrfood:
             self.drop_food_in_nest()

@@ -42,10 +42,10 @@ class Graph(object):
         edges = []
         for (x, y) in self.nodes:
             me = self.nodes.get((x, y))
-            if x < max_x and random.randint(0, 100) <= thickness:
+            if x < max_x and random.randint(1, 100) <= thickness:
                 right = self.nodes.get(((x + 1), y))
                 edges.append(Edge(me, right))
-            if y < max_y and random.randint(0, 100) <= thickness:
+            if y < max_y and random.randint(1, 100) <= thickness:
                 down = self.nodes.get((x, (y + 1)))
                 edges.append(Edge(me, down))
         return edges
@@ -73,9 +73,6 @@ class Graph(object):
         b = random.randint(1, self.y_size)
         self.nodes[(a, b)].nest = True
         return self.nodes[(a, b)]
-
-    # def get_node(self, x, y):
-    #     return self.nodes.get((x, y))
 
     def create_nodes(self):
         nodes = {}
