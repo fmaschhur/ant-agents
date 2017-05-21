@@ -4,12 +4,12 @@ probability_new_ant: 0
 birth_time: 1
 greediness: 0
 greediness_food: 1
-evaporation: 50
+evaporation: 90
 loops: 100
 evaporation_type: 2
 thickness: 100
 probability: 10
-food_src_count: 3
-food_amount: 10
-size_x: 3
-size_y: 3
+food_src_count: 12
+food_amount: 20
+size_x: 10
+size_y: 10

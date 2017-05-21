@@ -12,8 +12,14 @@ class Edge(object):
         #     self.food_pheromone -= evaporation
         #     self.nest_pheromone -= evaporation
         # elif evap_type == 2:
-        self.food_pheromone *= evaporation * 0.01
-        self.nest_pheromone *= evaporation * 0.01
+        if self.food_pheromone < 0.005:
+            self.food_pheromone = 0
+        else:
+            self.food_pheromone *= evaporation * 0.01
+        if self.nest_pheromone < 0.005:
+            self.nest_pheromone = 0
+        else:
+            self.nest_pheromone *= evaporation * 0.01
 
     def set_pheromone(self, food, nest):
         self.food_pheromone += food
