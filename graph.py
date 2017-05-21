@@ -25,6 +25,7 @@ class Graph(object):
                 self.nest = self.choose_nest()
                 self.add_food(self.params('food_src_count'), self.params('food_max'), self.params('food_min'))
             else:
+                self.nodes[(2, 2)].nest = True
                 self.nest = self.nodes[(2, 2)]
                 self.nodes[(6, 7)].add_food(500)
                 self.nodes[(5, 3)].add_food(500)
