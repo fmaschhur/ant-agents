@@ -19,6 +19,7 @@ class World(object):
         self.probability_new_ant = params['probability_new_ant']
         self.evaporation = params['evaporation']
         self.evaporation_type = params['evaporation_type']
+        self.wait = params['wait']
 
     def populate(self):
         self.ants = []
@@ -37,7 +38,7 @@ class World(object):
             self.ants.append(ant)
 
     def simulate_cycle(self):
-        sleep(0.5)
+        sleep(self.wait)
         for ant in self.ants:
             ant.action()
         for ant in self.ants:
