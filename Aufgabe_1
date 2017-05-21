@@ -14,6 +14,6 @@ a ) Hierfür haben wir die Greediness auf TODO gestellt.
 b ) Hierfür haben wir die Greediness auf TODO gestellt.
 Dadurch wurde eine gefundene Nahrungsquelle solange ausgebeutet, bis sie alle war, bevor die nächste gesucht wurde.
 
-c ) Da die Verdunstung nicht mehr vorhaben war, liefen die Ameisen auf dem Weg, den sie als erste gefunden haben. Wenn dieser nicht perfekt war wurde er danach nicht noch abgeändert.
+c ) Da die Pheromonspuren nicht mehr verdunsteten, liefen die Ameisen auf dem Weg, den sie als erste gefunden haben. Wenn dieser nicht perfekt war wurde er danach nicht noch abgeändert.
 
-d ) 
+d ) Durch das Ignorieren von Nahrung wird ein gleichmäßiger Nahrungsstrom gesichert, da die auch Nahrungsquellen gefunden werden die hinter anderen Nahrungsquellen liegen.
