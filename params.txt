@@ -1,15 +1,15 @@
-ants_init: 2
-ants_max: 10
-probability_new_ant: 0
-birth_time: 1
-greediness: 0
-greediness_food: 1
-evaporation: 90
-loops: 100
-evaporation_type: 2
-thickness: 100
-probability: 10
-food_src_count: 12
-food_amount: 20
-size_x: 10
-size_y: 10
+ants_init: 2:                   #Ants at the beginning of the simulation
+ants_max: 10:                   maximum #Ants in the Simulation
+probability_new_ant: 0:         probability for a new ant to spawn after every cycle
+birth_time: 1:                  dunno
+greediness: 95:                 1-100% - percentage with which an ant will follow the strongest pheromone
+greediness_food: 1:             dunno
+evaporation: 90:                1-100% - how much percentage of the pheromone remains after evaporation
+loops: 100:                     maximum #Cycles in our simulation
+evaporation_type: 2:            1 == constant evaporation, 2 == factorial evaporation
+thickness: 100:                 1-100% - probability with which an edge will be created between 2 nodes
+probability: 10:                dunno
+food_src_count: 12:             maximum #FoodSources
+food_amount: 20:                maximum #Food in any Source
+size_x: 10:                     x (horizontal) size of the grid
+size_y: 8:                      y (vertical) size of the grid

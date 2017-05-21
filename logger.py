@@ -87,6 +87,10 @@ class Logger:
             y_2 = edge[1][1]
             canvas.create_line((x_1 - 1) * s + s * 1 / 2, (y_1 - 1) * s + s * 1 / 2,
                                (x_2 - 1) * s + s * 1 / 2, (y_2 - 1) * s + s * 1 / 2)
+            # if edge[2][0]:
+            #     # TODO PRINT FOODPHEROMONE
+            # if edge[2][1]:
+            #     # TODO PRINT NESTPHEROMONE
             # if y_1 == y_2:
             #     canvas.create_text((x_1 - 1) * s + s, (y_1  -1))
 
