@@ -12,7 +12,7 @@ class Main:
     ant_world = None
     tk_root = tk.Tk()
 
-    interval = 2000
+    interval = 0.5
     scale = 100
 
     @staticmethod
@@ -37,7 +37,7 @@ class Main:
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
-            time.sleep(1)
+            time.sleep(Main.interval)
 
             ant_world.simulate_cycle()
 

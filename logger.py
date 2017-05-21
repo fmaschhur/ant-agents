@@ -18,9 +18,12 @@ class Logger:
     def get_curr_state(self):
         node_states = {}
         edge_states = []
+        nest_node = None
 
         for (x, y) in self.world.graph.nodes:
             node_states[(x, y)] = (self.world.graph.nodes[(x, y)].food, [])
+            if self.world.graph.nodes[(x, y)].nest:
+                nest_node = (x, y)
         for ant in self.world.ants:
             ant_state = 1 if ant.carrfood else 0
             node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][1].append(ant_state)
@@ -28,7 +31,7 @@ class Logger:
             edge_states.append(((edge.node1.x_pos, edge.node1.y_pos), (edge.node2.x_pos, edge.node2.y_pos),
                                 edge.food_pheromone, edge.nest_pheromone))
 
-        self.curr_state = (len(self.state_history), node_states, edge_states)
+        self.curr_state = (len(self.state_history), nest_node, node_states, edge_states)
         self.state_history.append(self.curr_state)
 
         # for y in range(graph.y_size):
@@ -39,7 +42,6 @@ class Logger:
         #     ant_state = 1 if ant.carrfood else 0
         #     self.node_state[ant.currpos.y_pos-1][ant.currpos.x_pos-1][1].append(ant_state)
         #
-        # # TODO: Incomplete, but works because edges are created following this pattern
         # for edge in graph.edges:
         #     if edge.node1.y_pos == edge.node2.y_pos and edge.node1.x_pos < edge.node2.x_pos:
         #         self.edge_state[edge.node1.y_pos - 1][(edge.node1.x_pos * 2) - 1] = (edge.get_food_pheromone(), edge.get_nest_pheromone())
@@ -47,7 +49,8 @@ class Logger:
         #         self.edge_state[edge.node1.y_pos - 1][(edge.node1.x_pos - 1) * 2] = (edge.get_food_pheromone(), edge.get_nest_pheromone())
 
     def print_curr_state(self):
-        print("Cycle", self.curr_state[0], ":", self.curr_state[1], "\n\t\t", self.curr_state[2])
+        print("Cycle", self.curr_state[0], ": Nest = ", self.curr_state[1], " ,", self.curr_state[2],
+              "\n\t\t", self.curr_state[3])
 
         # for i in range(len(self.node_state)):
         #     node_row = self.node_state[i]
@@ -77,29 +80,50 @@ class Logger:
         canvas.delete("all")
         s = self.scale
 
-        node_states = self.curr_state[1]
-        edge_states = self.curr_state[2]
+        nest_node = self.curr_state[1]
+        node_states = self.curr_state[2]
+        edge_states = self.curr_state[3]
 
         for edge in edge_states:
             x_1 = edge[0][0]
             y_1 = edge[0][1]
             x_2 = edge[1][0]
             y_2 = edge[1][1]
+            food_pheromon = round(edge[2], 2)
+            nest_pheromon = round(edge[3], 2)
+
             canvas.create_line((x_1 - 1) * s + s * 1 / 2, (y_1 - 1) * s + s * 1 / 2,
                                (x_2 - 1) * s + s * 1 / 2, (y_2 - 1) * s + s * 1 / 2)
-            # if edge[2][0]:
-            #     # TODO PRINT FOODPHEROMONE
-            # if edge[2][1]:
-            #     # TODO PRINT NESTPHEROMONE
-            # if y_1 == y_2:
-            #     canvas.create_text((x_1 - 1) * s + s, (y_1  -1))
+
+            if y_1 == y_2:
+                if food_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 - s * 1/10, text=food_pheromon,
+                                       fill='red')
+                if nest_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 + s * 1/10, text=nest_pheromon,
+                                       fill='blue')
+            else:
+                if food_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s * 1 / 2 - s * 1 / 20, (y_1 - 1) * s + s, text=food_pheromon,
+                                       fill='red', anchor=tk.E)
+                if nest_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s * 1 / 2 + s * 1 / 20, (y_1 - 1) * s + s, text=nest_pheromon,
+                                       fill='blue', anchor=tk.W)
 
         for (x, y) in node_states:
-            canvas.create_oval((x - 1) * s + s * 2 / 6, (y - 1) * s + s * 2 / 6,
-                               (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white')
             food_amount = node_states[(x, y)][0]
+            if (x, y) == nest_node:
+                line_color = 'blue'
+                text_color = 'blue'
+            elif food_amount > 0:
+                line_color = 'red'
+                text_color = 'red'
+            else:
+                line_color='black'
+            canvas.create_oval((x - 1) * s + s * 2 / 6, (y - 1) * s + s * 2 / 6,
+                               (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white', outline=line_color)
             if food_amount > 0:
-                canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount)
+                canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color)
 
             node_ants = node_states[(x, y)][1]
             for i in range(len(node_ants)):
