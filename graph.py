@@ -20,14 +20,14 @@ class Graph(object):
         self.nodes = self.create_nodes()
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
         self.nest = self.choose_nest()
-        self.add_food(self.params('food_src_count'), self.params('food_amount'))
+        self.add_food(self.params('food_src_count'), self.params('food_min_amount'), self.params('food_max_amount'))
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
     def evaporate(self, evaporation, evap_type):
         for edge in self.edges:
             edge.evaporate(evaporation, evap_type)
 
-    def add_food(self, number, maxamount):
+    def add_food(self, number, min_amount, max_amount):
         xylist = []
         for x in range(1, (self.x_size + 1)):
             for y in range(1, (self.y_size + 1)):
@@ -36,7 +36,7 @@ class Graph(object):
         random.shuffle(xylist)
         sources = xylist[:number]
         for (x, y) in sources:
-            self.nodes.get((x, y)).add_food(random.randint(1, maxamount))
+            self.nodes.get((x, y)).add_food(random.randint(min_amount, max_amount))
 
     def create_edges(self, max_x, max_y, thickness):
         edges = []

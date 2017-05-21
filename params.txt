@@ -1,16 +1,16 @@
-ants_init: 6:                  #Ants at the beginning of the simulation
-ants_max: 10:                  maximum #Ants in the Simulation
+ants_init: 30:                  #Ants at the beginning of the simulation
+ants_max: 30:                  maximum #Ants in the Simulation
 probability_new_ant: 0:        probability for a new ant to spawn after every cycle
-birth_time: 1:                 dunno
-greediness: 75:               1-100% - percentage with which an ant will follow the strongest pheromone
-greediness_food: 98:          1-100% - percentage with which an ant will pickup food from foodsources
-evaporation: 75:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
-loops: 150:                    maximum #Cycles in our simulation
+greediness: 85:               1-100% - percentage with which an ant will follow the strongest pheromone
+greediness_food: 100:          1-100% - percentage with which an ant will pickup food from foodsources
+evaporation: 95:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
+loops: 10000:                    maximum #Cycles in our simulation
 evaporation_type: 2:           1 == constant evaporation, 2 == factorial evaporation
 thickness: 100:                1-100% - probability with which an edge will be created between 2 nodes
-probability: 10:               dunno
-food_src_count: 8:             maximum #FoodSources
-food_amount: 18:                maximum #Food in any Source
-size_x: 5:                    x (horizontal) size of the grid
-size_y: 5:                    y (vertical) size of the grid
-wait: 3:                       seconds to wait in between cycles
+food_src_count: 4:             maximum #FoodSources
+food_min_amount: 1000:                minimum #Food in any Source
+food_max_amount: 1000:                maximum #Food in any Source
+size_x: 8:                    x (horizontal) size of the grid
+size_y: 8:                    y (vertical) size of the grid
+wait:  0:                      seconds to wait in between cycles
+graphic_scale: 100:             size of the graphical representation (px per node)

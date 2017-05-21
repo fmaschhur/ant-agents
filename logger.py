@@ -49,7 +49,7 @@ class Logger:
         #         self.edge_state[edge.node1.y_pos - 1][(edge.node1.x_pos - 1) * 2] = (edge.get_food_pheromone(), edge.get_nest_pheromone())
 
     def print_curr_state(self):
-        print("Cycle", self.curr_state[0], ": Nest = ", self.curr_state[1], " ,", self.curr_state[2],
+        print("Cycle", self.curr_state[0], ": Nest =", self.curr_state[1], ",", self.curr_state[2],
               "\n\t\t", self.curr_state[3])
 
         # for i in range(len(self.node_state)):
@@ -119,7 +119,8 @@ class Logger:
                 line_color = 'red'
                 text_color = 'red'
             else:
-                line_color='black'
+                line_color = 'black'
+                text_color = 'black'
             canvas.create_oval((x - 1) * s + s * 2 / 6, (y - 1) * s + s * 2 / 6,
                                (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white', outline=line_color)
             if food_amount > 0:

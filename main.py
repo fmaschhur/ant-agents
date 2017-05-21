@@ -12,9 +12,6 @@ class Main:
     ant_world = None
     tk_root = tk.Tk()
 
-    interval = 0.5
-    scale = 100
-
     @staticmethod
     def run():
         Main.read_params()
@@ -22,7 +19,7 @@ class Main:
         ant_world.graph = graph.Graph(Main.params_file)
         ant_world.populate()
 
-        ant_world_logger = Logger(ant_world, Main.tk_root, Main.scale)
+        ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'])
         # ant_world_logger.get_curr_state()
         # ant_world_logger.print_curr_state()
         #
@@ -31,13 +28,11 @@ class Main:
         for i in range(Main.params['loops']):
             ant_world_logger.get_curr_state()
             ant_world_logger.print_curr_state()
-
             ant_world_logger.draw_curr_state()
-            #Main.tk_root.after(Main.interval, ant_world_logger.draw_curr_state(Main.tk_root, Main.scale))
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
-            time.sleep(Main.interval)
+            time.sleep(Main.params['wait'])
 
             ant_world.simulate_cycle()
 
