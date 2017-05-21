@@ -18,16 +18,22 @@ class Graph(object):
         self.x_size = self.params('size_x')
         self.y_size = self.params('size_y')
         self.nodes = self.create_nodes()
+        # self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
-        self.nest = self.choose_nest()
-        self.add_food(self.params('food_src_count'), self.params('food_min_amount'), self.params('food_max_amount'))
+        if self.params('f') == 0 and self.params('e') == 0:
+            self.nest = self.choose_nest()
+            self.add_food(self.params('food_src_count'), self.params('food_max'), self.params('food_min'))
+        if self.params('f') and not self.params('e'):
+            self.create_suboptimal_path(self.x_size, self.y_size)
+        if self.params('e') and not self.params('f'):
+            self.create_interrupted_path(self.x_size, self.y_size)
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
     def evaporate(self, evaporation, evap_type):
         for edge in self.edges:
             edge.evaporate(evaporation, evap_type)
 
-    def add_food(self, number, min_amount, max_amount):
+    def add_food(self, number, maxamount, minamount):
         xylist = []
         for x in range(1, (self.x_size + 1)):
             for y in range(1, (self.y_size + 1)):
@@ -36,7 +42,7 @@ class Graph(object):
         random.shuffle(xylist)
         sources = xylist[:number]
         for (x, y) in sources:
-            self.nodes.get((x, y)).add_food(random.randint(min_amount, max_amount))
+            self.nodes.get((x, y)).add_food(random.randint(minamount, maxamount))
 
     def create_edges(self, max_x, max_y, thickness):
         edges = []
@@ -50,11 +56,10 @@ class Graph(object):
                 edges.append(Edge(me, down))
         return edges
 
-    def create_labyrinth_edges(self):
+    def create_labyrinth_edges(self, x, y):
         edges = []
-        currnode = self.nodes[0]
-        lastnode = self.nodes[-1]
-        while currnode != lastnode:
+        currnode = self.nodes[(1, 1)]
+        while len(currnode.edges) < 2:
             nextnode = self.get_labyrinth_neighbour(currnode.get_x(), currnode.get_y())
             edges.append(Edge(currnode, nextnode))
             currnode = nextnode
@@ -81,3 +86,14 @@ class Graph(object):
                 add_me = Node(0, [], x, y)
                 nodes[(x, y)] = add_me
         return nodes
+
+    def create_suboptimal_path(self, x, y):
+        self.nest = self.nodes[(1, 1)]
+        self.nodes[(4, 3)].add_food(20)
+        edges = []
+        edges.append(self.nodes[(1, 1)].edges)
+
+
+    def create_interrupted_path(self, x, y):
+        self.nest = self.nodes[(1, 1)]
+        self.nodes[(2, 5)].add_food(20)
