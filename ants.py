@@ -137,7 +137,7 @@ class Explorer(object):
 
 class Carrier(object):
 
-    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness, greedfood):
+    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greedfood, greediness, allowed = False):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
@@ -145,6 +145,7 @@ class Carrier(object):
         self.nestdist = nestdist
         self.greedfood = greedfood
         self.greediness = greediness
+        self.allowed = allowed
 
     def set_pheromone(self):
         pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
@@ -187,6 +188,8 @@ class Carrier(object):
 
     def collect_food(self):
         self.currpos.food -= 1
+        if self.currpos.food == 0:
+            self.allowed == true
         self.carrfood += 1
         self.nestdist = 0
         self.lastpos = self.currpos

@@ -65,6 +65,8 @@ class World(object):
                     go = True
             if go == True:
                 carrier.action()
+            if carrier.allowed == True
+                carrier.set_pheromone()
 
         self.create_ant()
         self.graph.evaporate(self.evaporation, self.evaporation_type)
