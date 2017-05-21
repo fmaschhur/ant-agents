@@ -1,10 +1,19 @@
 Wir haben die Aufgabe in 3 Teilbereiche unterteilt. Die Klasse der Ameisen (ants.py), der Graph (graph.py, edge.py und node.py) und eine Klasse die die Ameisen Initialisiert und die Simulation von den Ameisen „leitet“ (world.py). Die Darstellung passiert durch einen Logger (logger.py) und gestartet wird die Simulation von „main.py“, die die Parameter aus „params.txt“ ausliest und an die Graphenklasse und an die „leitende“ Klasse (world.py) weitergibt.
 
-Diese Aufteilung haben wir so gewählt, um zu verhindern, dass die Ameisen Informationen über den Graphen kriegen als sie haben dürfen. Sie können in unserer Implementierung auf den Knoten zugreifen, auf dem sie grade stehen, sowie auf den von dem sie kamen.  
+Diese Aufteilung haben wir so gewählt, um zu verhindern, dass die Ameisen Informationen über den Graphen nutzen, die sie garnicht haben dürfen. Sie können in unserer Implementierung auf den Knoten zugreifen, auf dem sie grade stehen, sowie auf den Knoten von dem sie kamen.  
 Interessant bei dem Steuern der Ameisen war außerdem, dass das laufen der Ameisen und das legen der Pheromone getrennt abläuft, damit sich Ameisen während eines Taktes nicht durch ihre Pheromon Spur beeinflussen.
 
-Das Verdunsten der Pheromon Spur läuft bei uns mit einem Faktor. Dabei haben wir mit hohen Werten (0.85/ 0.95) die besten Ergebnisse erzielt. 
+Das Verdunsten der Pheromon Spur läuft bei uns mit einem Faktor. Dabei haben wir mit hohen Werten (0.85/ 0.95), also wenig Verdunstung die besten Ergebnisse erzielt. 
 Gleichzeitig legt die Ameise Ihre Pheromone mit folgender Funktion ab: Pheromonstärke = (2 / (x + 1.5)) wobei x der Abstand zum Nest oder der Abstand seid dem Aufnehmen der Nahrung ist.
 
 
 Frage: Geht ihr die Liste der Ameisen auch in jedem Takt zweimal durch? Habt ihr eine Idee, wie dass vielleicht schöner gelöst werden kann? 
+
+a ) Hierfür haben wir die Greediness auf TODO gestellt.
+
+b ) Hierfür haben wir die Greediness auf TODO gestellt.
+Dadurch wurde eine gefundene Nahrungsquelle solange ausgebeutet, bis sie alle war, bevor die nächste gesucht wurde.
+
+c ) Da die Pheromonspuren nicht mehr verdunsteten, liefen die Ameisen auf dem Weg, den sie als erste gefunden haben. Wenn dieser nicht perfekt war wurde er danach nicht noch abgeändert.
+
+d ) Durch das Ignorieren von Nahrung wird ein gleichmäßiger Nahrungsstrom gesichert, da die auch Nahrungsquellen gefunden werden die hinter anderen Nahrungsquellen liegen.
