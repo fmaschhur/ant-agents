@@ -8,8 +8,9 @@ loops: 10000:                    maximum #Cycles in our simulation
 evaporation_type: 2:           1 == constant evaporation, 2 == factorial evaporation
 thickness: 100:                1-100% - probability with which an edge will be created between 2 nodes
 food_src_count: 4:             maximum #FoodSources
-food_min: 18:                   maximum #Food in any Source
-food_min: 13:                   minimum #Food in any Sourcesize_x: 8:                    x (horizontal) size of the grid
+food_max: 18:                   maximum #Food in any Source
+food_min: 13:                   minimum #Food in any Source
+size_x: 8:                    x (horizontal) size of the grid
 size_y: 8:                    y (vertical) size of the grid
 wait:  0:                      seconds to wait in between cycles
 graphic_scale: 100:             size of the graphical representation (px per node)
