@@ -18,11 +18,11 @@ class Edge(object):
             else:
                 self.nest_pheromone -= evaporation
         elif evap_type == 2:
-            if self.food_pheromone < 0.02:
+            if self.food_pheromone < 0.008:
                 self.food_pheromone = 0.0
             else:
                 self.food_pheromone *= evaporation * 0.01
-            if self.nest_pheromone < 0.02:
+            if self.nest_pheromone < 0.008:
                 self.nest_pheromone = 0.0
             else:
                 self.nest_pheromone *= evaporation * 0.01
