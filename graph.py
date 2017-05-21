@@ -31,9 +31,9 @@ class Graph(object):
                 self.nodes[(5, 3)].add_food(500)
                 self.nodes[(1, 6)].add_food(500)
                 self.nodes[(3, 5)].add_food(500)
-        if self.params('f') and not self.params('e'):
-            self.create_suboptimal_path(self.x_size, self.y_size)
         if self.params('e') and not self.params('f'):
+            self.create_suboptimal_path(self.x_size, self.y_size)
+        if self.params('f') and not self.params('e'):
             self.create_interrupted_path(self.x_size, self.y_size)
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
@@ -95,13 +95,43 @@ class Graph(object):
                 nodes[(x, y)] = add_me
         return nodes
 
-    def create_suboptimal_path(self, x, y):
+    def create_suboptimal_path(self):
         self.nest = self.nodes[(1, 1)]
-        self.nodes[(4, 3)].add_food(20)
-        edges = []
-        edges.append(self.nodes[(1, 1)].edges)
+        self.nodes[(1,1)].nest = 1
+        self.nodes[(4, 3)].add_food(500)
+        for edge in self.edges:
+            if edge.has_nodes(self.nodes[(1,1)], self.nodes[(2,1)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,1)], self.nodes[(2,2)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,2)], self.nodes[(2,3)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,3)], self.nodes[(2,4)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,4)], self.nodes[(3, 4)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(3,4)], self.nodes[(4,4)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(4,4)], self.nodes[(4,3)]):
+                edge.food_pheromone = 2
 
 
-    def create_interrupted_path(self, x, y):
+    def create_interrupted_path(self):
         self.nest = self.nodes[(1, 1)]
-        self.nodes[(2, 5)].add_food(20)
+        self.nodes[(1,1)].nest = 1
+        self.nodes[(4, 4)].add_food(500)
+        for edge in self.edges:
+            if edge.has_nodes(self.nodes[(1,1)], self.nodes[(2,1)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,1)], self.nodes[(2,2)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,2)], self.nodes[(2,3)]):
+                edge.node1.edges.remove(edge)
+                edge.node2.edges.remove(edge)
+                self.edges.remove(edge)
+            if edge.has_nodes(self.nodes[(2,3)], self.nodes[(2,4)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(2,4)], self.nodes[(3, 4)]):
+                edge.food_pheromone = 2
+            if edge.has_nodes(self.nodes[(3,4)], self.nodes[(4,4)]):
+                edge.food_pheromone = 2
