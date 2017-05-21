@@ -75,10 +75,11 @@ class Ants(object):
 
 class Explorer(object):
 
-    def __init__(self, nest, currpos, lastpos, nestdist, greediness):
+    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
+        self.carrfood = carrfood
         self.nestdist = nestdist
         self.greediness = greediness
         self.foundfood = 0
