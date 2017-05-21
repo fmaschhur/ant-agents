@@ -66,7 +66,7 @@ class World(object):
             if go == True:
                 carrier.action()
             if carrier.allowed == True
-                carrier.set_pheromone()
+                #carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
 
         self.create_ant()
         self.graph.evaporate(self.evaporation, self.evaporation_type)
