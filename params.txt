@@ -1,4 +1,4 @@
-ants_init: 30:                  #Ants at the beginning of the simulation
+ants_init: 5:                  #Ants at the beginning of the simulation
 ants_max: 30:                  maximum #Ants in the Simulation
 probability_new_ant: 0:        probability for a new ant to spawn after every cycle
 greediness: 95:               1-100% - percentage with which an ant will follow the strongest pheromone
@@ -12,7 +12,7 @@ food_max: 18:                   maximum #Food in any Source
 food_min: 13:                   minimum #Food in any Source
 size_x: 8:                    x (horizontal) size of the grid
 size_y: 8:                    y (vertical) size of the grid
-wait: 0:                      seconds to wait in between cycles
+wait: 1:                      seconds to wait in between cycles
 graphic_scale: 100:             size of the graphical representation (px per node)
 e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
 f: 0:                           bool - creates graph with pheromone path to foodsource, which is interrupted by a missing edge use with 5x5 grid

@@ -15,7 +15,7 @@ class Ants(object):
         pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
         if self.currpos != self.lastpos:
             if self.carrfood:
-                self.currpos.set_pheromone(self.lastpos, pheromone, 0)
+                self.currpos.set_pheromone(self.lastpos, 1, 0)
             else:
                 self.currpos.set_pheromone(self.lastpos, 0, pheromone)
 
@@ -53,7 +53,6 @@ class Ants(object):
     def collect_food(self):
         self.currpos.food -= 1
         self.carrfood += 1
-        self.nestdist = 0
         self.lastpos = self.currpos
 
     def drop_food_in_nest(self):
