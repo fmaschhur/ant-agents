@@ -16,3 +16,4 @@ wait:  0:                      seconds to wait in between cycles
 graphic_scale: 100:             size of the graphical representation (px per node)
 e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
 f: 0:                           bool - creates graph with pheromone path to foodsource, which is interrupted by a missing edge use with 5x5 grid
+a: 1:                           bool - aufgaben a/b

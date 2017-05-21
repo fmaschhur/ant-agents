@@ -21,8 +21,15 @@ class Graph(object):
         # self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
         self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
         if self.params('f') == 0 and self.params('e') == 0:
-            self.nest = self.choose_nest()
-            self.add_food(self.params('food_src_count'), self.params('food_max'), self.params('food_min'))
+            if self.params('a') == 0:
+                self.nest = self.choose_nest()
+                self.add_food(self.params('food_src_count'), self.params('food_max'), self.params('food_min'))
+            else:
+                self.nest = self.nodes[(2, 2)]
+                self.nodes[(6, 7)].add_food(500)
+                self.nodes[(5, 3)].add_food(500)
+                self.nodes[(1, 6)].add_food(500)
+                self.nodes[(3, 5)].add_food(500)
         if self.params('f') and not self.params('e'):
             self.create_suboptimal_path(self.x_size, self.y_size)
         if self.params('e') and not self.params('f'):
