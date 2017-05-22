@@ -103,9 +103,9 @@ class Logger:
             node_ants = node_states[(x, y)][2]
             for i in range(len(node_ants)):
                 r = s * 1 / 6 * 7 / 10
-                n = self.world.ants_max
+                n = self.world.ants_max + self.world.carriers_max + self.world.explorers_max
                 ant_centers = [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi / n * x) * r)
-                               for x in range(0, n + 1)]
+                               for x in range(0, n)]
                 ant_fill_color = 'black'
                 ant_line_color = 'black'
                 if node_ants[i] == 1:

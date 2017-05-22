@@ -16,7 +16,7 @@ class Main:
         Main.read_params()
 
         ant_world = World(Main.params)
-        ant_world.populate()
+
 
         if Main.params['aufgabe'] == 1:
             ant_world.populate()
