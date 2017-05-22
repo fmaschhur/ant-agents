@@ -24,12 +24,19 @@ class Logger:
         nest_node = None
 
         for (x, y) in self.world.graph.nodes:
-            node_states[(x, y)] = (self.world.graph.nodes[(x, y)].food, [])
+            node = self.world.graph.nodes[(x, y)]
+            node_states[(x, y)] = (node.food, node.value, [])
             if self.world.graph.nodes[(x, y)].nest:
                 nest_node = (x, y)
         for ant in self.world.ants:
             ant_state = 1 if ant.carrfood else 0
-            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][1].append(ant_state)
+            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(ant_state)
+        for carrier in self.world.carriers:
+            carrier_state = 2 if carrier.carrfood else 3
+            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(carrier_state)
+        for explorer in self.world.explorers:
+            explorer_state = 4 if explorer.carrfood else 5
+            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(explorer_state)
         for edge in self.world.graph.edges:
             edge_states.append(((edge.node1.x_pos, edge.node1.y_pos), (edge.node2.x_pos, edge.node2.y_pos),
                                 edge.food_pheromone, edge.nest_pheromone))
@@ -93,7 +100,7 @@ class Logger:
             if food_amount > 0:
                 canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color)
 
-            node_ants = node_states[(x, y)][1]
+            node_ants = node_states[(x, y)][2]
             for i in range(len(node_ants)):
                 r = s * 1 / 6 * 7 / 10
                 n = self.world.ants_max

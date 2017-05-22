@@ -1,13 +1,9 @@
-import sys
 from graph import Graph
 from ants import Ants
 from ants import Explorer
 from ants import Carrier
-from random import Random
 from random import randint
 from time import sleep
-from logger import Logger
-
 
 class World(object):
     graph = None
@@ -35,16 +31,17 @@ class World(object):
         self.evaporation_type = params['evaporation_type']
         self.wait = params['wait']
         self.graph = Graph(params)
+        self.ants = []
+        self.explorers = []
+        self.carriers = []
 
     def populate(self):
-        self.ants = []
         for i in range(self.ants_init):
             ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness, self.ant_greediness_food)
             ant.attr = i
             self.ants.append(ant)
 
     def populate_explorers(self):
-        self.explorers = []
         for i in range(self.explorer_init):
             explorer = Explorer(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.explorer_greediness,
                        self.explorer_greediness_food)
@@ -52,7 +49,6 @@ class World(object):
             self.explorers.append(explorer)
 
     def populate_carriers(self):
-        self.carriers = []
         for i in range(self.carriers_init):
             carrier = Carrier(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.carrier_greediness,
                        self.carrier_greediness_food)
