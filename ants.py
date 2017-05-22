@@ -34,7 +34,7 @@ class Ants(object):
 
         for i in range(len(edges)):
             if random.randint(1, 100) <= self.greediness:
-                edges = list(filter(lambda x: x.food_pheromone == edges[i].food_pheromone, edges))
+                edges = list(filter(lambda x: not x.food_pheromone == edges[i].food_pheromone, edges))
                 return random.choice(edges).other_node(self.currpos)
         #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
 
@@ -54,9 +54,14 @@ class Ants(object):
             return edges[0].other_node(self.currpos)
 
     def change_pos(self, new_pos):
+        if self.currpos.nest:
+            self.nestdist = 0
+            self.currpos = new_pos
+            self.lastpos = self.currpos
+            return
+        self.nestdist += 1
         self.lastpos = self.currpos
         self.currpos = new_pos
-        self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
@@ -99,7 +104,7 @@ class Explorer(object):
 
     def best_food_node(self):
         # Wenn es essen gibt, was verbessert werden kann
-        food_nodes = list(filter(lambda x: x.food == 0 or x.value <= self.currpos.value + 1, self.currpos.neighbours))
+        food_nodes = list(filter(lambda x: x.food != 0 or x.value > self.currpos.value + 1, self.currpos.neighbours))
         if food_nodes:
             return random.choice(food_nodes)
         # Erster Zug, wenn es keine Nachbarn mit Werten gibt

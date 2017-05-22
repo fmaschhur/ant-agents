@@ -36,17 +36,17 @@ class Node(object):
         return list(map(lambda x: x.other_node(self), self.edges))
 
     def neighbours_visited(self):
-        return list(filter(lambda x: not x.value == inf, self.neighbours()))
+        return list(filter(lambda x: x.value == inf, self.neighbours()))
 
     def neighbours_not_visited(self):
-        return list(filter(lambda x: x.value == inf, self.neighbours()))
+        return list(filter(lambda x: not x.value == inf, self.neighbours()))
 
     def highest_neighbour(self):
         nodes = self.neighbours_visited()
         if nodes.empty:
             return False
         nodes = list(sorted(nodes, key=lambda x: x.value, reverse=True))
-        nodes = list(filter(lambda x: x.value < nodes[0].value, nodes))
+        nodes = list(filter(lambda x: x.value >= nodes[0].value, nodes))
         return random.choice(nodes)
 
     def smallest_neighbour(self):
