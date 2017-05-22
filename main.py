@@ -17,7 +17,6 @@ class Main:
 
         ant_world = World(Main.params)
 
-
         if Main.params['aufgabe'] == 1:
             ant_world.populate()
         if Main.params['aufgabe'] == 2:

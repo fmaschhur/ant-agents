@@ -32,10 +32,10 @@ class Logger:
             ant_state = 1 if ant.carrfood else 0
             node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(ant_state)
         for carrier in self.world.carriers:
-            carrier_state = 2 if carrier.carrfood else 3
+            carrier_state = 3 if carrier.carrfood else 2
             node_states[(carrier.currpos.x_pos, carrier.currpos.y_pos)][2].append(carrier_state)
         for explorer in self.world.explorers:
-            explorer_state = 4 if explorer.foundfood else 5
+            explorer_state = 5 if explorer.foundfood else 4
             node_states[(explorer.currpos.x_pos, explorer.currpos.y_pos)][2].append(explorer_state)
         for edge in self.world.graph.edges:
             edge_states.append(((edge.node1.x_pos, edge.node1.y_pos), (edge.node2.x_pos, edge.node2.y_pos),
@@ -86,6 +86,7 @@ class Logger:
 
         for (x, y) in node_states:
             food_amount = node_states[(x, y)][0]
+            node_value = node_states[(x, y)][1]
             if (x, y) == nest_node:
                 line_color = 'blue'
                 text_color = 'blue'
@@ -99,6 +100,7 @@ class Logger:
                                (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white', outline=line_color)
             if food_amount > 0:
                 canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color)
+            canvas.create_text((x - 1) * s + s * 4 / 6, (y - 1) * s + s * 2 / 6, text=node_value)
 
             node_ants = node_states[(x, y)][2]
             for i in range(len(node_ants)):
@@ -106,11 +108,23 @@ class Logger:
                 n = self.world.ants_max + self.world.carriers_max + self.world.explorers_max
                 ant_centers = [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi / n * x) * r)
                                for x in range(0, n)]
-                ant_fill_color = 'black'
+                ant_fill_color = 'white'
                 ant_line_color = 'black'
                 if node_ants[i] == 1:
-                    ant_fill_color = 'red'
-                    ant_line_color = 'red'
+                    ant_fill_color = 'black'
+                    ant_line_color = 'black'
+                if node_ants[i] == 2:
+                    ant_fill_color = 'white'
+                    ant_line_color = 'green'
+                if node_ants[i] == 3:
+                    ant_fill_color = 'green'
+                    ant_line_color = 'green'
+                if node_ants[i] == 4:
+                    ant_fill_color = 'white'
+                    ant_line_color = 'orange'
+                if node_ants[i] == 5:
+                    ant_fill_color = 'orange'
+                    ant_line_color = 'orange'
                 canvas.create_oval((x - 1) * s + s * 3 / 6 + ant_centers[i][0] - s * 1 / 3 * 1 / 10,
                                    (y - 1) * s + s * 3 / 6 + ant_centers[i][1] - s * 1 / 3 * 1 / 10,
                                    (x - 1) * s + s * 3 / 6 + ant_centers[i][0] + s * 1 / 3 * 1 / 10,

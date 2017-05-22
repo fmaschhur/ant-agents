@@ -86,7 +86,8 @@ class World(object):
         self.graph.evaporate(self.evaporation, self.evaporation_type)
 
     def simulate_cycle_explorer_carrier(self):
-        sleep(self.wait)
+        if self.wait == 1:
+            input("Press Enter to continue...")
         for explorer in self.explorers:
             explorer.action()
         for explorer in self.explorers:
