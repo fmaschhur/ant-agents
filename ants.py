@@ -34,7 +34,7 @@ class Ants(object):
 
         for i in range(len(edges)):
             if random.randint(1, 100) <= self.greediness:
-                edges = list(filter(lambda x: not x.food_pheromone == edges[i].food_pheromone, edges))
+                edges = list(filter(lambda x: x.food_pheromone == edges[i].food_pheromone, edges))
                 return random.choice(edges).other_node(self.currpos)
         #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
 
