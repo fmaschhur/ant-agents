@@ -39,8 +39,7 @@ class World(object):
     def populate(self):
         self.ants = []
         for i in range(self.ants_init):
-            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness,
-                       self.ant_greediness_food)
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness, self.ant_greediness_food)
             ant.attr = i
             self.ants.append(ant)
 

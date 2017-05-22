@@ -22,7 +22,6 @@ class Ants(object):
     def best_food_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
         for edge in edges:
-            print(edge.food_pheromone)
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
@@ -30,12 +29,14 @@ class Ants(object):
             return self.lastpos
 
         if not len(edges) - 1:
+            print('fail')
             return edges[0].other_node(self.currpos)
 
         for i in range(len(edges)):
-            if random.randint(1, 100) > self.greediness:
+            if random.randint(1, 100) <= self.greediness:
                 return edges[i].other_node(self.currpos)
         #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
+
         return random.choice(edges).other_node(self.currpos)
 
     def best_nest_node(self):
