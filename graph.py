@@ -4,26 +4,17 @@ import random
 
 
 class Graph(object):
-    def params(self, param):
-        file_obj = open(self.file)
-        for line in file_obj:
-            name = line.partition(': ')[0]
-            if name == param:
-                file_obj.close()
-                return int(line.split(': ')[1])
-        file_obj.close()
 
-    def __init__(self, params_file):
-        self.file = params_file
-        self.x_size = self.params('size_x')
-        self.y_size = self.params('size_y')
+    def __init__(self, params):
+        self.x_size = params['size_x']
+        self.y_size = params['size_y']
         self.nodes = self.create_nodes()
         # self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
-        self.edges = self.create_edges(self.x_size, self.y_size, self.params("thickness"))
-        if self.params('f') == 0 and self.params('e') == 0:
-            if self.params('a') == 0:
+        self.edges = self.create_edges(self.x_size, self.y_size, params['thickness'])
+        if params['f'] == 0 and params['e'] == 0:
+            if params['a'] == 0:
                 self.nest = self.choose_nest()
-                self.add_food(self.params('food_src_count'), self.params('food_max'), self.params('food_min'))
+                self.add_food(params['food_src_count'], params['food_max'], params['food_min'])
             else:
                 self.nodes[(2, 2)].nest = True
                 self.nest = self.nodes[(2, 2)]
@@ -31,9 +22,9 @@ class Graph(object):
                 self.nodes[(5, 3)].add_food(500)
                 self.nodes[(1, 6)].add_food(500)
                 self.nodes[(3, 5)].add_food(500)
-        if self.params('e') and not self.params('f'):
+        if params['e'] and not params['f']:
             self.create_suboptimal_path(self.x_size, self.y_size)
-        if self.params('f') and not self.params('e'):
+        if params['f'] and not params['e']:
             self.create_interrupted_path(self.x_size, self.y_size)
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
