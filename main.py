@@ -1,5 +1,4 @@
 from world import World
-import graph
 from logger import Logger
 import tkinter as tk
 import time
@@ -16,7 +15,6 @@ class Main:
     def run():
         Main.read_params()
         ant_world = World(Main.params)
-        ant_world.graph = graph.Graph(Main.params_file)
         ant_world.populate()
 
         ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'])
@@ -29,6 +27,7 @@ class Main:
             ant_world_logger.get_curr_state()
             ant_world_logger.print_curr_state()
             ant_world_logger.draw_curr_state()
+            ant_world_logger.write_log()
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
@@ -37,6 +36,7 @@ class Main:
             ant_world.simulate_cycle()
 
         tk.mainloop()
+        ant_world_logger.file.close()
 
     @staticmethod
     def read_params():
