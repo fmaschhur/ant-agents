@@ -33,10 +33,10 @@ class Logger:
             node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(ant_state)
         for carrier in self.world.carriers:
             carrier_state = 2 if carrier.carrfood else 3
-            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(carrier_state)
+            node_states[(carrier.currpos.x_pos, carrier.currpos.y_pos)][2].append(carrier_state)
         for explorer in self.world.explorers:
-            explorer_state = 4 if explorer.carrfood else 5
-            node_states[(ant.currpos.x_pos, ant.currpos.y_pos)][2].append(explorer_state)
+            explorer_state = 4 if explorer.foundfood else 5
+            node_states[(explorer.currpos.x_pos, explorer.currpos.y_pos)][2].append(explorer_state)
         for edge in self.world.graph.edges:
             edge_states.append(((edge.node1.x_pos, edge.node1.y_pos), (edge.node2.x_pos, edge.node2.y_pos),
                                 edge.food_pheromone, edge.nest_pheromone))
