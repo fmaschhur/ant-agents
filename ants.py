@@ -85,50 +85,28 @@ class Explorer(object):
         self.nestdist = nestdist
         self.greediness = greediness
         self.foundfood = 0
+        self.pheroz = 0
 
     def set_pheromone(self):
-        pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
         if self.foundfood:
-            self.currpos.set_pheromone(self.lastpos, pheromone, 0)
+            self.currpos.set_pheromone(self.lastpos, self.pheroz, 0)
+
+    def set_nodes(self):
+        self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
 
     def best_food_node(self):
-        reachable_nodes = []
-        nodetogo = None
-        gotfoodnode = 0
-        for edge in self.currpos.edges:
-            if edge.other_node(self.currpos).food and gotfoodnode == 0:
-                nodetogo = edge.other_node(self.currpos)
-                gotfoodnode = 1
-        reachable_nodes
-
-        if nodetogo is None:
-            nodetogo = random.choice(self.currpos.edges).other_node(self.currpos)
-
-
-        edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
-        for edge in edges:
-            if edge.other_node(self.currpos) == self.lastpos:
-                edges.remove(edge)
-        if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
-            return self.lastpos
-        elif edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
-        else:
-            return edges[0].other_node(self.currpos)
+        food_nodes = list(filter(lambda x: x.food == 0 or (x.value <= self.currpos.value + 1 and not x.value == -1), self.currpos.neighbours))
+        if food_nodes:
+            return random.choice(food_nodes)
+        # erster zug checken todo
+        # nest auf 0 todo
+        # nicht zurücklaufen
+        if self.currpos.highest_neighbour().value <= self.value + 1 and self.currpos.neighbours_not_visited():
+            return random.choice(self.currpos.neighbours_not_visited())
+        return self.currpos.highest_neighbour()
 
     def best_nest_node(self):
-        edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
-        for edge in edges:
-            if edge.other_node(self.currpos) == self.lastpos:
-                edges.remove(edge)
-        if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
-            return self.lastpos
-        elif edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
-        else:
-            return edges[0].other_node(self.currpos)
+        return self.currpos.smallest_neighbour()
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
