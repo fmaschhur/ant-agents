@@ -15,9 +15,15 @@ class Main:
     @staticmethod
     def run():
         Main.read_params()
+
         ant_world = World(Main.params)
         ant_world.graph = graph.Graph(Main.params_file)
-        ant_world.populate()
+
+        if Main.params['aufgabe'] == 1:
+            ant_world.populate()
+        if Main.params['aufgabe'] == 2:
+            ant_world.populate_explorers()
+            ant_world.populate_carriers()
 
         ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'])
         # ant_world_logger.get_curr_state()
@@ -34,7 +40,10 @@ class Main:
             Main.tk_root.update()
             time.sleep(Main.params['wait'])
 
-            ant_world.simulate_cycle()
+            if Main.params['aufgabe'] == 1:
+                ant_world.simulate_cycle()
+            if Main.params['aufgabe'] == 2:
+                ant_world.simulate_cycle_explorer_carrier()
 
         tk.mainloop()
 

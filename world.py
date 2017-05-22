@@ -85,7 +85,9 @@ class World(object):
 #
 
     def simulate_cycle(self):
-        sleep(self.wait)
+        # sleep(self.wait)
+        if self.wait == 1:
+            input("Press Enter to continue...")
         for ant in self.ants:
             ant.action()
         for ant in self.ants:
