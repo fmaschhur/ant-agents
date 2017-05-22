@@ -45,7 +45,7 @@ class World(object):
 
     def populate_carriers(self):
         for i in range(self.carriers_init):
-            carrier = Carrier(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0)
+            carrier = Carrier(self.graph.nest, self.graph.nest, self.graph.nest, False, False)
             carrier.attr = i
             self.carriers.append(carrier)
 
@@ -69,10 +69,8 @@ class World(object):
         if len(self.carriers) >= self.carriers_max:
             return
         if randint(0, 100) < self.probability_new_carrier:
-            carrier = Carrier(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.carrier_greediness,
-                       self.carrier_greediness_food)
+            carrier = Carrier(self.graph.nest, self.graph.nest, self.graph.nest, False, False)
             self.carriers.append(carrier)
-#
 
     def simulate_cycle(self):
         # sleep(self.wait)
@@ -92,10 +90,11 @@ class World(object):
             explorer.action()
         for explorer in self.explorers:
             explorer.set_nodes()
-        return
+        # return
 
-        for carrier in self.carrier:
-            for edges in carrier.currpos.edges:
+        for carrier in self.carriers:
+            go = False
+            for edge in carrier.currpos.edges:
                 if edge.food_pheromone > 0:
                     go = True
             if go == True:
@@ -103,5 +102,5 @@ class World(object):
             #if carrier.allow
                 #carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
 
-        self.create_ant()
-        self.graph.evaporate(self.evaporation, self.evaporation_type)
+        # self.create_ant()
+        # self.graph.evaporate(self.evaporation, self.evaporation_type)

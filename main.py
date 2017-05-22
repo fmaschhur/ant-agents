@@ -23,7 +23,7 @@ class Main:
             ant_world.populate_explorers()
             ant_world.populate_carriers()
 
-        ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'])
+        ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'], Main.params['aufgabe'])
         # ant_world_logger.get_curr_state()
         # ant_world_logger.print_curr_state()
         #
@@ -43,6 +43,8 @@ class Main:
                 ant_world.simulate_cycle()
             if Main.params['aufgabe'] == 2:
                 ant_world.simulate_cycle_explorer_carrier()
+
+            time.sleep(1)
 
         tk.mainloop()
         ant_world_logger.file.close()

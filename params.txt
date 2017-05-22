@@ -1,8 +1,8 @@
 ants_init: 0:                  #Ants at the beginning of the simulation
 ants_max: 0:                  maximum #Ants in the Simulation
-explorers_init: 5: TODO
+explorers_init: 10: TODO
 carriers_init: 5: TODO
-explorers_max: 5: TODO
+explorers_max: 10: TODO
 carriers_max: 5: TODO
 probability_new_ant: 0:        probability for a new ant to spawn after every cycle
 probability_new_explorer: 0: TODO
@@ -18,7 +18,7 @@ food_max: 500:                   maximum #Food in any Source
 food_min: 500:                   minimum #Food in any Source
 size_x: 8:                    x (horizontal) size of the grid
 size_y: 8:                    y (vertical) size of the grid
-wait: 0:                      wheter for user-input (Enter) between cycles
+wait: 0:                      whether to wait for user-input (Enter) between cycles
 graphic_scale: 100:             size of the graphical representation (px per node)
 e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
 f: 0:                           bool - creates graph with pheromone path to foodsource, which is interrupted by a missing edge use with 5x5 grid
