@@ -96,7 +96,7 @@ class Explorer(object):
 
     def set_pheromone(self):
         if self.foundfood:
-            self.currpos.set_pheromone(self.lastpos, 1 / self.pheroz, 0)
+            self.currpos.set_pheromone_2(self.lastpos, 1 / self.pheroz)
 
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
@@ -109,12 +109,18 @@ class Explorer(object):
         # Erster Zug, wenn es keine Nachbarn mit Werten gibt
         if not self.currpos.highest_neighbour():
             return random.choice(self.currpos.neighbours_not_visited())
+        # wenn es nur ein Nachbar gibt
+        if len(self.currpos.neighbours()) == 1:
+            return self.currpos.neighbours()[0]
         # Wenn kein Nachbar verbessert werden kann und es nicht besuchte Nachbarn gibt
         if self.currpos.highest_neighbour().value <= (self.currpos.value + 1) and self.currpos.neighbours_not_visited():
             return random.choice(self.currpos.neighbours_not_visited())
         # Damit nicht zurück gelaufen wird (Randfall)
         if self.currpos.highest_neighbour() == self.lastpos:
-            return random.choice(self.currpos.neighbours().remove(self.currpos.highest_neighbour()))
+            print(len(self.currpos.neighbours()))
+            asd = self.currpos.neighbours()
+            asd.remove(self.currpos.highest_neighbour())
+            return random.choice(asd)
         # laufe zum stärksten Nachbar
         return self.currpos.highest_neighbour()
 

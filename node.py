@@ -18,6 +18,11 @@ class Node(object):
             if edge.has_node(coming_from):
                 edge.set_pheromone(food, nest)
 
+    def set_pheromone_2(self, coming_from, food):
+        for edge in self.edges:
+            if edge.has_node(coming_from):
+                edge.set_pheromone_2(food)
+
     def set_nestdist(self, value):
         self.value = value
 
@@ -37,13 +42,9 @@ class Node(object):
         return list(map(lambda x: x.other_node(self), self.edges))
 
     def neighbours_visited(self):
-        print("visited")
-        print(len(list(filter(lambda x: not x.value == inf, self.neighbours()))))
         return list(filter(lambda x: (not x.value == inf), self.neighbours()))
 
     def neighbours_not_visited(self):
-        print("not visited")
-        print(len(list(filter(lambda x: x.value == inf, self.neighbours()))))
         return list(filter(lambda x: x.value == inf, self.neighbours()))
 
     def highest_neighbour(self):

@@ -24,6 +24,9 @@ class Edge(object):
         self.food_pheromone += food
         self.nest_pheromone += nest
 
+    def set_pheromone_2(self, food):
+        self.food_pheromone = max(self.food_pheromone, food)
+
     def get_food_pheromone(self):
         return self.food_pheromone
 
