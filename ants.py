@@ -54,9 +54,14 @@ class Ants(object):
             return edges[0].other_node(self.currpos)
 
     def change_pos(self, new_pos):
+        if self.currpos.nest:
+            self.nestdist = 0
+            self.currpos = new_pos
+            self.lastpos = self.currpos
+            return
+        self.nestdist += 1
         self.lastpos = self.currpos
         self.currpos = new_pos
-        self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
@@ -82,12 +87,11 @@ class Ants(object):
 
 class Explorer(object):
 
-    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness):
+    def __init__(self, nest, currpos, lastpos, carrfood):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
-        self.greediness = greediness
-        self.foundfood = 0
+        self.foundfood = carrfood
         self.pheroz = 0
 
     def set_pheromone(self):
@@ -99,7 +103,7 @@ class Explorer(object):
 
     def best_food_node(self):
         # Wenn es essen gibt, was verbessert werden kann
-        food_nodes = list(filter(lambda x: x.food == 0 or x.value <= self.currpos.value + 1, self.currpos.neighbours))
+        food_nodes = list(filter(lambda x: x.food != 0 or x.value > (self.currpos.value + 1), self.currpos.neighbours()))
         if food_nodes:
             return random.choice(food_nodes)
         # Erster Zug, wenn es keine Nachbarn mit Werten gibt
@@ -139,14 +143,11 @@ class Explorer(object):
 
 class Carrier(object):
 
-    def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greedfood, greediness, allowed = False):
+    def __init__(self, nest, currpos, lastpos, carrfood, allowed = False):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
-        self.nestdist = nestdist
-        self.greedfood = greedfood
-        self.greediness = greediness
         self.allowed = allowed
 
     def set_pheromone(self):

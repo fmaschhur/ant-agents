@@ -1,4 +1,5 @@
 from math import inf
+import random
 
 class Node(object):
     def __init__(self, food, edges, x_pos, y_pos):  # initializes a single node and associates a list of edges to it
@@ -36,21 +37,29 @@ class Node(object):
         return list(map(lambda x: x.other_node(self), self.edges))
 
     def neighbours_visited(self):
-        return list(filter(lambda x: not x.value == inf, self.neighbours()))
+        return list(filter(lambda x: (not x.value == inf), self.neighbours()))
 
     def neighbours_not_visited(self):
-        return list(filter(lambda x: x.value == inf, self.neighbours()))
+        print("-----------")
+        print(self.get_x_y())
+        print(list(map(lambda x: x.get_x_y(), list(filter(lambda x: x.value == inf, self.neighbours())))))
+        print("-----------")
+        return list(filter(lambda x: not x.value == inf, self.neighbours()))
 
     def highest_neighbour(self):
         nodes = self.neighbours_visited()
-        if nodes.empty:
+        if len(nodes) == 0:
             return False
         nodes = list(sorted(nodes, key=lambda x: x.value, reverse=True))
-        nodes = list(filter(lambda x: x.value < nodes[0].value, nodes))
+        nodes = list(filter(lambda x: x.value >= nodes[0].value, nodes))
         return random.choice(nodes)
 
     def smallest_neighbour(self):
-        return sorted(self.neighbours_visited(), key=lambda x: x.value, reverse=False)[0]
+        if self.neighbours_visited():
+            return sorted(self.neighbours_visited(), key=lambda x: x.value, reverse=False)[0]
+        return False
 
     def smallest_nestdist_to_field(self):
+        if not self.smallest_neighbour():
+            return self.value
         return min(self.smallest_neighbour().value + 1, self.value)
