@@ -22,19 +22,21 @@ class Ants(object):
     def best_food_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
         for edge in edges:
+            print(edge.food_pheromone)
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
             print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        elif len(edges) > 1:
-            for i in range(len(edges)):
-                if random.randint(1, 100) > self.greediness or i == len(edges)-1:
-                    return edges[i].other_node(self.currpos)
-            #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
-        else:
+
+        if not len(edges) - 1:
             return edges[0].other_node(self.currpos)
+
+        for i in range(len(edges)):
+            if random.randint(1, 100) > self.greediness:
+                return edges[i].other_node(self.currpos)
+        #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
+        return random.choice(edges).other_node(self.currpos)
 
     def best_nest_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
@@ -44,7 +46,7 @@ class Ants(object):
         if not edges:
             print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        elif edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
+        if edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
             return random.choice(edges).other_node(self.currpos)
         else:
             return edges[0].other_node(self.currpos)

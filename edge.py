@@ -9,23 +9,16 @@ class Edge(object):
 
     def evaporate(self, evaporation, evap_type):
         if evap_type == 1:
-            if self.food_pheromone - evaporation < 0.0:
-                self.food_pheromone = 0.0
-            else:
-                self.food_pheromone -= evaporation
-            if self.nest_pheromone - evaporation < 0.0:
-                self.nest_pheromone = 0.0
-            else:
-                self.nest_pheromone -= evaporation
+            self.food_pheromone = max(self.food_pheromone - evaporation, 0.0)
+            self.nest_pheromone = max(self.nest_pheromone - evaporation, 0.0)
+
         elif evap_type == 2:
+            self.food_pheromone *= evaporation * 0.01
+            self.nest_pheromone *= evaporation * 0.01
             if self.food_pheromone < 0.008:
                 self.food_pheromone = 0.0
-            else:
-                self.food_pheromone *= evaporation * 0.01
             if self.nest_pheromone < 0.008:
                 self.nest_pheromone = 0.0
-            else:
-                self.nest_pheromone *= evaporation * 0.01
 
     def set_pheromone(self, food, nest):
         self.food_pheromone += food
