@@ -98,9 +98,9 @@ class Explorer(object):
         food_nodes = list(filter(lambda x: x.food == 0 or (x.value <= self.currpos.value + 1 and not x.value == -1), self.currpos.neighbours))
         if food_nodes:
             return random.choice(food_nodes)
-        # erster zug checken todo
-        # nest auf 0 todo
-        # nicht zurücklaufen
+        # todo nicht zurücklaufen (bei keiner anderen möglichkeit)
+        if not self.currpos.highest_neighbour:
+            return random.choice(self.currpos.neighbours_not_visited())
         if self.currpos.highest_neighbour().value <= self.value + 1 and self.currpos.neighbours_not_visited():
             return random.choice(self.currpos.neighbours_not_visited())
         return self.currpos.highest_neighbour()
@@ -111,7 +111,6 @@ class Explorer(object):
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
         self.currpos = new_pos
-        self.nestdist += 1
 
     def action(self):
         pos = self.currpos
