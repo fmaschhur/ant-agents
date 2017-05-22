@@ -28,13 +28,14 @@ class Ants(object):
             print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
 
-        if not len(edges) - 1:
+        if len(edges) == 1:
             print('fail')
             return edges[0].other_node(self.currpos)
 
         for i in range(len(edges)):
             if random.randint(1, 100) <= self.greediness:
-                return edges[i].other_node(self.currpos)
+                edges = list(filter(lambda x: x.food_pheromone == edges[i].food_pheromone, edges))
+                return random.choice(edges).other_node(self.currpos)
         #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
 
         return random.choice(edges).other_node(self.currpos)
