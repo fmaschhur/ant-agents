@@ -18,8 +18,14 @@ class World(object):
     def __init__(self, params):
         self.ant_greediness = params['greediness']
         self.ant_greediness_food = params['greediness_food']
+        self.explorer.greediness = params['greediness_explorers']
+        self.carrier.greediness = params['greediness_carriers']
+        self.explorer.greediness_food = params['greediness_explorers_food']
+        self.carrier.greediness_food = params['greediness_carriers_food']
         self.ants_init = params['ants_init']
         self.ants_max = params['ants_max']
+        self.carriers_init = params['carriers_init']
+        self.explorer_init =
         self.probability_new_ant = params['probability_new_ant']
         self.evaporation = params['evaporation']
         self.evaporation_type = params['evaporation_type']
