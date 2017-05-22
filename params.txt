@@ -1,18 +1,18 @@
 ants_init: 5:                  #Ants at the beginning of the simulation
 ants_max: 30:                  maximum #Ants in the Simulation
-explorers_init: 0:
-carriers_init: 0:
-explorers_max: 0:
-carriers_max: 0:
+explorers_init: 0: TODO
+carriers_init: 0: TODO
+explorers_max: 0: TODO
+carriers_max: 0: TODO
 probability_new_ant: 0:        probability for a new ant to spawn after every cycle
-probability_new_explorer: 0:
-probability_new_carrier: 0:
+probability_new_explorer: 0: TODO
+probability_new_carrier: 0: TODO
 greediness: 95:               1-100% - percentage with which an ant will follow the strongest pheromone
 greediness_food: 100:          1-100% - percentage with which an ant will pickup food from foodsources
-greediness_explorers: 0:
-greediness_carriers: 0: 0:
-greediness_explorers_food: 0:
-greediness_carriers_food: 0:
+greediness_explorers: 0: TODO
+greediness_carriers: 0: TODO
+greediness_explorers_food: 0: TODO
+greediness_carriers_food: 0: TODO
 evaporation: 95:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
 loops: 10000:                    maximum #Cycles in our simulation
 evaporation_type: 2:           1 == constant evaporation, 2 == factorial evaporation
