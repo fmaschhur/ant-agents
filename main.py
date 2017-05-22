@@ -1,5 +1,4 @@
 from world import World
-import graph
 from logger import Logger
 import tkinter as tk
 import time
@@ -17,6 +16,7 @@ class Main:
         Main.read_params()
 
         ant_world = World(Main.params)
+        ant_world.populate()
         ant_world.graph = graph.Graph(Main.params_file)
 
         if Main.params['aufgabe'] == 1:
@@ -35,6 +35,7 @@ class Main:
             ant_world_logger.get_curr_state()
             ant_world_logger.print_curr_state()
             ant_world_logger.draw_curr_state()
+            ant_world_logger.write_log()
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
@@ -46,6 +47,7 @@ class Main:
                 ant_world.simulate_cycle_explorer_carrier()
 
         tk.mainloop()
+        ant_world_logger.file.close()
 
     @staticmethod
     def read_params():

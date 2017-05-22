@@ -34,6 +34,7 @@ class World(object):
         self.evaporation = params['evaporation']
         self.evaporation_type = params['evaporation_type']
         self.wait = params['wait']
+        self.graph = Graph(params)
 
     def populate(self):
         self.ants = []
