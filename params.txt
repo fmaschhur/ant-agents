@@ -1,4 +1,4 @@
-ants_init: 3:                  #Ants at the beginning of the simulation
+ants_init: 40:                  #Ants at the beginning of the simulation
 ants_max: 3:                  maximum #Ants in the Simulation
 explorers_init: 0: TODO
 carriers_init: 0: TODO

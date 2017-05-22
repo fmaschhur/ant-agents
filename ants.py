@@ -54,9 +54,14 @@ class Ants(object):
             return edges[0].other_node(self.currpos)
 
     def change_pos(self, new_pos):
+        if self.currpos.nest:
+            self.nestdist = 0
+            self.currpos = new_pos
+            self.lastpos = self.currpos
+            return
+        self.nestdist += 1
         self.lastpos = self.currpos
         self.currpos = new_pos
-        self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
