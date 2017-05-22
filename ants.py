@@ -15,9 +15,9 @@ class Ants(object):
         pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
         if self.currpos != self.lastpos:
             if self.carrfood:
-                self.currpos.set_pheromone(self.lastpos, pheromone, 0)
+                self.currpos.add_pheromone(self.lastpos, pheromone, 0)
             else:
-                self.currpos.set_pheromone(self.lastpos, 0, pheromone)
+                self.currpos.add_pheromone(self.lastpos, 0, pheromone)
 
     def best_food_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)

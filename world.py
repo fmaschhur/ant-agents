@@ -72,7 +72,6 @@ class World(object):
             self.carriers.append(carrier)
 
     def simulate_cycle(self):
-        # sleep(self.wait)
         if self.wait == 1:
             input("Press Enter to continue...")
         for ant in self.ants:
@@ -89,16 +88,11 @@ class World(object):
             explorer.action()
         for explorer in self.explorers:
             explorer.set_nodes()
-        # return
 
         for carrier in self.carriers:
             go = False
             for edge in carrier.currpos.edges:
                 if edge.food_pheromone > 0:
                     go = True
-            if go == True:
+            if go:
                 carrier.action()
-                # carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
-
-        # self.create_ant()
-        # self.graph.evaporate(self.evaporation, self.evaporation_type)
