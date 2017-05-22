@@ -82,27 +82,32 @@ class Explorer(object):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
-        self.nestdist = nestdist
         self.greediness = greediness
         self.foundfood = 0
         self.pheroz = 0
 
     def set_pheromone(self):
         if self.foundfood:
-            self.currpos.set_pheromone(self.lastpos, self.pheroz, 0)
+            self.currpos.set_pheromone(self.lastpos, 1 / self.pheroz, 0)
 
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
 
     def best_food_node(self):
-        food_nodes = list(filter(lambda x: x.food == 0 or (x.value <= self.currpos.value + 1 and not x.value == -1), self.currpos.neighbours))
+        # Wenn es essen gibt, was verbessert werden kann
+        food_nodes = list(filter(lambda x: x.food == 0 or x.value <= self.currpos.value + 1, self.currpos.neighbours))
         if food_nodes:
             return random.choice(food_nodes)
-        # todo nicht zurücklaufen (bei keiner anderen möglichkeit)
-        if not self.currpos.highest_neighbour:
+        # Erster Zug, wenn es keine Nachbarn mit Werten gibt
+        if not self.currpos.highest_neighbour():
             return random.choice(self.currpos.neighbours_not_visited())
+        # Wenn kein Nachbar verbessert werden kann und es nicht besuchte Nachbarn gibt
         if self.currpos.highest_neighbour().value <= self.value + 1 and self.currpos.neighbours_not_visited():
             return random.choice(self.currpos.neighbours_not_visited())
+        # Damit nicht zurück gelaufen wird (Randfall)
+        if self.currpos.highest_neighbour() == self.lastpos:
+            return random.choice(self.currpos.neighbours().remove(self.currpos.highest_neighbour()))
+        # laufe zum stärksten Nachbar
         return self.currpos.highest_neighbour()
 
     def best_nest_node(self):
@@ -116,14 +121,17 @@ class Explorer(object):
         pos = self.currpos
         if pos.food and not self.foundfood and not pos.nest:
             self.foundfood = 1
-            self.change_pos(self.best_nest_node())
+            self.pheroz = self.currpos.value
         elif pos.nest and self.foundfood:
+            self.pheroz = 0
             self.foundfood = 0
-            self.change_pos(self.best_food_node())
-        elif self.foundfood:
+
+        if self.foundfood:
             self.change_pos(self.best_nest_node())
         else:
             self.change_pos(self.best_food_node())
+
+        self.set_pheromone()
 
 class Carrier(object):
 

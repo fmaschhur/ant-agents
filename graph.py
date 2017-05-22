@@ -85,6 +85,7 @@ class Graph(object):
         a = random.randint(1, self.x_size)
         b = random.randint(1, self.y_size)
         self.nodes[(a, b)].nest = True
+        self.nodes[(a, b)].value = 0
         return self.nodes[(a, b)]
 
     def create_nodes(self):

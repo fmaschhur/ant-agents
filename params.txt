@@ -10,7 +10,7 @@ probability_new_carrier: 0:
 greediness: 95:               1-100% - percentage with which an ant will follow the strongest pheromone
 greediness_food: 100:          1-100% - percentage with which an ant will pickup food from foodsources
 greediness_explorers: 0:
-greediness_carriers: 0:
+greediness_carriers: 0: 0:
 greediness_explorers_food: 0:
 greediness_carriers_food: 0:
 evaporation: 95:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
