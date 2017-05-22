@@ -17,7 +17,6 @@ class Main:
 
         ant_world = World(Main.params)
         ant_world.populate()
-        ant_world.graph = graph.Graph(Main.params_file)
 
         if Main.params['aufgabe'] == 1:
             ant_world.populate()
