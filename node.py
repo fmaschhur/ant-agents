@@ -22,6 +22,13 @@ class Node(object):
         for edge in self.edges:
             if edge.has_node(coming_from):
                 edge.set_pheromone_2(food)
+                return
+
+    def equal(self, node):
+        return self.get_x() == node.get_x() and self.get_y() == node.get_y()
+
+    def not_equal(self, node):
+        return self.get_x() != node.get_x() or self.get_y() != node.get_y()
 
     def set_nestdist(self, value):
         self.value = value
@@ -42,17 +49,20 @@ class Node(object):
         return list(map(lambda x: x.other_node(self), self.edges))
 
     def neighbours_visited(self):
-        return list(filter(lambda x: (not x.value == inf), self.neighbours()))
+        return list(filter(lambda x: not (x.value == inf), self.neighbours()))
 
     def neighbours_not_visited(self):
         return list(filter(lambda x: x.value == inf, self.neighbours()))
 
     def highest_neighbour(self):
         nodes = self.neighbours_visited()
+        # dieser Fall tritt nur beim Start auf.
         if len(nodes) == 0:
-            return False
+            return random.choice(self.neighbours_not_visited())
         nodes = list(sorted(nodes, key=lambda x: x.value, reverse=True))
-        nodes = list(filter(lambda x: x.value <= nodes[0].value, nodes))
+        # print(list(map(lambda x: x.value, nodes)))
+        nodes = list(filter(lambda x: x.value == nodes[0].value, nodes))
+        # print(list(map(lambda x: x.value, nodes)))
         return random.choice(nodes)
 
     def smallest_neighbour(self):

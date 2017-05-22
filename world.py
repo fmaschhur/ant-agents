@@ -39,7 +39,7 @@ class World(object):
 
     def populate_explorers(self):
         for i in range(self.explorer_init):
-            explorer = Explorer(self.graph.nest, self.graph.nest, self.graph.nest, 0)
+            explorer = Explorer(self.graph.nest, self.graph.nest, 0)
             explorer.attr = i
             self.explorers.append(explorer)
 

@@ -1,4 +1,6 @@
 import random
+from math import inf
+
 
 class Ants(object):
     def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness, greedfood):
@@ -84,10 +86,10 @@ class Ants(object):
         else:
             self.change_pos(self.best_food_node())
 
+
 class Explorer(object):
 
-    def __init__(self, nest, currpos, lastpos, carrfood):
-        self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
+    def __init__(self, currpos, lastpos, carrfood):
         self.currpos = currpos
         self.lastpos = lastpos
         self.foundfood = carrfood
@@ -95,33 +97,31 @@ class Explorer(object):
 
     def set_pheromone(self):
         if self.foundfood:
-            self.currpos.set_pheromone_2(self.lastpos, 1 / self.pheroz)
+            self.currpos.set_pheromone_2(self.lastpos, 10 / self.pheroz + 1)
 
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
 
-    def best_food_node(self):
-        # Wenn es essen gibt, was verbessert werden kann
-        food_nodes = list(filter(lambda x: x.food != 0 or x.value > (self.currpos.value + 1), self.currpos.neighbours()))
+    # Nachbar, mit essen, dass verbessert werden kann
+    def food_in_area(self):
+        food_nodes = list(filter(lambda x: x.food != 0 and (x.value == inf or x.value > (self.currpos.value + 1)), self.currpos.neighbours()))
         if food_nodes:
             return random.choice(food_nodes)
-        # Erster Zug, wenn es keine Nachbarn mit Werten gibt
-        if not self.currpos.highest_neighbour():
-            return random.choice(self.currpos.neighbours_not_visited())
-        # wenn es nur ein Nachbar gibt
-        if len(self.currpos.neighbours()) == 1:
-            return self.currpos.neighbours()[0]
-        # Wenn kein Nachbar verbessert werden kann und es nicht besuchte Nachbarn gibt
-        if self.currpos.highest_neighbour().value <= (self.currpos.value + 1) and self.currpos.neighbours_not_visited():
-            return random.choice(self.currpos.neighbours_not_visited())
-        # Damit nicht zurück gelaufen wird (Randfall)
-        if self.currpos.highest_neighbour() == self.lastpos:
-            print(len(self.currpos.neighbours()))
-            asd = self.currpos.neighbours()
-            asd.remove(self.currpos.highest_neighbour())
-            return random.choice(asd)
-        # laufe zum stärksten Nachbar
-        return self.currpos.highest_neighbour()
+        return False
+
+    def best_food_node(self):
+        pos = self.currpos
+        highest_neighbour = pos.highest_neighbour()
+        if self.food_in_area():
+            return self.food_in_area()
+
+        if highest_neighbour.value >= (pos.value + 1) and highest_neighbour.not_equal(self.lastpos):
+            return highest_neighbour
+
+        if pos.neighbours_not_visited():
+            return random.choice(pos.neighbours_not_visited())
+
+        return random.choice(pos.neighbours())
 
     def best_nest_node(self):
         return self.currpos.smallest_neighbour()
@@ -135,9 +135,13 @@ class Explorer(object):
         if pos.food and not self.foundfood and not pos.nest:
             self.foundfood = 1
             self.pheroz = self.currpos.value
-        elif pos.nest and self.foundfood:
+            self.lastpos = pos
+            self.currpos = pos
+        elif pos.nest:
             self.pheroz = 0
             self.foundfood = 0
+            self.lastpos = pos
+            self.currpos = pos
 
         if self.foundfood:
             self.change_pos(self.best_nest_node())
@@ -145,6 +149,7 @@ class Explorer(object):
             self.change_pos(self.best_food_node())
 
         self.set_pheromone()
+
 
 class Carrier(object):
 
