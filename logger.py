@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Logger:
-    def __init__(self, world, tk_root, scale):
+    def __init__(self, world, tk_root, scale, task_number):
         self.world = world
         self.curr_state = None
         self.state_history = []
@@ -13,6 +13,7 @@ class Logger:
         self.tk_canvas = tk.Canvas(tk_root, width=world.graph.x_size * scale, height=world.graph.y_size * scale)
         self.tk_canvas.pack()
         self.scale = scale
+        self.show_node_values = 1 if task_number == 2 else 0
 
     def write_log(self):
         self.file.write("Cycle "+ str(self.curr_state[0]) + " : Nest =" + " " + str(self.curr_state[1]) + " , " + str(self.curr_state[2]) + "\n\t\t " + str(self.curr_state[3]))
@@ -100,7 +101,9 @@ class Logger:
                                (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white', outline=line_color)
             if food_amount > 0:
                 canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color)
-            canvas.create_text((x - 1) * s + s * 4 / 6, (y - 1) * s + s * 2 / 6, text=node_value)
+
+            if self.show_node_values:
+                canvas.create_text((x - 1) * s + s * 4 / 6, (y - 1) * s + s * 2 / 6, text=node_value)
 
             node_ants = node_states[(x, y)][2]
             for i in range(len(node_ants)):
@@ -115,10 +118,10 @@ class Logger:
                     ant_line_color = 'black'
                 if node_ants[i] == 2:
                     ant_fill_color = 'white'
-                    ant_line_color = 'green'
+                    ant_line_color = 'purple'
                 if node_ants[i] == 3:
-                    ant_fill_color = 'green'
-                    ant_line_color = 'green'
+                    ant_fill_color = 'purple'
+                    ant_line_color = 'purple'
                 if node_ants[i] == 4:
                     ant_fill_color = 'white'
                     ant_line_color = 'orange'

@@ -1,6 +1,5 @@
 import random
 
-
 class Ants(object):
     def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness, greedfood):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
@@ -149,12 +148,12 @@ class Explorer(object):
 
 class Carrier(object):
 
-    def __init__(self, nest, currpos, lastpos, carrfood, allowed = False):
+    def __init__(self, nest, currpos, lastpos, carrfood, pheromone_modification):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
         self.currpos = currpos
         self.lastpos = lastpos
         self.carrfood = carrfood
-        self.allowed = allowed
+        self.pheromone_modification = pheromone_modification
 
     def set_pheromone(self):
         pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
@@ -170,52 +169,46 @@ class Carrier(object):
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        elif edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
         else:
-            return edges[0].other_node(self.currpos)
+            edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
+            return random.choice(edges).other_node(self.currpos)
 
     def best_nest_node(self):
-        edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
+        edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
         for edge in edges:
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        elif edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
         else:
-            return edges[0].other_node(self.currpos)
+            edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
+            return random.choice(edges).other_node(self.currpos)
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
         self.currpos = new_pos
-        self.nestdist += 1
 
     def collect_food(self):
         self.currpos.food -= 1
         if self.currpos.food == 0:
-            self.allowed == true
-        self.carrfood += 1
-        self.nestdist = 0
+            self.pheromone_modification == True
+        self.carrfood = True
         self.lastpos = self.currpos
 
     def drop_food_in_nest(self):
         self.currpos.food += 1
-        self.carrfood -= 1
-        self.nestdist = 0
+        self.carrfood = False
         self.lastpos = self.currpos
 
     def action(self):
         pos = self.currpos
-        if pos.food and not self.carrfood and not pos.nest and random.randint(1, 100) <= self.greedfood:
+        if pos.food and not self.carrfood and not pos.nest:
             self.collect_food()
         elif pos.nest and self.carrfood:
             self.drop_food_in_nest()
         elif self.carrfood:
             self.change_pos(self.best_nest_node())
+            pass
         else:
             self.change_pos(self.best_food_node())
