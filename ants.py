@@ -15,7 +15,7 @@ class Ants(object):
         pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
         if self.currpos != self.lastpos:
             if self.carrfood:
-                self.currpos.set_pheromone(self.lastpos, 1, 0)
+                self.currpos.set_pheromone(self.lastpos, pheromone, 0)
             else:
                 self.currpos.set_pheromone(self.lastpos, 0, pheromone)
 
@@ -110,7 +110,7 @@ class Explorer(object):
         if not self.currpos.highest_neighbour():
             return random.choice(self.currpos.neighbours_not_visited())
         # Wenn kein Nachbar verbessert werden kann und es nicht besuchte Nachbarn gibt
-        if self.currpos.highest_neighbour().value <= self.value + 1 and self.currpos.neighbours_not_visited():
+        if self.currpos.highest_neighbour().value <= (self.currpos.value + 1) and self.currpos.neighbours_not_visited():
             return random.choice(self.currpos.neighbours_not_visited())
         # Damit nicht zurück gelaufen wird (Randfall)
         if self.currpos.highest_neighbour() == self.lastpos:

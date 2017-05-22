@@ -8,7 +8,7 @@ class Node(object):
         self.x_pos = x_pos  # x position
         self.y_pos = y_pos  # y position
         self.nest = False  # Muss das wissen damit die Ameisen das ohne auf den graphen zuzugreifen wissen können
-        self.value = - 1
+        self.value = inf
 
     def add_food(self, amount):
         self.food = amount
@@ -37,21 +37,21 @@ class Node(object):
         return list(map(lambda x: x.other_node(self), self.edges))
 
     def neighbours_visited(self):
+        print("visited")
+        print(len(list(filter(lambda x: not x.value == inf, self.neighbours()))))
         return list(filter(lambda x: (not x.value == inf), self.neighbours()))
 
     def neighbours_not_visited(self):
-        print("-----------")
-        print(self.get_x_y())
-        print(list(map(lambda x: x.get_x_y(), list(filter(lambda x: x.value == inf, self.neighbours())))))
-        print("-----------")
-        return list(filter(lambda x: not x.value == inf, self.neighbours()))
+        print("not visited")
+        print(len(list(filter(lambda x: x.value == inf, self.neighbours()))))
+        return list(filter(lambda x: x.value == inf, self.neighbours()))
 
     def highest_neighbour(self):
         nodes = self.neighbours_visited()
         if len(nodes) == 0:
             return False
         nodes = list(sorted(nodes, key=lambda x: x.value, reverse=True))
-        nodes = list(filter(lambda x: x.value >= nodes[0].value, nodes))
+        nodes = list(filter(lambda x: x.value <= nodes[0].value, nodes))
         return random.choice(nodes)
 
     def smallest_neighbour(self):
