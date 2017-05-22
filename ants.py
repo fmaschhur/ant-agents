@@ -2,6 +2,7 @@ import random
 from math import inf
 
 
+
 class Ants(object):
     def __init__(self, nest, currpos, lastpos, carrfood, nestdist, greediness, greedfood):
         self.nest = nest  # jede Ameise sollte zugehörigkeit zum Nest kennen, da evtl mehrere Neste?
@@ -26,20 +27,23 @@ class Ants(object):
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-
-        if len(edges) == 1:
-            print('fail')
-            return edges[0].other_node(self.currpos)
-
+        if self.greediness == 100:
+            return random.choice(list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))).other_node(
+                self.currpos)
+        x = random.randint(1, 100)
+        values = []
+        minisum = 0
         for i in range(len(edges)):
-            if random.randint(1, 100) <= self.greediness:
-                edges = list(filter(lambda x: x.food_pheromone == edges[i].food_pheromone, edges))
-                return random.choice(edges).other_node(self.currpos)
-        #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
-
-        return random.choice(edges).other_node(self.currpos)
+            for j in range(i):
+                if j != i:
+                    minisum += values[j]
+                else:
+                    minisum += self.get_probability(edges[j], edges, 'food')
+            values.append(minisum)
+        for i in range(len(values)):
+            if values[i] <= x:
+                return edges[i].other_node(self.currpos)
 
     def best_nest_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
@@ -47,12 +51,46 @@ class Ants(object):
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        if edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
-        else:
-            return edges[0].other_node(self.currpos)
+        if self.greediness == 100:
+            return random.choice(list(filter(lambda x: x.nest_pheromone == edges[0].nest_pheromone, edges))).other_node(self.currpos)
+        x = random.randint(1, 100)
+        values = []
+        minisum = 0
+        for i in range(len(edges)):
+            for j in range(i):
+                if j != i:
+                    minisum += values[j]
+                else:
+                    minisum += self.get_probability(edges[j], edges, 'nest')
+            values.append(minisum)
+        for i in range(len(values)):
+            if values[i] <= x:
+                return edges[i].other_node(self.currpos)
+
+    def get_probability(self, edge, edges, type):
+        if type == 'nest':
+            sum_pheromone = 0
+            sum_probability = 0
+            p = 0
+            for i in range(len(edges)):
+                x = (edge.nest_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                if edges[i] == edge:
+                    p = x
+                sum_pheromone += edge.nest_pheromone
+                sum_probability += x
+            return 100*(p/sum_probability)
+        if type == 'food':
+            sum_pheromone = 0
+            sum_probability = 0
+            p = 0
+            for i in range(len(edges)):
+                x = (edge.food_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                if edges[i] == edge:
+                    p = x
+                sum_pheromone += edge.food_pheromone
+                sum_probability += x
+            return 100*(p/sum_probability)
 
     def change_pos(self, new_pos):
         if self.currpos.nest:
@@ -215,5 +253,5 @@ class Carrier(object):
         elif self.carrfood:
             self.change_pos(self.best_nest_node())
             pass
-        else:
+        elif self.best_food_node():
             self.change_pos(self.best_food_node())
