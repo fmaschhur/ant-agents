@@ -107,7 +107,6 @@ class Graph(object):
             if edge.has_nodes(self.nodes[(4,4)], self.nodes[(4,3)]):
                 edge.food_pheromone = 2
 
-
     def create_interrupted_path(self):
         self.nest = self.nodes[(1, 1)]
         self.nodes[(1,1)].nest = 1

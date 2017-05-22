@@ -13,6 +13,11 @@ class Node(object):
     def add_food(self, amount):
         self.food = amount
 
+    def add_pheromone(self, coming_from, food, nest):
+        for edge in self.edges:
+            if edge.has_node(coming_from):
+                edge.add_pheromone(food, nest)
+
     def set_pheromone(self, coming_from, food, nest):
         for edge in self.edges:
             if edge.has_node(coming_from):

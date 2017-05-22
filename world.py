@@ -33,13 +33,13 @@ class World(object):
 
     def populate(self):
         for i in range(self.ants_init):
-            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.ant_greediness, self.ant_greediness_food)
+            ant = Ants(self.graph.nest, self.graph.nest, self.graph.nest, False, 0, self.ant_greediness, self.ant_greediness_food)
             ant.attr = i
             self.ants.append(ant)
 
     def populate_explorers(self):
         for i in range(self.explorer_init):
-            explorer = Explorer(self.graph.nest, self.graph.nest, 0)
+            explorer = Explorer(self.graph.nest, self.graph.nest, self.graph.nest, False)
             explorer.attr = i
             self.explorers.append(explorer)
 
@@ -61,8 +61,7 @@ class World(object):
         if len(self.explorers) >= self.explorers_max:
             return
         if randint(0, 100) < self.probability_new_explorer:
-            explorer = Explorer(self.graph.nest, self.graph.nest, self.graph.nest, 0, 0, self.explorer_greediness,
-                       self.explorer_greediness_food)
+            explorer = Explorer(self.graph.nest, self.graph.nest, self.graph.nest, False, False)
             self.explorers.append(explorer)
 
     def create_carrier(self):
@@ -79,7 +78,7 @@ class World(object):
         for ant in self.ants:
             ant.action()
         for ant in self.ants:
-            ant.set_pheromone()
+            ant.add_pheromone()
         self.create_ant()
         self.graph.evaporate(self.evaporation, self.evaporation_type)
 
@@ -99,8 +98,7 @@ class World(object):
                     go = True
             if go == True:
                 carrier.action()
-            #if carrier.allow
-                #carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
+                # carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
 
         # self.create_ant()
         # self.graph.evaporate(self.evaporation, self.evaporation_type)
