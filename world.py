@@ -83,6 +83,7 @@ class World(object):
                        self.carrier_greediness_food)
             self.carriers.append(carrier)
 #
+
     def simulate_cycle(self):
         sleep(self.wait)
         for ant in self.ants:
@@ -96,10 +97,9 @@ class World(object):
         sleep(self.wait)
         for explorer in self.explorer:
             explorer.action()
-            explorer.action()
         for explorer in self.explorer:
-            if explorer.carrfood == True:
-                explorer.set_pheromone()
+            explorer.set_nodes()
+        return
 
         for carrier in self.carrier:
             for edges in carrier.currpos.edges:
@@ -107,7 +107,7 @@ class World(object):
                     go = True
             if go == True:
                 carrier.action()
-            if carrier.allowed == True:
+            #if carrier.allow
                 #carrier.set_pheromone()        Food gefunden, dann auf dem Rückweg Pheromonspur manipulieren
 
         self.create_ant()
