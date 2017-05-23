@@ -27,7 +27,7 @@ class Graph(object):
         if params['e'] and not params['f']:
             self.create_suboptimal_path()
         if params['f'] and not params['e']:
-            self.create_interrupted_path(self.x_size, self.y_size)
+            self.create_interrupted_path()
 
     # verringert auf allen kanten die pheromonstärke nach den parametern
     def evaporate(self, evaporation, evap_type):
