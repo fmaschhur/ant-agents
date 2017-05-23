@@ -25,7 +25,7 @@ class Graph(object):
                 self.nodes[(1, 1)].add_food(500)
                 self.nodes[(2, 5)].add_food(500)
         if params['e'] and not params['f']:
-            self.create_suboptimal_path(self.x_size, self.y_size)
+            self.create_suboptimal_path()
         if params['f'] and not params['e']:
             self.create_interrupted_path(self.x_size, self.y_size)
 
@@ -106,22 +106,22 @@ class Graph(object):
     def create_suboptimal_path(self):
         self.nest = self.nodes[(1, 1)]
         self.nodes[(1,1)].nest = 1
-        self.nodes[(4, 3)].add_food(500)
+        self.nodes[(4, 3)].add_food(1000)
         for edge in self.edges:
             if edge.has_nodes(self.nodes[(1,1)], self.nodes[(2,1)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(2,1)], self.nodes[(2,2)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(2,2)], self.nodes[(2,3)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(2,3)], self.nodes[(2,4)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(2,4)], self.nodes[(3, 4)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(3,4)], self.nodes[(4,4)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
             if edge.has_nodes(self.nodes[(4,4)], self.nodes[(4,3)]):
-                edge.food_pheromone = 2
+                edge.food_pheromone = 1
 
     def create_interrupted_path(self):
         self.nest = self.nodes[(1, 1)]
