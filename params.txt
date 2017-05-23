@@ -20,7 +20,7 @@ size_x: 8:                    x (horizontal) size of the grid
 size_y: 8:                    y (vertical) size of the grid
 wait: 0:                      whether to wait for user-input (Enter) between cycles
 graphic_scale: 100:             size of the graphical representation (scale*scale per node), default = 100
-e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
+e: 1:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
 f: 0:                           bool - creates graph with pheromone path to foodsource, which is interrupted by a missing edge use with 5x5 grid
 a: 0:                           bool - aufgaben a/b
 aufgabe: 2: TODO
