@@ -18,12 +18,12 @@ class Graph(object):
                 self.nest = self.choose_nest()
                 self.add_food(params['food_src_count'], params['food_max'], params['food_min'])
             else:
-                self.nodes[(2, 2)].nest = True
-                self.nest = self.nodes[(2, 2)]
+                self.nodes[(4, 3)].nest = True
+                self.nest = self.nodes[(4, 3)]
                 self.nodes[(6, 7)].add_food(500)
-                self.nodes[(5, 3)].add_food(500)
-                self.nodes[(1, 6)].add_food(500)
-                self.nodes[(3, 5)].add_food(500)
+                self.nodes[(6, 2)].add_food(500)
+                self.nodes[(1, 1)].add_food(500)
+                self.nodes[(2, 5)].add_food(500)
         if params['e'] and not params['f']:
             self.create_suboptimal_path(self.x_size, self.y_size)
         if params['f'] and not params['e']:
