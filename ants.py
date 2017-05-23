@@ -153,16 +153,15 @@ class Explorer(object):
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
 
-    # Nachbar, mit essen, dass verbessert werden kann
-    def food_in_area(self):
-        food_nodes = list(filter(lambda x: x.food != 0 and (x.value == math.inf or x.value > (self.currpos.value + 1)), self.currpos.neighbours()))
-        if food_nodes:
-            return random.choice(food_nodes)
-        return False
-
     def best_food_node(self):
         pos = self.currpos
         highest_neighbour = pos.highest_neighbour()
+
+        if len(pos.neighbours()) == 1:
+            if not pos.nest:
+               pos.set_nestdist(-1)
+            return pos.neighbours()[0]
+
         food_nodes = list(filter(lambda x: x.food != 0 and not x.nest, self.currpos.neighbours()))
         if food_nodes:
             return random.choice(food_nodes)
