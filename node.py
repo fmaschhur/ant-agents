@@ -70,12 +70,14 @@ class Node(object):
         # print(list(map(lambda x: x.value, nodes)))
         return random.choice(nodes)
 
-    def smallest_neighbour(self):
+    def smallest_neighbours(self):
         if self.neighbours_visited():
-            return sorted(self.neighbours_visited(), key=lambda x: x.value, reverse=False)[0]
+            nodes = sorted(self.neighbours_visited(), key=lambda x: x.value, reverse=False)
+            nodes = list(filter(lambda x: x.value == nodes[0].value, nodes))
+            return nodes
         return False
 
     def smallest_nestdist_to_field(self):
-        if not self.smallest_neighbour():
+        if not self.smallest_neighbours():
             return self.value
-        return min(self.smallest_neighbour().value + 1, self.value)
+        return min(self.smallest_neighbours()[0].value + 1, self.value)

@@ -135,7 +135,9 @@ class Explorer(object):
 
     def set_pheromone(self):
         if self.foundfood:
-            self.currpos.set_pheromone_2(self.lastpos, 1 / self.pheroz)
+            pheromone = 1 / (self.pheroz + 10) + 1 / (self.currpos.value + 1)
+
+            self.currpos.set_pheromone_2(self.lastpos, pheromone)
 
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
@@ -150,19 +152,28 @@ class Explorer(object):
     def best_food_node(self):
         pos = self.currpos
         highest_neighbour = pos.highest_neighbour()
-        if self.food_in_area():
-            return self.food_in_area()
-
-        if highest_neighbour.value >= (pos.value + 1) and highest_neighbour.not_equal(self.lastpos):
-            return highest_neighbour
+        food_nodes = list(filter(lambda x: x.food != 0 and not x.nest, self.currpos.neighbours()))
+        if food_nodes:
+            return random.choice(food_nodes)
 
         if pos.neighbours_not_visited():
             return random.choice(pos.neighbours_not_visited())
 
+        if highest_neighbour.value >= (pos.value + 1) and highest_neighbour.not_equal(self.lastpos):
+            return highest_neighbour
+
         return random.choice(pos.neighbours())
 
     def best_nest_node(self):
-        return self.currpos.smallest_neighbour()
+        edges = []
+        for node in self.currpos.smallest_neighbours():
+            edges += node.edges
+        print(edges)
+  #      edges = list(map(lambda x: x.edges, edges))
+        print(edges)
+        edges = list(filter(lambda x: x.has_node(self.currpos), edges))
+        edges = list(sorted(edges, key=lambda x: x.food_pheromone, reverse=True))
+        return list(map(lambda x: x.other_node(self.currpos), edges))[0]
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
