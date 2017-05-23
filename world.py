@@ -88,10 +88,6 @@ class World(object):
             explorer.action()
         for explorer in self.explorers:
             explorer.set_nodes()
-        for explorer in self.explorers:
-            explorer.action()
-        for explorer in self.explorers:
-            explorer.set_nodes()
 
         for carrier in self.carriers:
             go = False

@@ -186,9 +186,6 @@ class Explorer(object):
         edges = []
         for node in self.currpos.smallest_neighbours():
             edges += node.edges
-        print(edges)
-  #      edges = list(map(lambda x: x.edges, edges))
-        print(edges)
         edges = list(filter(lambda x: x.has_node(self.currpos), edges))
         edges = list(sorted(edges, key=lambda x: x.food_pheromone, reverse=True))
         return list(map(lambda x: x.other_node(self.currpos), edges))[0]
