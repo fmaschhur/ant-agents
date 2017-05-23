@@ -239,7 +239,9 @@ class Carrier(object):
                 last_edge = edge
         # if last_edge exists, best_food_edge.pheromone hast to be smaller than last_edge.pheromone
         if last_edge is not None:
-            edges = list(filter(lambda x: x.food_pheromone < last_edge.food_pheromone, edges))
+            edges_without_last_edge = list(filter(lambda x: x.food_pheromone < last_edge.food_pheromone, edges))
+            if edges_without_last_edge:
+                edges = edges_without_last_edge
         if edges:
             # sort edges according to pheromone-amount, highest first
             edges = sorted(edges, key=lambda x: x.food_pheromone, reverse=True)

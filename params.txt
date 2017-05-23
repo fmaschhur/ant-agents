@@ -12,14 +12,14 @@ greediness_food: 100:          1-100% - percentage with which an ant will pickup
 evaporation: 95:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
 loops: 10000:                    maximum #Cycles in our simulation
 evaporation_type: 2:           1 == constant evaporation, 2 == factorial evaporation
-thickness: 1:                  0 == vollstaendig, 1 == labyrinth
-food_src_count: 1:             maximum #FoodSources
+thickness: 0:                  0 == vollstaendig, 1 == labyrinth
+food_src_count: 5:             maximum #FoodSources
 food_max: 5:                   maximum #Food in any Source
-food_min: 5:                   minimum #Food in any Source
-size_x: 20:                    x (horizontal) size of the grid
-size_y: 20:                    y (vertical) size of the grid
+food_min: 2:                   minimum #Food in any Source
+size_x: 8:                    x (horizontal) size of the grid
+size_y: 8:                    y (vertical) size of the grid
 wait: 0:                      whether to wait for user-input (Enter) between cycles
-graphic_scale: 60:             size of the graphical representation (scale*scale per node), default = 100
+graphic_scale: 100:             size of the graphical representation (scale*scale per node), default = 100
 e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid
 f: 0:                           bool - creates graph with pheromone path to foodsource, which is interrupted by a missing edge use with 5x5 grid
 a: 0:                           bool - aufgaben a/b
