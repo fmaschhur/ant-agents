@@ -209,11 +209,11 @@ class Carrier(object):
         self.carrfood = carrfood
         self.pheromone_modification = pheromone_modification
 
-    def modify_pheromone(self, new_value):
+    def modify_pheromone(self):
         if self.currpos != self.lastpos:
-            self.currpos.set_pheromone(self.lastpos, new_value, 0)
+            self.currpos.set_pheromone(self.lastpos, 0, 0)
 
-    def best_node(self):
+    def best_nest_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
         for edge in edges:
             if edge.other_node(self.currpos) == self.lastpos:
@@ -224,16 +224,20 @@ class Carrier(object):
             edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
             return random.choice(edges).other_node(self.currpos)
 
-    # def best_nest_node(self):
-    #     edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
-    #     for edge in edges:
-    #         if edge.other_node(self.currpos) == self.lastpos:
-    #             edges.remove(edge)
-    #     if not edges:
-    #         return self.lastpos
-    #     else:
-    #         edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
-    #         return random.choice(edges).other_node(self.currpos)
+    def best_food_node(self):
+        last_edge = None
+        edges = self.currpos.edges
+        for edge in edges:
+            if edge.other_node(self.currpos) == self.lastpos:
+                last_edge = edge
+        if last_edge is not None:
+            edges = list(filter(lambda x: x.food_pheromone < last_edge.food_pheromone, edges))
+        # if not edges:
+        #      return self.lastpos
+        # else:
+            edges = sorted(edges, key=lambda x: x.food_pheromone, reverse=True)
+            edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
+            return random.choice(edges).other_node(self.currpos)
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
@@ -258,9 +262,12 @@ class Carrier(object):
             self.collect_food()
         elif pos.nest and self.carrfood:
             self.drop_food_in_nest()
-        elif self.pheromone_modification:
-            edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
-            self.change_pos(self.best_node())
-            self.modify_pheromone(edges[1].food_pheromone) # diiiiirdy quick-fix
+        # elif self.pheromone_modification:
+        #     edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
+        #     self.change_pos(self.best_node())
+        #     self.modify_pheromone(edges[1].food_pheromone) # diiiiirdy quick-fix
+        elif not pos.nest and self.carrfood:
+            self.change_pos(self.best_nest_node())
         else:
-            self.change_pos(self.best_node())
+            self.change_pos(self.best_food_node())
+
