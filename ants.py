@@ -120,6 +120,7 @@ class Ants(object):
     def collect_food(self):
         self.currpos.food -= 1
         self.carrfood += 1
+        self.nestdist = 0
         self.lastpos = self.currpos
 
     def drop_food_in_nest(self):
