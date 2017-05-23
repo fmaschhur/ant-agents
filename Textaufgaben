@@ -11,7 +11,8 @@ Gleichzeitig legt die Ameise Ihre Pheromone mit folgender Funktion ab: Pheromons
 
 Frage: Geht ihr die Liste der Ameisen auch in jedem Takt zweimal durch? Habt ihr eine Idee, wie dass vielleicht schöner gelöst werden kann? 
 
-c ) Da die Pheromonspuren nicht mehr verdunsteten, liefen die Ameisen auf dem Weg, den sie als erste gefunden haben. Wenn dieser nicht perfekt war wurde er danach nicht noch abgeändert.
+c )
+Da die Pheromonspuren nun nicht mehr verdunsteten, kann es sein, dass der erste Weg den die Ameisen gefunden haben etabliert bleibt. Auch wenn unmittelbar ein besserer Pfad gefunden werden würde, würde der alte Pfad bestehen bleiben und Ameisen würden diesen gehen und ihn weiter "fördern" obwohl es bessere gibt, da alte schlechte Pfade nicht verdunsten.
 
 d ) Durch das Ignorieren von Nahrung wird ein gleichmäßiger Nahrungsstrom gesichert, da die auch Nahrungsquellen gefunden werden die hinter anderen Nahrungsquellen liegen.
 
