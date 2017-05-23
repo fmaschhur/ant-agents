@@ -56,6 +56,7 @@ class Main:
             name = line.partition(": ")[0]
             value = int(line.split(": ")[1])
             Main.params[name] = value
+        file_obj.close()
 
 
 if __name__ == "__main__":

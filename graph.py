@@ -9,8 +9,8 @@ class Graph(object):
         self.x_size = params['size_x']
         self.y_size = params['size_y']
         self.nodes = self.create_nodes()
-        # self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
-        self.edges = self.create_edges(self.x_size, self.y_size, params['thickness'])
+        self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
+        #self.edges = self.create_edges(self.x_size, self.y_size, params['thickness'])
         if params['f'] == 0 and params['e'] == 0:
             if params['a'] == 0:
                 self.nest = self.choose_nest()
@@ -55,7 +55,42 @@ class Graph(object):
                 edges.append(Edge(me, down))
         return edges
 
+    def neighbours_node(self, node):
+        x = node.get_x()
+        y = node.get_y()
+        neighbours = []
+        neighbours.append(self.nodes.get((x - 1, y)))
+        neighbours.append(self.nodes.get((x + 1, y)))
+        neighbours.append(self.nodes.get((x, y - 1)))
+        neighbours.append(self.nodes.get((x, y + 1)))
+        return [i for i in neighbours if i is not None]
+
     def create_labyrinth_edges(self, x, y):
+        edges = []
+        nodes = list(self.nodes.values())
+        current_nodes = []
+        current_nodes.append(nodes[0])
+        nodes = list(filter(lambda v: v not in current_nodes, nodes))
+        while nodes:
+            new_current = []
+            for node in current_nodes:
+                new_current.append(node)
+                neighbours = self.neighbours_node(node)
+                for neighbour in neighbours:
+                    if neighbour in nodes:
+                        if random.randint(0, 100) > 99:
+                            edges.append(Edge(node, neighbour))
+                            nodes.remove(neighbour)
+                            new_current.append(neighbour)
+            current_nodes = new_current
+            nodes = list(filter(lambda v: v not in current_nodes, nodes))
+        return edges
+
+
+
+
+
+
         edges = []
         currnode = self.nodes[(1, 1)]
         while len(currnode.edges) < 2:
@@ -106,7 +141,6 @@ class Graph(object):
                 edge.food_pheromone = 2
             if edge.has_nodes(self.nodes[(4,4)], self.nodes[(4,3)]):
                 edge.food_pheromone = 2
-
 
     def create_interrupted_path(self):
         self.nest = self.nodes[(1, 1)]

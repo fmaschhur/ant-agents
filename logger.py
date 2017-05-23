@@ -13,7 +13,7 @@ class Logger:
         self.tk_canvas = tk.Canvas(tk_root, width=world.graph.x_size * scale, height=world.graph.y_size * scale)
         self.tk_canvas.pack()
         self.scale = scale
-        self.show_node_values = 1 if task_number == 2 else 0
+        self.task_number = task_number
 
     def write_log(self):
         self.file.write("Cycle "+ str(self.curr_state[0]) + " : Nest =" + " " + str(self.curr_state[1]) + " , " + str(self.curr_state[2]) + "\n\t\t " + str(self.curr_state[3]))
@@ -54,6 +54,7 @@ class Logger:
         canvas = self.tk_canvas
         canvas.delete("all")
         s = self.scale
+        f_s = int(round(12 * s / 100))  # font size for text output on canvas
 
         nest_node = self.curr_state[1]
         node_states = self.curr_state[2]
@@ -73,17 +74,17 @@ class Logger:
             if y_1 == y_2:
                 if food_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 - s * 1/10, text=food_pheromon,
-                                       fill='red')
+                                       fill='red', font=("Purisa", f_s))
                 if nest_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 + s * 1/10, text=nest_pheromon,
-                                       fill='blue')
+                                       fill='blue', font=("Purisa", f_s))
             else:
                 if food_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s * 1 / 2 - s * 1 / 20, (y_1 - 1) * s + s, text=food_pheromon,
-                                       fill='red', anchor=tk.E)
+                                       fill='red', anchor=tk.E, font=("Purisa", f_s))
                 if nest_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s * 1 / 2 + s * 1 / 20, (y_1 - 1) * s + s, text=nest_pheromon,
-                                       fill='blue', anchor=tk.W)
+                                       fill='blue', anchor=tk.W, font=("Purisa", f_s))
 
         for (x, y) in node_states:
             food_amount = node_states[(x, y)][0]
@@ -100,15 +101,20 @@ class Logger:
             canvas.create_oval((x - 1) * s + s * 2 / 6, (y - 1) * s + s * 2 / 6,
                                (x - 1) * s + s * 4 / 6, (y - 1) * s + s * 4 / 6, fill='white', outline=line_color)
             if food_amount > 0:
-                canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color)
+                canvas.create_text((x - 1) * s + s * 1 / 2, (y - 1) * s + s * 1 / 2, text=food_amount, fill=text_color,
+                                   font=("Purisa", f_s))
 
-            if self.show_node_values:
-                canvas.create_text((x - 1) * s + s * 4 / 6, (y - 1) * s + s * 2 / 6, text=node_value)
+            if self.task_number == 2:
+                canvas.create_text((x - 1) * s + s * 4 / 6, (y - 1) * s + s * 2 / 6, text=node_value,
+                                   font=("Purisa", f_s))
 
             node_ants = node_states[(x, y)][2]
             for i in range(len(node_ants)):
                 r = s * 1 / 6 * 7 / 10
-                n = self.world.ants_max + self.world.carriers_max + self.world.explorers_max
+                if self.task_number == 2:
+                    n = self.world.carriers_max + self.world.explorers_max
+                else:
+                    n = self.world.ants_max
                 ant_centers = [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi / n * x) * r)
                                for x in range(0, n)]
                 ant_fill_color = 'white'
