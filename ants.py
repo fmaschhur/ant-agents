@@ -1,5 +1,6 @@
 import random
-from math import inf
+import math
+from operator import truediv
 
 
 class Ants(object):
@@ -30,18 +31,25 @@ class Ants(object):
         if self.greediness == 100:
             return random.choice(list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))).other_node(
                 self.currpos)
-        x = random.randint(1, 100)
+        w = random.randint(1, 100)
+        print("rolled:", w)
         values = []
-        minisum = 0
         for i in range(len(edges)):
-            for j in range(i):
-                if j != i:
+            minisum = 0
+            for j in range(i+1):
+                if j == (i-1):
                     minisum += values[j]
-                else:
+                elif j == i:
                     minisum += self.get_probability(edges[j], edges, 'food')
             values.append(minisum)
+        print("probabilities:", values)
+        list = []
+        for edg in edges:
+            list.append(edg.get_nodes())
+        print(list)
         for i in range(len(values)):
-            if values[i] <= x:
+            if values[i] >= w:
+                print("returning", edges[i].other_node(self.currpos).get_x_y())
                 return edges[i].other_node(self.currpos)
 
     def best_nest_node(self):
@@ -53,42 +61,52 @@ class Ants(object):
             return self.lastpos
         if self.greediness == 100:
             return random.choice(list(filter(lambda x: x.nest_pheromone == edges[0].nest_pheromone, edges))).other_node(self.currpos)
-        x = random.randint(1, 100)
+        w = random.randint(1, 100)
         values = []
-        minisum = 0
         for i in range(len(edges)):
-            for j in range(i):
-                if j != i:
+            minisum = 0
+            for j in range(i+1):
+                if j == i-1:
                     minisum += values[j]
-                else:
+                elif j == i:
                     minisum += self.get_probability(edges[j], edges, 'nest')
             values.append(minisum)
+        print("probabilities: ", values)
+        list = []
+        for edg in edges:
+            list.append(edg.get_nodes)
+        print(list)
         for i in range(len(values)):
-            if values[i] <= x:
+            if values[i] >= w:
+                print("returning", edges[i].other_node(self.currpos).get_x_y())
                 return edges[i].other_node(self.currpos)
 
     def get_probability(self, edge, edges, type):
         if type == 'nest':
-            sum_pheromone = 0
+            sum_pheromone = sum(edg.nest_pheromone for edg in edges)
+            if sum_pheromone == 0:
+                return 100/len(edges)
             sum_probability = 0
             p = 0
             for i in range(len(edges)):
-                x = (edge.nest_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                x = (edges[i].nest_pheromone * math.pow((self.greediness/10), 2))/sum_pheromone + ((100-self.greediness)/len(edges))
                 if edges[i] == edge:
                     p = x
-                sum_pheromone += edge.nest_pheromone
                 sum_probability += x
+            print("p =", p, "sum_probability =", sum_probability, "to return =", 100*(p/sum_probability))
             return 100*(p/sum_probability)
         if type == 'food':
-            sum_pheromone = 0
+            sum_pheromone = float(sum(edg.food_pheromone for edg in edges))
+            if sum_pheromone == 0:
+                return 100/len(edges)
             sum_probability = 0
             p = 0
             for i in range(len(edges)):
-                x = (edge.food_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                x = (edges[i].food_pheromone * math.pow((self.greediness/10), 2))/sum_pheromone + ((100-self.greediness)/len(edges))
                 if edges[i] == edge:
                     p = x
-                sum_pheromone += edge.food_pheromone
                 sum_probability += x
+            print("p =", p, "sum_probability =", sum_probability, "to return =", 100*(p/sum_probability))
             return 100*(p/sum_probability)
 
     def change_pos(self, new_pos):
@@ -142,7 +160,7 @@ class Explorer(object):
 
     # Nachbar, mit essen, dass verbessert werden kann
     def food_in_area(self):
-        food_nodes = list(filter(lambda x: x.food != 0 and (x.value == inf or x.value > (self.currpos.value + 1)), self.currpos.neighbours()))
+        food_nodes = list(filter(lambda x: x.food != 0 and (x.value == math.inf or x.value > (self.currpos.value + 1)), self.currpos.neighbours()))
         if food_nodes:
             return random.choice(food_nodes)
         return False
