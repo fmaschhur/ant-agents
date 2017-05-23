@@ -51,7 +51,8 @@ class Node(object):
         return (self.x_pos, self.y_pos)
 
     def neighbours(self):
-        return list(map(lambda x: x.other_node(self), self.edges))
+        nodes = list(map(lambda x: x.other_node(self), self.edges))
+        return list(filter(lambda x: not (x.value == -1), nodes))
 
     def neighbours_visited(self):
         return list(filter(lambda x: not (x.value == inf), self.neighbours()))
