@@ -1,4 +1,5 @@
 import random
+from math import inf
 
 
 class Ants(object):
@@ -25,20 +26,23 @@ class Ants(object):
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-
-        if len(edges) == 1:
-            print('fail')
-            return edges[0].other_node(self.currpos)
-
+        if self.greediness == 100:
+            return random.choice(list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))).other_node(
+                self.currpos)
+        x = random.randint(1, 100)
+        values = []
+        minisum = 0
         for i in range(len(edges)):
-            if random.randint(1, 100) <= self.greediness:
-                edges = list(filter(lambda x: x.food_pheromone == edges[i].food_pheromone, edges))
-                return random.choice(edges).other_node(self.currpos)
-        #edges[0].food_pheromone == 0 or random.randint(1, 100) > self.greediness:
-
-        return random.choice(edges).other_node(self.currpos)
+            for j in range(i):
+                if j != i:
+                    minisum += values[j]
+                else:
+                    minisum += self.get_probability(edges[j], edges, 'food')
+            values.append(minisum)
+        for i in range(len(values)):
+            if values[i] <= x:
+                return edges[i].other_node(self.currpos)
 
     def best_nest_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.nest_pheromone, reverse=True)
@@ -46,12 +50,46 @@ class Ants(object):
             if edge.other_node(self.currpos) == self.lastpos:
                 edges.remove(edge)
         if not edges:
-            print("IF YOU READ THIS YOU FUCKED UP")
             return self.lastpos
-        if edges[0].nest_pheromone == 0 or random.randint(1, 100) > self.greediness:
-            return random.choice(edges).other_node(self.currpos)
-        else:
-            return edges[0].other_node(self.currpos)
+        if self.greediness == 100:
+            return random.choice(list(filter(lambda x: x.nest_pheromone == edges[0].nest_pheromone, edges))).other_node(self.currpos)
+        x = random.randint(1, 100)
+        values = []
+        minisum = 0
+        for i in range(len(edges)):
+            for j in range(i):
+                if j != i:
+                    minisum += values[j]
+                else:
+                    minisum += self.get_probability(edges[j], edges, 'nest')
+            values.append(minisum)
+        for i in range(len(values)):
+            if values[i] <= x:
+                return edges[i].other_node(self.currpos)
+
+    def get_probability(self, edge, edges, type):
+        if type == 'nest':
+            sum_pheromone = 0
+            sum_probability = 0
+            p = 0
+            for i in range(len(edges)):
+                x = (edge.nest_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                if edges[i] == edge:
+                    p = x
+                sum_pheromone += edge.nest_pheromone
+                sum_probability += x
+            return 100*(p/sum_probability)
+        if type == 'food':
+            sum_pheromone = 0
+            sum_probability = 0
+            p = 0
+            for i in range(len(edges)):
+                x = (edge.food_pheromone * math.pow((self.greediness/10), 2))/sum + ((100-self.greediness)/len(edges))
+                if edges[i] == edge:
+                    p = x
+                sum_pheromone += edge.food_pheromone
+                sum_probability += x
+            return 100*(p/sum_probability)
 
     def change_pos(self, new_pos):
         if self.currpos.nest:
@@ -102,28 +140,26 @@ class Explorer(object):
     def set_nodes(self):
         self.currpos.set_nestdist(self.currpos.smallest_nestdist_to_field())
 
-    def best_food_node(self):
-        # Wenn es essen gibt, was verbessert werden kann
-        food_nodes = list(filter(lambda x: x.food != 0 or x.value > (self.currpos.value + 1), self.currpos.neighbours()))
+    # Nachbar, mit essen, dass verbessert werden kann
+    def food_in_area(self):
+        food_nodes = list(filter(lambda x: x.food != 0 and (x.value == inf or x.value > (self.currpos.value + 1)), self.currpos.neighbours()))
         if food_nodes:
             return random.choice(food_nodes)
-        # Erster Zug, wenn es keine Nachbarn mit Werten gibt
-        if not self.currpos.highest_neighbour():
-            return random.choice(self.currpos.neighbours_not_visited())
-        # wenn es nur ein Nachbar gibt
-        if len(self.currpos.neighbours()) == 1:
-            return self.currpos.neighbours()[0]
-        # Wenn kein Nachbar verbessert werden kann und es nicht besuchte Nachbarn gibt
-        if self.currpos.highest_neighbour().value <= (self.currpos.value + 1) and self.currpos.neighbours_not_visited():
-            return random.choice(self.currpos.neighbours_not_visited())
-        # Damit nicht zurück gelaufen wird (Randfall)
-        if self.currpos.highest_neighbour() == self.lastpos:
-            print(len(self.currpos.neighbours()))
-            asd = self.currpos.neighbours()
-            asd.remove(self.currpos.highest_neighbour())
-            return random.choice(asd)
-        # laufe zum stärksten Nachbar
-        return self.currpos.highest_neighbour()
+        return False
+
+    def best_food_node(self):
+        pos = self.currpos
+        highest_neighbour = pos.highest_neighbour()
+        if self.food_in_area():
+            return self.food_in_area()
+
+        if highest_neighbour.value >= (pos.value + 1) and highest_neighbour.not_equal(self.lastpos):
+            return highest_neighbour
+
+        if pos.neighbours_not_visited():
+            return random.choice(pos.neighbours_not_visited())
+
+        return random.choice(pos.neighbours())
 
     def best_nest_node(self):
         return self.currpos.smallest_neighbour()
@@ -137,9 +173,13 @@ class Explorer(object):
         if pos.food and not self.foundfood and not pos.nest:
             self.foundfood = 1
             self.pheroz = self.currpos.value
-        elif pos.nest and self.foundfood:
+            self.lastpos = pos
+            self.currpos = pos
+        elif pos.nest:
             self.pheroz = 0
             self.foundfood = 0
+            self.lastpos = pos
+            self.currpos = pos
 
         if self.foundfood:
             self.change_pos(self.best_nest_node())
