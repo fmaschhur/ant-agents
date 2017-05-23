@@ -12,7 +12,7 @@ greediness_food: 100:          1-100% - percentage with which an ant will pickup
 evaporation: 95:               if evaporation_type == 1: evaporation constant || if evaporation_type == 2: 1-100% - how much percentage of the pheromone remains after evaporation
 loops: 10000:                    maximum #Cycles in our simulation
 evaporation_type: 2:           1 == constant evaporation, 2 == factorial evaporation
-thickness: 1:                  0 == vollständig, 1 == labyrinth
+thickness: 1:                  0 == vollstaendig, 1 == labyrinth
 food_src_count: 1:             maximum #FoodSources
 food_max: 5:                   maximum #Food in any Source
 food_min: 5:                   minimum #Food in any Source

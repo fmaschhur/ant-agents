@@ -94,12 +94,7 @@ class World(object):
             explorer.set_nodes()
 
         for carrier in self.carriers:
-            go = False
-            for edge in carrier.currpos.edges:
-                if edge.food_pheromone > 0:
-                    go = True
-            if go:
-                carrier.action()
+            carrier.action()
         for carrier in self.carriers:
             if carrier.pheromone_modification:
                 carrier.modify_pheromone()

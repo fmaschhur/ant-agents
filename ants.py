@@ -222,29 +222,31 @@ class Carrier(object):
 
     def best_nest_node(self):
         edges = sorted(self.currpos.edges, key=lambda x: x.food_pheromone, reverse=True)
-        for edge in edges:
-            if edge.other_node(self.currpos) == self.lastpos:
-                edges.remove(edge)
-        if not edges:
-            return self.lastpos
-        else:
+        # for edge in edges:
+        #     if edge.other_node(self.currpos) == self.lastpos:
+        #         edges.remove(edge)
+        if edges:
             edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
             return random.choice(edges).other_node(self.currpos)
+        return None
 
     def best_food_node(self):
+        # edges need to have pheromones to be legit to walk on for carriers
+        edges = list(filter(lambda x: x.food_pheromone > 0, self.currpos.edges))
         last_edge = None
-        edges = self.currpos.edges
         for edge in edges:
             if edge.other_node(self.currpos) == self.lastpos:
                 last_edge = edge
+        # if last_edge exists, best_food_edge.pheromone hast to be smaller than last_edge.pheromone
         if last_edge is not None:
             edges = list(filter(lambda x: x.food_pheromone < last_edge.food_pheromone, edges))
-        if not edges:
-            return self.lastpos
-        else:
+        if edges:
+            # sort edges according to pheromone-amount, highest first
             edges = sorted(edges, key=lambda x: x.food_pheromone, reverse=True)
+            # if multiple edges with same
             edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
             return random.choice(edges).other_node(self.currpos)
+        return None
 
     def change_pos(self, new_pos):
         self.lastpos = self.currpos
@@ -274,7 +276,10 @@ class Carrier(object):
         #     self.change_pos(self.best_node())
         #     self.modify_pheromone(edges[1].food_pheromone) # diiiiirdy quick-fix
         elif not pos.nest and self.carrfood:
-            self.change_pos(self.best_nest_node())
+            new_node = self.best_nest_node()
+            if new_node is not None:
+                self.change_pos(new_node)
         else:
-            self.change_pos(self.best_food_node())
-
+            new_node = self.best_food_node()
+            if new_node is not None:
+                self.change_pos(new_node)
