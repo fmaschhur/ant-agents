@@ -13,7 +13,7 @@ class Ants(object):
         self.greediness = greediness
 
     def add_pheromone(self):
-        pheromone = math.pow((1/1.2), self.nestdist)  # super krasse funktion
+        pheromone = math.pow((1/1.1), self.nestdist)  # super krasse funktion
         if self.currpos != self.lastpos:
             if self.carrfood:
                 self.currpos.add_pheromone(self.lastpos, pheromone, 0)
