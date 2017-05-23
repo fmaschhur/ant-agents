@@ -102,4 +102,4 @@ class World(object):
                 carrier.action()
         for carrier in self.carriers:
             if carrier.pheromone_modification:
-                self.modify_pheromone()
+                carrier.modify_pheromone()
