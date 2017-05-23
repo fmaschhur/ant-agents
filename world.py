@@ -88,6 +88,10 @@ class World(object):
             explorer.action()
         for explorer in self.explorers:
             explorer.set_nodes()
+        for explorer in self.explorers:
+            explorer.action()
+        for explorer in self.explorers:
+            explorer.set_nodes()
 
         for carrier in self.carriers:
             go = False
@@ -96,3 +100,6 @@ class World(object):
                     go = True
             if go:
                 carrier.action()
+        for carrier in self.carriers:
+            if carrier.pheromone_modification:
+                carrier.modify_pheromone()

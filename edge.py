@@ -32,7 +32,7 @@ class Edge(object):
         self.food_pheromone = max(self.food_pheromone, food)
 
     def has_nodes(self, node1, node2):  # falls node1, node2 die Nodes der Kante sind return true
-        return ((self.node1 == node1 and self.node2 == node2) or (self.node1 == node2 and self.node2 == node1))
+        return self.other_node(node1) == node2
 
     def has_node(self, node):  # falls node einer der beiden Nodes der Kante ist return true
         return (self.node1 == node or self.node2 == node)

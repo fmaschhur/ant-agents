@@ -9,7 +9,7 @@ class Graph(object):
         self.x_size = params['size_x']
         self.y_size = params['size_y']
         self.nodes = self.create_nodes()
-        # self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
+        #self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
         self.edges = self.create_edges(self.x_size, self.y_size, params['thickness'])
         if params['f'] == 0 and params['e'] == 0:
             if params['a'] == 0:
@@ -56,6 +56,29 @@ class Graph(object):
         return edges
 
     def create_labyrinth_edges(self, x, y):
+        edges = []
+        nodes = self.nodes
+        current_nodes = [self.nest]
+        while nodes:
+            nodes -= current_nodes
+            new_current = []
+            for node in current_nodes:
+                current_nodes += node
+                for neighbour in node.neighbour():
+                    if random.randint(0, 100) > 50:
+                        edges.append(Edge(node, neighbour))
+                        if neighbour in nodes:
+                            nodes - neighbour
+                            new_current += neighbour
+                            current_nodes -= node
+            current_nodes = new_current
+        return edges
+
+
+
+
+
+
         edges = []
         currnode = self.nodes[(1, 1)]
         while len(currnode.edges) < 2:
