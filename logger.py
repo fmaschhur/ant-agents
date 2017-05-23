@@ -18,7 +18,7 @@ class Logger:
         self.task_number = task_number
 
     def write_log(self):
-        self.file.write("Cycle "+ str(self.curr_state[0]) + " : Nest =" + " " + str(self.curr_state[1]) + " , " + str(self.curr_state[2]) + "\n\t\t " + str(self.curr_state[3]))
+        self.file.write("Cycle " + str(self.curr_state[0]) + " : Nest =" + " " + str(self.curr_state[1]) + " , " + str(self.curr_state[2]) + "\n\t\t " + str(self.curr_state[3]))
         self.file.write("\n---\n")
 
     def get_curr_state(self):
@@ -73,14 +73,28 @@ class Logger:
             canvas.create_line((x_1 - 1) * s + s * 1 / 2, (y_1 - 1) * s + s * 1 / 2,
                                (x_2 - 1) * s + s * 1 / 2, (y_2 - 1) * s + s * 1 / 2)
 
-            if y_1 == y_2:
+            if y_1 == y_2 and x_1 < x_2:
                 if food_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 - s * 1/10, text=food_pheromon,
                                        fill='red', font=("Purisa", f_s))
                 if nest_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s, (y_1 - 1) * s + s * 1/2 + s * 1/10, text=nest_pheromon,
                                        fill='blue', font=("Purisa", f_s))
-            else:
+            elif y_1 == y_2 and x_1 > x_2:
+                if food_pheromon > 0:
+                    canvas.create_text((x_2 - 1) * s + s, (y_2 - 1) * s + s * 1/2 - s * 1/10, text=food_pheromon,
+                                       fill='red', font=("Purisa", f_s))
+                if nest_pheromon > 0:
+                    canvas.create_text((x_2 - 1) * s + s, (y_2 - 1) * s + s * 1/2 + s * 1/10, text=nest_pheromon,
+                                       fill='blue', font=("Purisa", f_s))
+            elif y_1 > y_2 and x_1 == x_2:
+                if food_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s * 1 / 2 - s * 1 / 20, (y_2 - 1) * s + s, text=food_pheromon,
+                                       fill='red', anchor=tk.E, font=("Purisa", f_s))
+                if nest_pheromon > 0:
+                    canvas.create_text((x_1 - 1) * s + s * 1 / 2 + s * 1 / 20, (y_2 - 1) * s + s, text=nest_pheromon,
+                                       fill='blue', anchor=tk.W, font=("Purisa", f_s))
+            elif y_1 < y_2 and x_1 == x_2:
                 if food_pheromon > 0:
                     canvas.create_text((x_1 - 1) * s + s * 1 / 2 - s * 1 / 20, (y_1 - 1) * s + s, text=food_pheromon,
                                        fill='red', anchor=tk.E, font=("Purisa", f_s))

@@ -7,6 +7,8 @@ Jeder Durchlauf der Simulation wird automatisch mit Timestamp im Namen als txt-D
 
 Für jeden Zyklus der Ameisenweltsimulation wird der Zustand der Welt in dieser Form dargestellt:
 
+Koordinaten werden von links oben aus gelesen.
+
 Cycle N : Nest = (X_K, Y_K) , {(X_1, Y_2): (F, V, [A1, A2, ...]), ...}
           [((X_1, Y_1), (X_2, Y_2), F_P, N_P), ...]
 
