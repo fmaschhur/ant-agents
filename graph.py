@@ -9,8 +9,10 @@ class Graph(object):
         self.x_size = params['size_x']
         self.y_size = params['size_y']
         self.nodes = self.create_nodes()
-        self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
-        #self.edges = self.create_edges(self.x_size, self.y_size, params['thickness'])
+        if params['thickness']:
+            self.edges = self.create_labyrinth_edges(self.x_size, self.y_size)
+        else:
+            self.edges = self.create_edges(self.x_size, self.y_size)
         if params['f'] == 0 and params['e'] == 0:
             if params['a'] == 0:
                 self.nest = self.choose_nest()
@@ -43,14 +45,14 @@ class Graph(object):
         for (x, y) in sources:
             self.nodes.get((x, y)).add_food(random.randint(minamount, maxamount))
 
-    def create_edges(self, max_x, max_y, thickness):
+    def create_edges(self, max_x, max_y):
         edges = []
         for (x, y) in self.nodes:
             me = self.nodes.get((x, y))
-            if x < max_x and random.randint(1, 100) <= thickness:
+            if x < max_x:
                 right = self.nodes.get(((x + 1), y))
                 edges.append(Edge(me, right))
-            if y < max_y and random.randint(1, 100) <= thickness:
+            if y < max_y:
                 down = self.nodes.get((x, (y + 1)))
                 edges.append(Edge(me, down))
         return edges
@@ -69,43 +71,22 @@ class Graph(object):
         edges = []
         nodes = list(self.nodes.values())
         current_nodes = []
-        current_nodes.append(nodes[0])
+        current_nodes.append(self.nodes.get((int(x/2), int(y/2))))
         nodes = list(filter(lambda v: v not in current_nodes, nodes))
         while nodes:
             new_current = []
             for node in current_nodes:
                 new_current.append(node)
                 neighbours = self.neighbours_node(node)
+                random.shuffle(neighbours)
                 for neighbour in neighbours:
                     if neighbour in nodes:
-                        if random.randint(0, 100) > 99:
+                        if random.randint(0, 100) > 50:
                             edges.append(Edge(node, neighbour))
-                            nodes.remove(neighbour)
                             new_current.append(neighbour)
+                            nodes.remove(neighbour)
             current_nodes = new_current
-            nodes = list(filter(lambda v: v not in current_nodes, nodes))
         return edges
-
-
-
-
-
-
-        edges = []
-        currnode = self.nodes[(1, 1)]
-        while len(currnode.edges) < 2:
-            nextnode = self.get_labyrinth_neighbour(currnode.get_x(), currnode.get_y())
-            edges.append(Edge(currnode, nextnode))
-            currnode = nextnode
-        return edges
-
-    def get_labyrinth_neighbour(self, x, y):
-        nodes = []
-        if (x + 1, y) in self.nodes:
-            nodes.append(self.nodes[(x + 1, y)])
-        if (x, y + 1) in self.nodes:
-            nodes.append(self.nodes[(x, y + 1)])
-        return random.choice(nodes)
 
     def choose_nest(self):
         a = random.randint(1, self.x_size)
