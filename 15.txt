@@ -1,0 +1,26 @@
+Hier sind die Laufzeitprotokolle zu den einzelnen Aufgabenteilen zu finden.
+Eine Erklärung zur Interpretation der einzelnen Zustände befindet sich in der README.
+
+#1 Mehrere Nahrungsquellen gleichzeitig
+
+
+#2 Mehrere Nahrungsquellen sequenziell
+
+
+#3 Keine Verdunstung der Pheromone
+
+
+#4 Aufnehmen von Nahrung probabilistisch.
+
+
+#5 Probabilistischer Random Walk bei suboptimalen Pfad
+
+
+#6 Unterbrochene Pheromonspur
+
+
+#7 Nahrungsversorgung in Graphen mit hohem Vernetzungsgrad
+
+
+#8 Nahrungsversorgung in Graphen mit niedrigem Vernetzungsgrad
+
