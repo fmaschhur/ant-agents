@@ -32,7 +32,6 @@ class Ants(object):
             return random.choice(list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))).other_node(
                 self.currpos)
         w = random.randint(1, 100)
-        print("rolled:", w)
         values = []
         for i in range(len(edges)):
             minisum = 0
@@ -42,14 +41,8 @@ class Ants(object):
                 elif j == i:
                     minisum += self.get_probability(edges[j], edges, 'food')
             values.append(minisum)
-        print("probabilities:", values)
-        list = []
-        for edg in edges:
-            list.append(edg.get_nodes())
-        print(list)
         for i in range(len(values)):
             if values[i] >= w:
-                print("returning", edges[i].other_node(self.currpos).get_x_y())
                 return edges[i].other_node(self.currpos)
 
     def best_nest_node(self):
@@ -62,6 +55,7 @@ class Ants(object):
         if self.greediness == 100:
             return random.choice(list(filter(lambda x: x.nest_pheromone == edges[0].nest_pheromone, edges))).other_node(self.currpos)
         w = random.randint(1, 100)
+        # print("rolled:", w)
         values = []
         for i in range(len(edges)):
             minisum = 0
@@ -71,14 +65,14 @@ class Ants(object):
                 elif j == i:
                     minisum += self.get_probability(edges[j], edges, 'nest')
             values.append(minisum)
-        print("probabilities: ", values)
-        list = []
-        for edg in edges:
-            list.append(edg.get_nodes)
-        print(list)
+        # print("probabilities: ", values)
+        # list = []
+        # for edg in edges:
+        #     list.append(edg.get_nodes)
+        # print(list)
         for i in range(len(values)):
             if values[i] >= w:
-                print("returning", edges[i].other_node(self.currpos).get_x_y())
+                # print("returning", edges[i].other_node(self.currpos).get_x_y())
                 return edges[i].other_node(self.currpos)
 
     def get_probability(self, edge, edges, type):
@@ -93,7 +87,6 @@ class Ants(object):
                 if edges[i] == edge:
                     p = x
                 sum_probability += x
-            print("p =", p, "sum_probability =", sum_probability, "to return =", 100*(p/sum_probability))
             return 100*(p/sum_probability)
         if type == 'food':
             sum_pheromone = float(sum(edg.food_pheromone for edg in edges))
@@ -106,7 +99,7 @@ class Ants(object):
                 if edges[i] == edge:
                     p = x
                 sum_probability += x
-            print("p =", p, "sum_probability =", sum_probability, "to return =", 100*(p/sum_probability))
+            # print("p =", p, "sum_probability =", sum_probability, "to return =", 100*(p/sum_probability))
             return 100*(p/sum_probability)
 
     def change_pos(self, new_pos):
