@@ -250,9 +250,9 @@ class Carrier(object):
                 last_edge = edge
         if last_edge is not None:
             edges = list(filter(lambda x: x.food_pheromone < last_edge.food_pheromone, edges))
-        # if not edges:
-        #      return self.lastpos
-        # else:
+        if not edges:
+            return self.lastpos
+        else:
             edges = sorted(edges, key=lambda x: x.food_pheromone, reverse=True)
             edges = list(filter(lambda x: x.food_pheromone == edges[0].food_pheromone, edges))
             return random.choice(edges).other_node(self.currpos)
