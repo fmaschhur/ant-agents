@@ -44,7 +44,7 @@ class Main:
             if Main.params['aufgabe'] == 2:
                 ant_world.simulate_cycle_explorer_carrier()
 
-            time.sleep(1)
+            #time.sleep(1)
 
         tk.mainloop()
         ant_world_logger.file.close()
