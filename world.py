@@ -3,7 +3,6 @@ from ants import Ants
 from ants import Explorer
 from ants import Carrier
 from random import randint
-from time import sleep
 
 class World(object):
     graph = None

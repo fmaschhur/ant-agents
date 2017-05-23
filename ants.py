@@ -1,6 +1,5 @@
 import random
 import math
-from operator import truediv
 
 
 class Ants(object):
@@ -14,7 +13,7 @@ class Ants(object):
         self.greediness = greediness
 
     def add_pheromone(self):
-        pheromone = (2 / (self.nestdist + 1.5))  # super krasse funktion
+        pheromone = math.pow((1/1.2), self.nestdist)  # super krasse funktion
         if self.currpos != self.lastpos:
             if self.carrfood:
                 self.currpos.add_pheromone(self.lastpos, pheromone, 0)
@@ -34,13 +33,16 @@ class Ants(object):
         w = random.randint(1, 100)
         values = []
         for i in range(len(edges)):
-            minisum = 0
-            for j in range(i+1):
-                if j == (i-1):
-                    minisum += values[j]
-                elif j == i:
-                    minisum += self.get_probability(edges[j], edges, 'food')
-            values.append(minisum)
+            if i == len(edges) - 1:
+                values.append(100)
+            else:
+                minisum = 0
+                for j in range(i+1):
+                    if j == (i-1):
+                        minisum += values[j]
+                    elif j == i:
+                        minisum += self.get_probability(edges[j], edges, 'food')
+                values.append(minisum)
         for i in range(len(values)):
             if values[i] >= w:
                 return edges[i].other_node(self.currpos)
@@ -58,18 +60,21 @@ class Ants(object):
         # print("rolled:", w)
         values = []
         for i in range(len(edges)):
-            minisum = 0
-            for j in range(i+1):
-                if j == i-1:
-                    minisum += values[j]
-                elif j == i:
-                    minisum += self.get_probability(edges[j], edges, 'nest')
-            values.append(minisum)
-        # print("probabilities: ", values)
-        # list = []
-        # for edg in edges:
-        #     list.append(edg.get_nodes)
-        # print(list)
+            if i == len(edges) - 1:
+                values.append(100)
+            else:
+                minisum = 0
+                for j in range(i+1):
+                    if j == i-1:
+                        minisum += values[j]
+                    elif j == i:
+                        minisum += self.get_probability(edges[j], edges, 'nest')
+                values.append(minisum)
+            # print("probabilities: ", values)
+            # list = []
+            # for edg in edges:
+            #     list.append(edg.get_nodes)
+            # print(list)
         for i in range(len(values)):
             if values[i] >= w:
                 # print("returning", edges[i].other_node(self.currpos).get_x_y())
@@ -83,7 +88,7 @@ class Ants(object):
             sum_probability = 0
             p = 0
             for i in range(len(edges)):
-                x = (edges[i].nest_pheromone * math.pow((self.greediness/10), 2))/sum_pheromone + ((100-self.greediness)/len(edges))
+                x = (edges[i].nest_pheromone * math.pow((self.greediness/10), 2.5))/sum_pheromone + ((100-self.greediness)/len(edges))
                 if edges[i] == edge:
                     p = x
                 sum_probability += x
@@ -103,11 +108,11 @@ class Ants(object):
             return 100*(p/sum_probability)
 
     def change_pos(self, new_pos):
-        if self.currpos.nest:
-            self.nestdist = 0
-            self.currpos = new_pos
-            self.lastpos = self.currpos
-            return
+    #     if self.currpos.nest:
+    #         self.nestdist = 1
+    #         self.currpos = new_pos
+    #         self.lastpos = self.currpos
+    #         return
         self.nestdist += 1
         self.lastpos = self.currpos
         self.currpos = new_pos

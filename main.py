@@ -37,7 +37,7 @@ class Main:
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
-            time.sleep(Main.params['wait'])
+            # time.sleep(Main.params['wait'])
 
             if Main.params['aufgabe'] == 1:
                 ant_world.simulate_cycle()
