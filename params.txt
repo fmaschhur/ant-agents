@@ -16,8 +16,8 @@ thickness: 1:                  0 == vollständig, 1 == labyrinth
 food_src_count: 1:             maximum #FoodSources
 food_max: 5:                   maximum #Food in any Source
 food_min: 5:                   minimum #Food in any Source
-size_x: 20:                    x (horizontal) size of the grid
-size_y: 20:                    y (vertical) size of the grid
+size_x: 10:                    x (horizontal) size of the grid
+size_y: 10:                    y (vertical) size of the grid
 wait: 0:                      whether to wait for user-input (Enter) between cycles
 graphic_scale: 60:             size of the graphical representation (scale*scale per node), default = 100
 e: 0:                           bool - creates graph with suboptimal pheromone path to foodsource use with 5x5 grid

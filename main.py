@@ -8,46 +8,36 @@ class Main:
 
     params_file = 'params.txt'
     params = {}
-    ant_world = None
+    agent_world = None
     tk_root = tk.Tk()
 
     @staticmethod
     def run():
         Main.read_params()
 
-        ant_world = World(Main.params)
+        agent_world = World(Main.params)
 
-        if Main.params['aufgabe'] == 1:
-            ant_world.populate()
-        if Main.params['aufgabe'] == 2:
-            ant_world.populate_explorers()
-            ant_world.populate_carriers()
+        agent_world.populate()
 
-        ant_world_logger = Logger(ant_world, Main.tk_root, Main.params['graphic_scale'], Main.params['aufgabe'])
-        # ant_world_logger.get_curr_state()
-        # ant_world_logger.print_curr_state()
+        agent_world_logger = Logger(agent_world, Main.tk_root, Main.params['graphic_scale'])
+        # agent_world_logger.get_curr_state()
+        # agent_world_logger.print_curr_state()
         #
-        # ant_world_logger.draw_curr_state()
+        # agent_world_logger.draw_curr_state()
 
         for i in range(Main.params['loops']):
-            ant_world_logger.get_curr_state()
-            ant_world_logger.print_curr_state()
-            ant_world_logger.draw_curr_state()
-            ant_world_logger.write_log()
+            agent_world_logger.get_curr_state()
+            agent_world_logger.print_curr_state()
+            agent_world_logger.draw_curr_state()
+            agent_world_logger.write_log()
 
             Main.tk_root.update_idletasks()
             Main.tk_root.update()
             time.sleep(Main.params['wait'])
-
-            if Main.params['aufgabe'] == 1:
-                ant_world.simulate_cycle()
-            if Main.params['aufgabe'] == 2:
-                ant_world.simulate_cycle_explorer_carrier()
-
-            time.sleep(1)
+            agent_world.simulate_cycle()
 
         tk.mainloop()
-        ant_world_logger.file.close()
+        agent_world_logger.file.close()
 
     @staticmethod
     def read_params():
