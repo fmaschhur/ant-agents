@@ -11,9 +11,11 @@ class Agent(object):
         self.reload_time = reload_time
         self.speed = speed
         self.preferences = preferences
-        self.deals = None # TODO frage: fahren die Agenten los wenn sie ein pre bid gesetzt haben?
+        self.deals = None #TODO frage: fahren die Agenten schon los wenn sie ein pre bid gesetzt haben?
 
-    def move(self, graph): # TODO  frage: soll der agent direkt weiter fahren oder bleibt er wenn ein ziel erreicht ist stehen?
+    def move(self, graph): #TODO  frage: soll der agent direkt weiter fahren oder bleibt er wenn ein ziel erreicht ist stehen?
+        if not self.deals:
+            return
         pos = self.position
         dest = self.deals[0].job.destination
 
@@ -29,13 +31,19 @@ class Agent(object):
 
     def new_deals(self, new_jobs):
         first_change = None
-        for i, deal in enumerate(self.deals):
-            if deal.is_definitive_rejected:
-                if first_change is None:
-                    first_change = i - 1
-                deals.remove(deal)
-        self.deals.extend(set(new_jobs).intersection(preferences))
-        # TODO wie berechnen wir den neuen besten weg? #superComplicated
+        if self.deals:
+            for i, deal in enumerate(self.deals):
+                if deal.is_definitive_rejected():
+                    if first_change is None:
+                        first_change = i - 1
+                    deals.remove(deal)
+        new_deals = set(new_jobs).intersection(self.preferences)
+        new_deals = list(map(lambda x: Deal(self, x), new_deals))
+        if new_deals:
+            self.deals.extend(new_deals)
+        print(new_jobs)
+        #TODO wie erreichen wir alle deals abhängig von präferenz in möglichst kurzer zeit ohne dass ein deal langsamer wird als vorher?
+        #TODO #superComplicated
 
 
 class Position(object):

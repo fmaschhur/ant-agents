@@ -1,13 +1,15 @@
 from job import Job
+from math import inf
 
 
 class Deal(object):
-    def __init__(self, agent, time, job):
+    def __init__(self, agent, job):
         self.agent = agent
         self.job = job
-        self.time = time
+        self.bid = inf
         self.status_initiator = 0
         self.pre_bid = 1
+        job.initiator.deals.append(self)
 
     def is_definitive_rejected(self):
         return 1 if self.status_initiator == 0 else 0

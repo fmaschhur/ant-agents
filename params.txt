@@ -1,9 +1,11 @@
-agents_init: 20:                  #Agents at the beginning of the simulation
+agents_init: 1:                  #Agents at the beginning of the simulation
 agents_data: 1000: TODO
 jobs: 1000: TODO
-
 loops: 10000:                    maximum #Cycles in our simulation
 size_x: 10:                    x (horizontal) size of the grid
 size_y: 10:                    y (vertical) size of the grid
-wait: 0:                      whether to wait for user-input (Enter) between cycles
+dist_min: 20:                    x (horizontal) size of the grid
+dist_max: 20:                    y (vertical) size of the grid
+wait: 2:                      whether to wait for user-input (Enter) between cycles
 graphic_scale: 60:             size of the graphical representation (scale*scale per node), default = 100
+thickness: 1:                   Labyrinth

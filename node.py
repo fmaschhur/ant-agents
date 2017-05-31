@@ -30,3 +30,11 @@ class Node(object):
         for edge in self.edges:
             if edge.has_node(node):
                 return edge
+
+    def distance(self, node):
+        if self.edge(node) is not None:
+            return self.edge(node).distance
+        return inf
+
+    def job_id(self):
+        return 1

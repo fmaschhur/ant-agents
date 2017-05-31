@@ -1,6 +1,6 @@
 from node import Node
 from edge import Edge
-from agent import Position
+from math import inf
 import random
 
 
@@ -62,7 +62,7 @@ class Graph(object):
         nodes = {}
         for x in range(1, self.x_size + 1):
             for y in range(1, self.y_size + 1):
-                add_me = Node(0, [], x, y)
+                add_me = Node([], x, y)
                 nodes[(x, y)] = add_me
         return nodes
 
@@ -70,24 +70,46 @@ class Graph(object):
         return self.get_distance_from_position(Position(node_a), node_b)
 
     def get_distance_from_position(self, position, node):
-        way = best_way_from_position(position, node)
+        way = self.best_way_from_position(position, node)
         distance = way[0].edge(way[1]).distance
         while distance > 0 and len(way) > 1:
             distance += way[0].edge(way[1]).distance
             way.pop()
         return distance
 
-
     def get_position_from_position(self, position, node, distance):
-        way = best_way_from_position(position, node)
+        way = self.best_way_from_position(position, node)
         distance -= way[0].edge(way[1]).distance
         while distance > 0 and len(way) > 1:
             distance -= way[0].edge(way[1]).distance
             way.pop()
-        pos =  Position(way[0])
+        pos = Position(way[0])
         pos.edge = way[0].edge(way[1])
         pos.distance = pos.edge.distance + distance
         return pos
 
-    def best_way_from_position(self, position, node_b):
-        # TODO return [] of nodes
+    def best_way_from_position(self, position, node_dest): # TODO besser schreiben
+        nodes = list(map(lambda x: [x, inf, None], self.nodes))
+        next(x for x in nodes if x[0].equal(position.node))[1] = position.distance
+        if position.edge is not None:
+            next(x for x in nodes if x[0].equal(position.edge.other_node(position.node)))[1] = position.edge - position.distance
+        for i in range(0, 30):
+            for node_a in nodes:
+                for node_b in nodes:
+                    if node_a[0].distance(node_b[0]) + node_b[1] < node_a[1]:
+                        node_a[1] = node_a[0].distance(node_b[0]) + node_b[1]
+                        node_a[2] = node_b[0]
+
+        return_arr = [node_dest]
+        curr = node_dest
+        while 1:
+            tmp = next(x for x in nodes if x[0].equal(curr))
+            return_arr.append(tmp[0])
+            curr = tmp[2]
+            if tmp[3] is None:
+                return return_arr
+
+    def random_node(self):
+        a = random.randint(1, self.x_size)
+        b = random.randint(1, self.y_size)
+        return self.nodes[(a, b)]

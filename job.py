@@ -9,4 +9,6 @@ class Job(object):
         self.time = time
         self.destination = destination
         self.status = 0
+        self.initiator = None
+
 
