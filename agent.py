@@ -6,13 +6,18 @@ class Agent(object):
     def __init__(self, id, position, capacity, speed, preferences, reload_time):
         self.id = id
         self.position = Position(position)
-        self.max_capacity = capacity
-        self.capacity = capacity
-        self.reload_time = reload_time
-        self.speed = speed
-        self.preferences = preferences
-        self.deals = None #TODO frage: fahren die Agenten schon los wenn sie ein pre bid gesetzt haben?
+        self.max_capacity = capacity        # Batterie wenn voll geladen
+        self.capacity = capacity            # Batteriezustand
+        self.reload_time = reload_time      # Aufladezeit für batterie
+        self.speed = speed                  # Geschwindigkeit
+        self.preferences = preferences      # Aufgabenpräferenzen
+        self.deals = None                   # Alle deals die zurzeit angefahren werden sollen in der Reihenfolge
+        #TODO frage: fahren die Agenten schon los wenn sie ein pre bid gesetzt haben?
 
+
+    # Bewegt den agenten.
+    # wenn der akku lehr ist mache pause (je nach reload time mehrere ticks)
+    # wenn ein ziel erreicht wird beende den job und nehme ihn aus der ziel liste
     def move(self, graph): #TODO  frage: soll der agent direkt weiter fahren oder bleibt er wenn ein ziel erreicht ist stehen?
         if not self.deals:
             return
@@ -29,6 +34,8 @@ class Agent(object):
         else:
             self.position = graph.get_position_from_position(pos, dest, speed)
 
+    # Gibt neue deals ab (verändert die werte der abgegebenen deals, bei schon vorhandenen deals)
+    # soll die deals nach reihenfolge sortieren.
     def new_deals(self, new_jobs):
         first_change = None
         if self.deals:
@@ -41,11 +48,11 @@ class Agent(object):
         new_deals = list(map(lambda x: Deal(self, x), new_deals))
         if new_deals:
             self.deals.extend(new_deals)
-        print(new_jobs)
         #TODO wie erreichen wir alle deals abhängig von präferenz in möglichst kurzer zeit ohne dass ein deal langsamer wird als vorher?
         #TODO #superComplicated
 
 
+# Speichert die position im graphen
 class Position(object):
     def __init__(self, start):
         self.node = start

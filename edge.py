@@ -4,7 +4,7 @@ class Edge(object):
     def __init__(self, node1, node2, length):  # initialises an edge given 2 (different) nodes, order doesn't matter
         self.node1 = node1  # first node
         self.node2 = node2  # second node
-        self.length = length
+        self.length = length    # distance
         node1.edges.append(self)  # save edge in nodes
         node2.edges.append(self)  #
 

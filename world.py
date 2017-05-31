@@ -18,12 +18,14 @@ class World(object):
         self.initiators = []
         self.time = 0
 
+    # erstellt die jobs am anfang
     def create_jobs(self, job_params):
         for i in range(0, 10):
                 job = Job(i, i * 100, self.graph.random_node())
                 self.jobs.append(job)
         # TODO; erstellt jobs mit übergebenen parametern
 
+    # erstellt agenten
     def populate(self):
         for i in range(self.agents_init):
             agent = Agent(i, self.graph.random_node(), 20, 3, [5, 6, 7, 1, 2], 2) # TODO präferenzen
@@ -31,7 +33,7 @@ class World(object):
 
     def simulate_cycle(self):
         new_jobs = []
-
+        # Erstellt neue jobs (wenn der startzeitpunkt der richtige ist)
         for job in self.jobs:
             if job.time == self.time:
                 job.status = 1
@@ -39,12 +41,15 @@ class World(object):
                 job.initiator = init
                 self.initiators.append(init)
                 new_jobs.append(init)
+        # Agenten geben ihre Angebote zu den Jobs ab
         for agent in self.agents:
             agent.new_deals(new_jobs)
-
+        # Initiatoren bearbeiten die Angebote
         for initiator in self.initiators:
             if initiator.answer():
                 self.initiators.remove(initiator)
-
+        # Agenten bewegen sich
         for agent in self.agents:
             agent.move(self.graph)
+
+            # Ich hab hier den Algorithmus ziemlich weit ausgelegt. eigentlich sollen ja die Initiatoren die Agenten anschreiben. müssen wir glaube ich besprechen.

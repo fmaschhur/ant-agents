@@ -23,18 +23,23 @@ class Node(object):
     def get_x_y(self):  # funktion zum abfragen der x und y positionen
         return self.x_pos, self.y_pos
 
+    # Alle Nachbarknoten
     def neighbours(self):
         return list(map(lambda x: x.other_node(self), self.edges))
 
+    # Edge zu nachbarknoten
     def edge(self, node):
         for edge in self.edges:
             if edge.has_node(node):
                 return edge
+        return None
 
+    # Abstand zu nachbarknoten
     def distance(self, node):
         if self.edge(node) is not None:
             return self.edge(node).distance
         return inf
 
+    # Job id, für das Anzeigen
     def job_id(self):
         return 1

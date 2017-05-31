@@ -66,9 +66,11 @@ class Graph(object):
                 nodes[(x, y)] = add_me
         return nodes
 
+    # gibt die distanz zwischen zwei knoten aus
     def get_distance(self, node_a, node_b):
         return self.get_distance_from_position(Position(node_a), node_b)
 
+    # gibt die distanz zwischen knoten und position aus
     def get_distance_from_position(self, position, node):
         way = self.best_way_from_position(position, node)
         distance = way[0].edge(way[1]).distance
@@ -77,6 +79,7 @@ class Graph(object):
             way.pop()
         return distance
 
+    # gibt die nächste position in richtung des knoten aus, abhängig der zu fahrenden distanz und der aktuellen position
     def get_position_from_position(self, position, node, distance):
         way = self.best_way_from_position(position, node)
         distance -= way[0].edge(way[1]).distance
@@ -88,6 +91,9 @@ class Graph(object):
         pos.distance = pos.edge.distance + distance
         return pos
 
+
+    # Gibt den besten weg zu einem knoten von einer position aus
+    # Ist super hässlich. sollte ein dykstra oder so werden
     def best_way_from_position(self, position, node_dest): # TODO besser schreiben
         nodes = list(map(lambda x: [x, inf, None], self.nodes))
         next(x for x in nodes if x[0].equal(position.node))[1] = position.distance
@@ -109,6 +115,7 @@ class Graph(object):
             if tmp[3] is None:
                 return return_arr
 
+    # gibt einen belibigen knoten zurück (für die jobs und die agenten, brauchen wir vielleicht nicht)
     def random_node(self):
         a = random.randint(1, self.x_size)
         b = random.randint(1, self.y_size)
