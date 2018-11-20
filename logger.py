@@ -13,6 +13,7 @@ class Logger:
         self.file = open("log_" + datetime.now().strftime('%H:%M:%S_%d%m%y') + ".txt", "w")
 
         self.tk_canvas = tk.Canvas(tk_root, width=world.graph.x_size * scale, height=world.graph.y_size * scale)
+        self.tk_canvas.configure(background='white')
         self.tk_canvas.pack()
         self.scale = scale
         self.task_number = task_number

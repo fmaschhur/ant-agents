@@ -10,6 +10,7 @@ class Main:
     params = {}
     ant_world = None
     tk_root = tk.Tk()
+    tk_root.configure(background='white')
 
     @staticmethod
     def run():
